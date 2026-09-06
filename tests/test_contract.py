@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class VIGILContractTests(unittest.TestCase):
     def test_ingest_pipeline_is_present(self):
         self.assertGreaterEqual(len(json.loads((ROOT / "elastic/ingest/vigil-normalize.json").read_text())["processors"]), 3)
+        self.assertTrue((ROOT / "elastic/verify_ingest.py").is_file())
     def test_exposure_query_uses_lookup_join(self):
         query = (ROOT / "elastic/esql/exposure_lookup_join.esql").read_text()
         self.assertIn("LOOKUP JOIN vigil-bank-context", query)

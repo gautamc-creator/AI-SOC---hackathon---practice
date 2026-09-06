@@ -23,6 +23,7 @@ Arrive at the 18–19 September hackathon able to recreate, explain, test, and p
 - The ES|QL lookup join returned ₹1,160,000 potential exposure and five affected accounts for the fixed scenario.
 - One live Attack Discovery run produced one potential discovery through the preconfigured Elastic connector. It is **not an AWS Bedrock demonstration**.
 - The local Golden Path and contract tests pass.
+- `make verify-ingest` checks live that all 136 synthetic events received the ingest-pipeline enrichment tags.
 
 ## Remaining rehearsal gates
 

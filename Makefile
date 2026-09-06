@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: demo seed validate create-rule validate-alerts run-attack-discovery capture-attack-discovery classify envelope review compliance notify warroom verify tamper-verify test clean
+.PHONY: demo seed validate verify-ingest create-rule validate-alerts run-attack-discovery capture-attack-discovery classify envelope review compliance notify warroom verify tamper-verify test clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
@@ -11,6 +11,9 @@ seed:
 
 validate:
 	$(PYTHON) elastic/validate.py
+
+verify-ingest:
+	$(PYTHON) elastic/verify_ingest.py
 
 create-rule:
 	$(PYTHON) elastic/create_rule.py
