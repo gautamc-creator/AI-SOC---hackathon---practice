@@ -1,14 +1,13 @@
 {
   "generated_from": "synthetic VIGIL rehearsal artifacts",
   "files": [
-    "cert-in-notification-draft.json",
+    "cert-in-incident-form-draft.json",
     "classification.json",
     "evidence-envelope.json",
     "evidence-ledger.json",
     "incident-report-draft.json",
-    "manifest.json",
     "notification-preview.json",
-    "rbi-daksh-submission-draft.json",
+    "rbi-daksh-information-pack.json",
     "review-decision.json",
     "stix-2.1-draft.json"
   ]

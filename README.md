@@ -26,6 +26,8 @@ Nothing in the local run calls an LLM, contains a system, sends a report, or use
 
 Read [data provenance](data/DATA-PROVENANCE.md) and the [field/schema decisions](data/SCHEMA.md) before presenting the corpus. They make the synthetic-data boundary, source, event fields, and live ingest proof explicit.
 
+For the defensible, source-backed answer to “does this look like the real world?”, see the [realism and format audit](docs/REALISM-AND-FORMAT-AUDIT.md). It states exactly which formats are aligned, which are drafts, and which claims are prohibited.
+
 ## Live Elastic gate
 
 After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHECKLIST.md). The live demonstration is not complete until it shows:

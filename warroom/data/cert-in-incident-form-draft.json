@@ -1,0 +1,60 @@
+{
+  "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
+  "synthetic_data_notice": "Synthetic rehearsal data only. Do not submit this artifact to a regulator.",
+  "incident_id": "VIGIL-2026-09-06-001",
+  "occurrence_start_timestamp_utc": "2026-09-06T08:30:00Z",
+  "first_observed_timestamp_utc": "2026-09-06T08:30:02Z",
+  "classification": "Potential credential compromise with anomalous UPI transfers",
+  "affected_asset": "pay-svc-prod-01",
+  "evidence_event_ids": [
+    "hero-auth-0",
+    "hero-auth-1",
+    "hero-auth-2",
+    "hero-auth-3",
+    "hero-auth-4",
+    "hero-login-success",
+    "hero-egress",
+    "hero-upi-1",
+    "hero-upi-2",
+    "hero-upi-3",
+    "hero-upi-4",
+    "hero-upi-5"
+  ],
+  "purpose": "Draft aligned to fields in CERT-In's public Incident Reporting Form; review and complete before any real submission.",
+  "reporting_party": {
+    "relationship_to_incident": "AFFECTED ENTITY (synthetic rehearsal)",
+    "reporter_name_and_role": "REQUIRED BEFORE SUBMISSION",
+    "organisation_name": "REQUIRED BEFORE SUBMISSION",
+    "contact_number": "REQUIRED BEFORE SUBMISSION",
+    "email": "REQUIRED BEFORE SUBMISSION",
+    "address": "REQUIRED BEFORE SUBMISSION"
+  },
+  "incident_type": "Attacks or incident affecting Digital Payment systems",
+  "mission_critical_system": {
+    "value": "Yes \u2014 synthetic Tier 1 payment-service fixture",
+    "brief_details": "Synthetic UPI payment gateway service."
+  },
+  "affected_system": {
+    "host": "pay-svc-prod-01",
+    "domain_or_url": "NOT OBSERVED IN FIXTURE",
+    "ip_address": "10.42.0.11 (synthetic)",
+    "operating_system": "NOT OBSERVED IN FIXTURE",
+    "cloud_or_make_model": "NOT OBSERVED IN FIXTURE",
+    "location": "NOT APPLICABLE \u2014 synthetic",
+    "network_or_isp": "NOT OBSERVED IN FIXTURE"
+  },
+  "incident_description": "Potential credential compromise with anomalous UPI transfers",
+  "symptoms_observed": [
+    "Repeated failed privileged authentication",
+    "Subsequent privileged login",
+    "Outbound connection to unapproved synthetic destination",
+    "Five anomalous synthetic UPI transfers"
+  ],
+  "technical_information": {
+    "source_ip": "198.51.100.42 (documentation address)",
+    "destination_ip": "203.0.113.77 (documentation address)",
+    "evidence_envelope": "evidence-envelope.json"
+  },
+  "actions_taken": "No containment was executed in this rehearsal. Human review requested.",
+  "submission_status": "NOT SUBMITTED"
+}

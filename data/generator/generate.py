@@ -24,8 +24,12 @@ def event(event_id: str, timestamp: datetime, host: str, category: str, action: 
     result = {
         "_id": event_id,
         "@timestamp": timestamp.isoformat().replace("+00:00", "Z"),
-        "event": {"kind": "event", "category": [category], "action": action, "outcome": outcome},
+        "event": {
+            "kind": "event", "category": [category], "action": action, "outcome": outcome,
+            "created": (timestamp + timedelta(seconds=2)).isoformat().replace("+00:00", "Z"),
+        },
         "host": {"name": host},
+        "service": {"name": "upi-payment-gateway"},
         "message": message,
         "labels": {"dataset": "vigil-synthetic", "synthetic": "true"},
     }
@@ -55,6 +59,7 @@ def main() -> None:
                 f"normal-{day:02d}-{n}", ts, host, "authentication", "service_token_refresh", "success",
                 "Payment-service credential refresh completed.",
                 user={"name": "svc-payments"}, source={"ip": f"10.42.0.{20 + n}"},
+                related={"ip": [f"10.42.0.{20 + n}"], "user": ["svc-payments"], "hosts": [host]},
             ))
 
     hero_start = datetime(2026, 9, 6, 8, 30, tzinfo=timezone.utc)
@@ -63,25 +68,29 @@ def main() -> None:
             f"hero-auth-{n}", hero_start + timedelta(minutes=n), HERO_HOST, "authentication",
             "login", "failure", "Repeated failed privileged login against payment service.",
             user={"name": "svc-payments-admin"}, source={"ip": "198.51.100.42"},
+            related={"ip": ["198.51.100.42"], "user": ["svc-payments-admin"], "hosts": [HERO_HOST]},
             tags=["vigil_hero", "credential_access"],
         ))
     events.append(event(
         "hero-login-success", hero_start + timedelta(minutes=6), HERO_HOST, "authentication", "login", "success",
         "Privileged payment-service login succeeded from a previously unseen external address.",
         user={"name": "svc-payments-admin"}, source={"ip": "198.51.100.42"}, tags=["vigil_hero", "credential_access"],
+        related={"ip": ["198.51.100.42"], "user": ["svc-payments-admin"], "hosts": [HERO_HOST]},
     ))
     events.append(event(
         "hero-egress", hero_start + timedelta(minutes=8), HERO_HOST, "network", "connection", "success",
         "Outbound TLS session to an unapproved destination immediately after privileged login.",
-        destination={"ip": "203.0.113.77", "port": 443}, source={"ip": "10.42.0.11"},
+        destination={"address": "203.0.113.77", "ip": "203.0.113.77", "port": 443}, source={"ip": "10.42.0.11", "port": 51540},
+        network={"transport": "tcp", "protocol": "https"}, related={"ip": ["10.42.0.11", "203.0.113.77"], "hosts": [HERO_HOST]},
         tags=["vigil_hero", "command_and_control"],
     ))
     for n, amount in enumerate((175000, 225000, 310000, 190000, 260000), start=1):
         events.append(event(
-            f"hero-upi-{n}", hero_start + timedelta(minutes=10 + n), HERO_HOST, "transaction", "upi_transfer", "success",
+            f"hero-upi-{n}", hero_start + timedelta(minutes=10 + n), HERO_HOST, "api", "upi_transfer", "success",
             "UPI transfer approved outside the normal payment-service batch profile.",
             user={"name": "svc-payments-admin"}, source={"ip": "10.42.0.11"},
-            transaction={"id": f"UPI-HERO-{n:03d}", "amount": amount, "currency": "INR", "channel": "UPI"},
+            vigil={"transaction": {"id": f"UPI-HERO-{n:03d}", "amount": amount, "currency": "INR", "channel": "UPI"}},
+            related={"user": ["svc-payments-admin"], "hosts": [HERO_HOST]},
             tags=["vigil_hero", "impact"],
         ))
 
@@ -92,15 +101,16 @@ def main() -> None:
             f"decoy-auth-{n}", decoy_start + timedelta(minutes=n), DECOY_HOST, "authentication", "login", "failure",
             "Scheduled maintenance account failed to authenticate before credential rotation completed.",
             user={"name": "batch-maintenance"}, source={"ip": "10.99.0.15"}, tags=["vigil_decoy"],
+            related={"ip": ["10.99.0.15"], "user": ["batch-maintenance"], "hosts": [DECOY_HOST]},
         ))
 
     context = [
-        {"host.name": HERO_HOST, "bank.service": "UPI payment gateway", "bank.tier": "Tier 1",
-         "bank.account_count": 5, "bank.exposure_inr": 1160000, "bank.owner": "Payments Operations",
-         "bank.approved_maintenance_ip": "10.99.0.15"},
-        {"host.name": DECOY_HOST, "bank.service": "Nightly settlement batch", "bank.tier": "Tier 2",
-         "bank.account_count": 0, "bank.exposure_inr": 0, "bank.owner": "Settlement Operations",
-         "bank.approved_maintenance_ip": "10.99.0.15"},
+        {"host.name": HERO_HOST, "vigil.bank.service": "UPI payment gateway", "vigil.bank.tier": "Tier 1",
+         "vigil.bank.account_count": 5, "vigil.bank.exposure_inr": 1160000, "vigil.bank.owner": "Payments Operations",
+         "vigil.bank.approved_maintenance_ip": "10.99.0.15"},
+        {"host.name": DECOY_HOST, "vigil.bank.service": "Nightly settlement batch", "vigil.bank.tier": "Tier 2",
+         "vigil.bank.account_count": 0, "vigil.bank.exposure_inr": 0, "vigil.bank.owner": "Settlement Operations",
+         "vigil.bank.approved_maintenance_ip": "10.99.0.15"},
     ]
     labels = {
         "scenario": "credential_theft_to_bulk_upi",

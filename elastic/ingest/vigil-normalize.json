@@ -3,6 +3,9 @@
   "processors": [
     {"set": {"field": "labels.dataset", "value": "vigil-synthetic", "override": false}},
     {"append": {"field": "tags", "value": "vigil_rehearsal", "allow_duplicates": false}},
-    {"set": {"field": "event.kind", "value": "event", "override": false}}
+    {"set": {"field": "event.kind", "value": "event", "override": false}},
+    {"set": {"field": "event.dataset", "value": "vigil.synthetic", "override": false}},
+    {"set": {"field": "ecs.version", "value": "9.5.0", "override": false}},
+    {"set": {"field": "event.ingested", "value": "{{{_ingest.timestamp}}}", "override": false}}
   ]
 }

@@ -2,7 +2,8 @@
   "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
   "synthetic_data_notice": "Synthetic rehearsal data only. Do not submit this artifact to a regulator.",
   "incident_id": "VIGIL-2026-09-06-001",
-  "detection_timestamp_utc": "2026-09-06T08:30:00Z",
+  "occurrence_start_timestamp_utc": "2026-09-06T08:30:00Z",
+  "first_observed_timestamp_utc": "2026-09-06T08:30:02Z",
   "classification": "Potential credential compromise with anomalous UPI transfers",
   "affected_asset": "pay-svc-prod-01",
   "evidence_event_ids": [
@@ -19,8 +20,8 @@
     "hero-upi-4",
     "hero-upi-5"
   ],
-  "purpose": "Information pack for an authorised reviewer preparing an RBI DAKSH filing.",
-  "reporting_clock_note": "Prototype timing anchor only. Confirm the current RBI filing workflow and deadline before any real use.",
+  "purpose": "Information pack for an authorised regulated entity preparing the applicable RBI incident/fraud report.",
+  "format_boundary": "This is not a validated Annex 1 or DAKSH screen/bulk-upload format. The authorised entity must choose and complete the applicable current RBI workflow.",
   "exposure_inr": 1160000,
   "submission_status": "NOT SUBMITTED"
 }

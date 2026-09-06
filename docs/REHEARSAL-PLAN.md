@@ -13,7 +13,7 @@ Arrive at the 18–19 September hackathon able to recreate, explain, test, and p
 | AI investigation | Elastic Attack Discovery runs against those alerts and is described only as a potential attack discovery. |
 | Retrieval and impact | ES|QL `LOOKUP JOIN` returns the host, evidence count, affected accounts and deterministic ₹ exposure. |
 | Decision | An explicit `approve` / `hold` / `reject` record is produced; no containment is executed. |
-| Compliance support | Review-only DAKSH, CERT-In and optional STIX drafts say `NOT SUBMITTED`. |
+| Compliance support | A DAKSH information pack, a CERT-In public-form-aligned draft, and optional STIX 2.1 draft say `NOT SUBMITTED`; none claims to be a portal submission format. |
 | Evidence | A hash-chain verifier passes on the original ledger and fails after alteration. |
 | UX | The offline War Room shows the evidence, AI interpretation, decision gate and artifacts without a network dependency. |
 

@@ -24,9 +24,10 @@ def main() -> None:
     envelope = json.loads((artifacts / "evidence-envelope.json").read_text(encoding="utf-8"))
     hero_ids = set(truth["hero"]["event_ids"])
     evidence = [row for row in events if row["_id"] in hero_ids]
-    detection_time = min(row["@timestamp"] for row in evidence)
+    occurrence_start = min(row["@timestamp"] for row in evidence)
+    first_observed = min(row["event"]["created"] for row in evidence)
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    upi_total = sum(row.get("transaction", {}).get("amount", 0) for row in evidence)
+    upi_total = sum(row.get("vigil", {}).get("transaction", {}).get("amount", 0) for row in evidence)
     discovery_path = artifacts / "attack-discovery-baseline.json"
     discovery: dict | None = None
     if discovery_path.exists():
@@ -41,9 +42,10 @@ def main() -> None:
         "incident_id": "VIGIL-2026-09-06-001",
         "classification": classification["classification"],
         "classification_method": classification["method"],
-        "detection_timestamp_utc": detection_time,
+        "occurrence_start_timestamp_utc": occurrence_start,
+        "first_observed_timestamp_utc": first_observed,
         "cert_in_notice_anchor_utc": generated_at,
-        "rbi_daksh_due_basis": "Six-hour prototype timer starts from detection; verify the current filing process before any real-world use.",
+        "regulatory_timing_note": "Prototype timing anchors only. Confirm the regulated entity's current RBI and CERT-In obligations before any real-world use.",
         "affected_asset": truth["hero"]["host"],
         "affected_service": "UPI payment gateway",
         "deterministic_exposure_inr": truth["hero"]["expected_exposure_inr"],
@@ -61,14 +63,14 @@ def main() -> None:
         } if discovery else {"status": "Not yet captured; local fixture mode only."}),
         "recommended_human_action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels.",
         "reporting_pack": {
-            "cert_in": "Incident Reporting Form-compatible draft fields are represented in this JSON/HTML artifact.",
-            "rbi_daksh": "Submission-pack draft only; no portal automation or submission occurs.",
+            "cert_in": "Information draft aligned to the public CERT-In incident-reporting form; required reporter and organisation fields remain intentionally blank.",
+            "rbi_daksh": "Information pack only, not a validated RBI Annex 1/DAKSH submission format; no portal automation or submission occurs.",
         },
     }
     (artifacts / "incident-report-draft.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
     chain: list[dict] = []
-    append_block(chain, "incident_detected", {"incident_id": report["incident_id"], "evidence_ids": report["evidence_event_ids"]}, detection_time)
+    append_block(chain, "incident_detected", {"incident_id": report["incident_id"], "evidence_ids": report["evidence_event_ids"]}, first_observed)
     append_block(chain, "classification_completed", {"artifact": "classification.json", "method": classification["method"]}, generated_at)
     append_block(chain, "evidence_enveloped", {"artifact": "evidence-envelope.json", "evidence_set_hash": envelope["integrity"]["evidence_set_hash"]}, generated_at)
     if discovery:
@@ -86,7 +88,7 @@ def main() -> None:
 <style>body{{font-family:system-ui;max-width:900px;margin:40px auto;line-height:1.5}}.warning{{background:#fff3cd;padding:16px;border-left:5px solid #b7791f}}code{{background:#f1f5f9;padding:2px 4px}}</style></head><body>
 <div class=\"warning\"><strong>{report['status']}</strong><br>{report['prototype_notice']}</div>
 <h1>VIGIL incident reporting draft</h1><p><strong>Incident:</strong> {report['incident_id']}</p>
-<p><strong>Classification:</strong> {report['classification']}</p><p><strong>Detection:</strong> {detection_time}</p>
+<p><strong>Classification:</strong> {report['classification']}</p><p><strong>Occurrence start:</strong> {occurrence_start}</p><p><strong>First observed:</strong> {first_observed}</p>
 <p><strong>Deterministic exposure:</strong> ₹{report['deterministic_exposure_inr']:,}</p>
 <p><strong>Evidence:</strong> <code>{'</code>, <code>'.join(report['evidence_event_ids'])}</code></p>
 <h2>Elastic Attack Discovery</h2><p><strong>{report['attack_discovery'].get('title', 'Not captured')}</strong></p>

@@ -1,7 +1,7 @@
 [
   {
     "sequence": 0,
-    "timestamp": "2026-09-06T08:30:00Z",
+    "timestamp": "2026-09-06T08:30:02Z",
     "event_type": "incident_detected",
     "payload": {
       "incident_id": "VIGIL-2026-09-06-001",
@@ -21,33 +21,33 @@
       ]
     },
     "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-    "hash": "f36e0d77543e96115d73ad5664628934ac71ec8873c6b978c6aeb4a7389b383c"
+    "hash": "87a9daa33c93a49ceef759af77955c1b1406d89682e7efd5f538792a0d876247"
   },
   {
     "sequence": 1,
-    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "timestamp": "2026-09-06T20:55:27.331793Z",
     "event_type": "classification_completed",
     "payload": {
       "artifact": "classification.json",
       "method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model."
     },
-    "previous_hash": "f36e0d77543e96115d73ad5664628934ac71ec8873c6b978c6aeb4a7389b383c",
-    "hash": "7223f7792d25916c9460874864e5db97df529b213c2f5525f5e414a296699879"
+    "previous_hash": "87a9daa33c93a49ceef759af77955c1b1406d89682e7efd5f538792a0d876247",
+    "hash": "771243c84015c8a97268767aa8edb5af3a984669bf26fdecdc17604f1d291a23"
   },
   {
     "sequence": 2,
-    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "timestamp": "2026-09-06T20:55:27.331793Z",
     "event_type": "evidence_enveloped",
     "payload": {
       "artifact": "evidence-envelope.json",
-      "evidence_set_hash": "ecbade8febaa6ee3658d080d8c8b063a1d2aee5e961047fe63858bc0811cd554"
+      "evidence_set_hash": "56bd8fd0f438088d9233053a7227860e9fbf210e2259ca8efdaf3391b4856712"
     },
-    "previous_hash": "7223f7792d25916c9460874864e5db97df529b213c2f5525f5e414a296699879",
-    "hash": "5ecb4a959a2b73af7b18fae4cb77b8316493a470babc028714d75276aca48ce0"
+    "previous_hash": "771243c84015c8a97268767aa8edb5af3a984669bf26fdecdc17604f1d291a23",
+    "hash": "2c5f64e3063a725af01055e0ed06220e1a9b664d930517a09ed340213e7a99d3"
   },
   {
     "sequence": 3,
-    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "timestamp": "2026-09-06T20:55:27.331793Z",
     "event_type": "attack_discovery_generated",
     "payload": {
       "source": "Elastic Security Attack Discovery",
@@ -55,40 +55,40 @@
       "discovery_id": "e00e1fae166550db7d75f30953baa03339efaa0f35d43ca002ce886fde285add",
       "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration"
     },
-    "previous_hash": "5ecb4a959a2b73af7b18fae4cb77b8316493a470babc028714d75276aca48ce0",
-    "hash": "a300d8c41004a34ff394cad773ec359a2a4353fa08e82bb75dd79abd3c7f201a"
+    "previous_hash": "2c5f64e3063a725af01055e0ed06220e1a9b664d930517a09ed340213e7a99d3",
+    "hash": "3158d85c04ac8bb62fb8ae5dd78e3bfff288fd382d95cabd347e4c38d66d270d"
   },
   {
     "sequence": 4,
-    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "timestamp": "2026-09-06T20:55:27.331793Z",
     "event_type": "exposure_calculated",
     "payload": {
       "method": "deterministic_lookup_context",
       "amount_inr": 1160000
     },
-    "previous_hash": "a300d8c41004a34ff394cad773ec359a2a4353fa08e82bb75dd79abd3c7f201a",
-    "hash": "612146bc591ce062665521f52e6d2ee34d41710029c4a26cecaa0154cd07c104"
+    "previous_hash": "3158d85c04ac8bb62fb8ae5dd78e3bfff288fd382d95cabd347e4c38d66d270d",
+    "hash": "fae656c3fa90f729493e87d60cd8ae2c381c18b2592abb2f4ae0b6ff67fdcf8c"
   },
   {
     "sequence": 5,
-    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "timestamp": "2026-09-06T20:55:27.331793Z",
     "event_type": "human_review_requested",
     "payload": {
       "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
       "action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels."
     },
-    "previous_hash": "612146bc591ce062665521f52e6d2ee34d41710029c4a26cecaa0154cd07c104",
-    "hash": "4d49fc8a13607928de7934d02456e43729130da0ba3e53b1824ca7f207a99d32"
+    "previous_hash": "fae656c3fa90f729493e87d60cd8ae2c381c18b2592abb2f4ae0b6ff67fdcf8c",
+    "hash": "05ef34b98f8f2d9678e12e757364ae1a1fbfa01738b1160e49945da660104e1f"
   },
   {
     "sequence": 6,
-    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "timestamp": "2026-09-06T20:55:27.331793Z",
     "event_type": "report_drafted",
     "payload": {
       "artifact": "incident-report-draft.json",
       "submission": "not submitted"
     },
-    "previous_hash": "4d49fc8a13607928de7934d02456e43729130da0ba3e53b1824ca7f207a99d32",
-    "hash": "bb62fa7846c439f15f0191ab018b487b806915aab24e300f9b6e8cf86c521038"
+    "previous_hash": "05ef34b98f8f2d9678e12e757364ae1a1fbfa01738b1160e49945da660104e1f",
+    "hash": "8703d57077bb3888436805cee5ead67bcbddcdbdfbcd3052d43489460cea8ea6"
   }
 ]

@@ -18,6 +18,8 @@ class VIGILContractTests(unittest.TestCase):
         content = json.loads(report.read_text())
         self.assertEqual(content["status"], "DRAFT — HUMAN REVIEW REQUIRED")
         self.assertIn("Synthetic", content["prototype_notice"])
+        self.assertIn("occurrence_start_timestamp_utc", content)
+        self.assertIn("first_observed_timestamp_utc", content)
     def test_six_step_workflow_sources_exist(self):
         for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
             self.assertTrue((ROOT / relative).is_file(), relative)
@@ -25,3 +27,7 @@ class VIGILContractTests(unittest.TestCase):
         provenance = (ROOT / "data/DATA-PROVENANCE.md").read_text()
         self.assertIn("synthetic", provenance.lower())
         self.assertIn("20260906", provenance)
+    def test_realism_audit_has_claim_boundaries(self):
+        audit = (ROOT / "docs/REALISM-AND-FORMAT-AUDIT.md").read_text()
+        self.assertIn("not a universal submission format", audit)
+        self.assertIn("not an NPCI/UPI message specification", audit)

@@ -3,16 +3,39 @@
   "id": "bundle--ccefe01a-33b9-5072-9eeb-de2b58dbd108",
   "objects": [
     {
+      "type": "ipv4-addr",
+      "spec_version": "2.1",
+      "id": "ipv4-addr--60234940-652d-55b8-998b-c6047a3322ff",
+      "value": "198.51.100.42"
+    },
+    {
+      "type": "observed-data",
+      "spec_version": "2.1",
+      "id": "observed-data--934fb2dd-32e3-5b0d-8370-d14465248a8f",
+      "created": "2026-09-06T20:55:27.444534Z",
+      "modified": "2026-09-06T20:55:27.444534Z",
+      "first_observed": "2026-09-06T08:30:00Z",
+      "last_observed": "2026-09-06T08:30:02Z",
+      "number_observed": 1,
+      "object_refs": [
+        "ipv4-addr--60234940-652d-55b8-998b-c6047a3322ff"
+      ],
+      "labels": [
+        "synthetic",
+        "human-review-required"
+      ]
+    },
+    {
       "type": "indicator",
       "spec_version": "2.1",
       "id": "indicator--b240ab88-be93-51bc-98eb-c2df4b8bd52b",
-      "created": "2026-09-06T20:44:51.696639Z",
-      "modified": "2026-09-06T20:44:51.696639Z",
+      "created": "2026-09-06T20:55:27.444534Z",
+      "modified": "2026-09-06T20:55:27.444534Z",
       "name": "VIGIL synthetic payment-service investigation lead",
       "description": "Synthetic prototype indicator generated for analyst review; not a CERT-In filing or asserted compromise.",
       "pattern_type": "stix",
-      "pattern": "[x-vigil:incident_id = 'VIGIL-2026-09-06-001']",
-      "valid_from": "2026-09-06T20:44:51.696639Z",
+      "pattern": "[ipv4-addr:value = '198.51.100.42']",
+      "valid_from": "2026-09-06T20:55:27.444534Z",
       "labels": [
         "synthetic",
         "human-review-required",
@@ -20,5 +43,5 @@
       ]
     }
   ],
-  "notice": "Optional interoperability draft. Verify any current recipient format requirements before use."
+  "notice": "Optional STIX 2.1 interoperability draft. Validate with a STIX validator and verify recipient requirements before use."
 }
