@@ -21,3 +21,7 @@ class VIGILContractTests(unittest.TestCase):
     def test_six_step_workflow_sources_exist(self):
         for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
             self.assertTrue((ROOT / relative).is_file(), relative)
+    def test_data_provenance_is_documented(self):
+        provenance = (ROOT / "data/DATA-PROVENANCE.md").read_text()
+        self.assertIn("synthetic", provenance.lower())
+        self.assertIn("20260906", provenance)

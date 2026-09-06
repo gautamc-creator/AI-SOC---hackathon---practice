@@ -24,6 +24,8 @@ Nothing in the local run calls an LLM, contains a system, sends a report, or use
 6. **Prepare:** VIGIL produces human-review-only RBI DAKSH, CERT-In, optional STIX 2.1 and notification-preview artifacts. Nothing is sent.
 7. **Prove and present:** a SHA-256 evidence ledger is independently verified; the Golden Path also proves tampering is detected. Run `make warroom`, then `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
 
+Read [data provenance](data/DATA-PROVENANCE.md) and the [field/schema decisions](data/SCHEMA.md) before presenting the corpus. They make the synthetic-data boundary, source, event fields, and live ingest proof explicit.
+
 ## Live Elastic gate
 
 After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHECKLIST.md). The live demonstration is not complete until it shows:
