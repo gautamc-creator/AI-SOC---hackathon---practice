@@ -1,0 +1,17 @@
+{
+  "type": "query",
+  "language": "kuery",
+  "name": "VIGIL — synthetic payment-service compromise evidence",
+  "description": "DEMO ONLY. Creates one alert for each event in the injected credential-theft-to-anomalous-UPI-transfer scenario. Attack Discovery should correlate these related alerts into a potential attack narrative.",
+  "rule_id": "vigil-synthetic-payment-compromise-v1",
+  "index": ["logs-vigil-security"],
+  "query": "tags: \"vigil_hero\" and labels.dataset: \"vigil-synthetic\"",
+  "severity": "high",
+  "risk_score": 90,
+  "tags": ["VIGIL", "synthetic", "demo", "credential-access", "upi"],
+  "references": ["https://github.com/consultadd/vigil-demo"],
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": true
+}

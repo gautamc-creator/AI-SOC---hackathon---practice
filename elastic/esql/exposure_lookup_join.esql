@@ -1,0 +1,13 @@
+// Demo query: enrich the correlated security evidence with deterministic bank context.
+// `vigil-bank-context` must be created with `index.mode: lookup` before this will run.
+FROM logs-vigil-security
+| WHERE host.name == "pay-svc-prod-01"
+| WHERE labels.dataset == "vigil-synthetic"
+| WHERE MV_CONTAINS(tags, "vigil_hero")
+| LOOKUP JOIN vigil-bank-context ON host.name
+| STATS
+    evidence_events = COUNT(*),
+    suspicious_upi_total = SUM(transaction.amount),
+    bank_exposure_inr = MAX(bank.exposure_inr),
+    affected_accounts = MAX(bank.account_count)
+  BY host.name, bank.service, bank.tier, bank.owner

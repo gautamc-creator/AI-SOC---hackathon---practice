@@ -1,0 +1,21 @@
+{
+  "settings": {
+    "index.mode": "lookup"
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "host": {"properties": {"name": {"type": "keyword"}}},
+      "bank": {
+        "properties": {
+          "service": {"type": "keyword"},
+          "tier": {"type": "keyword"},
+          "account_count": {"type": "integer"},
+          "exposure_inr": {"type": "long"},
+          "owner": {"type": "keyword"},
+          "approved_maintenance_ip": {"type": "ip"}
+        }
+      }
+    }
+  }
+}
