@@ -19,6 +19,9 @@ def run(*parts: str, expected: int = 0) -> None:
 def main() -> None:
     run("data/generator/generate.py")
     run("report/generate.py")
+    run("approvals/review.py", "--decision", "hold")
+    run("compliance/generate.py")
+    run("warroom/prepare.py")
     run("ledger/verify.py", "artifacts/evidence-ledger.json")
 
     source = ROOT / "artifacts/evidence-ledger.json"

@@ -1,0 +1,25 @@
+{
+  "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
+  "synthetic_data_notice": "Synthetic rehearsal data only. Do not submit this artifact to a regulator.",
+  "incident_id": "VIGIL-2026-09-06-001",
+  "detection_timestamp_utc": "2026-09-06T08:30:00Z",
+  "classification": "Potential credential compromise with anomalous UPI transfers",
+  "affected_asset": "pay-svc-prod-01",
+  "evidence_event_ids": [
+    "hero-auth-0",
+    "hero-auth-1",
+    "hero-auth-2",
+    "hero-auth-3",
+    "hero-auth-4",
+    "hero-login-success",
+    "hero-egress",
+    "hero-upi-1",
+    "hero-upi-2",
+    "hero-upi-3",
+    "hero-upi-4",
+    "hero-upi-5"
+  ],
+  "purpose": "Information pack for an authorised reviewer preparing a CERT-In notification.",
+  "notice_anchor_utc": "2026-09-06T20:40:56.594817Z",
+  "submission_status": "NOT SUBMITTED"
+}

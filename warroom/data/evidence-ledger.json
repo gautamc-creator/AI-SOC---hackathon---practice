@@ -1,0 +1,72 @@
+[
+  {
+    "sequence": 0,
+    "timestamp": "2026-09-06T08:30:00Z",
+    "event_type": "incident_detected",
+    "payload": {
+      "incident_id": "VIGIL-2026-09-06-001",
+      "evidence_ids": [
+        "hero-auth-0",
+        "hero-auth-1",
+        "hero-auth-2",
+        "hero-auth-3",
+        "hero-auth-4",
+        "hero-login-success",
+        "hero-egress",
+        "hero-upi-1",
+        "hero-upi-2",
+        "hero-upi-3",
+        "hero-upi-4",
+        "hero-upi-5"
+      ]
+    },
+    "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "hash": "f36e0d77543e96115d73ad5664628934ac71ec8873c6b978c6aeb4a7389b383c"
+  },
+  {
+    "sequence": 1,
+    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "event_type": "attack_discovery_generated",
+    "payload": {
+      "source": "Elastic Security Attack Discovery",
+      "generation_uuid": "432c3791-859a-44d3-8504-97e905335d80",
+      "discovery_id": "e00e1fae166550db7d75f30953baa03339efaa0f35d43ca002ce886fde285add",
+      "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration"
+    },
+    "previous_hash": "f36e0d77543e96115d73ad5664628934ac71ec8873c6b978c6aeb4a7389b383c",
+    "hash": "d920a28a561873673b1e3ce1e1a1df6a5b0cd4e1520a115e7dd48e130634e3e7"
+  },
+  {
+    "sequence": 2,
+    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "event_type": "exposure_calculated",
+    "payload": {
+      "method": "deterministic_lookup_context",
+      "amount_inr": 1160000
+    },
+    "previous_hash": "d920a28a561873673b1e3ce1e1a1df6a5b0cd4e1520a115e7dd48e130634e3e7",
+    "hash": "51667484ce30ad1d9c6c3553e65895fe66a31f8cb1718eb5cb80a216bb8891d1"
+  },
+  {
+    "sequence": 3,
+    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "event_type": "human_review_requested",
+    "payload": {
+      "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
+      "action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels."
+    },
+    "previous_hash": "51667484ce30ad1d9c6c3553e65895fe66a31f8cb1718eb5cb80a216bb8891d1",
+    "hash": "0fe5a76339b4a45544f3760b3b4e043f47edf0b995d4fef7cf13f028772bcddd"
+  },
+  {
+    "sequence": 4,
+    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "event_type": "report_drafted",
+    "payload": {
+      "artifact": "incident-report-draft.json",
+      "submission": "not submitted"
+    },
+    "previous_hash": "0fe5a76339b4a45544f3760b3b4e043f47edf0b995d4fef7cf13f028772bcddd",
+    "hash": "f0b6f82b77e0b3daf8be56e98a42f7a27dd9833f0bcba5c8c690ff186ca76566"
+  }
+]

@@ -88,7 +88,8 @@ def bulk(index: str, path: Path, transform=lambda value: value, data_stream: boo
         if document_id:
             action[action_name]["_id"] = document_id
         lines.extend((json.dumps(action), json.dumps(document)))
-    response = json.loads(request("POST", "/_bulk?refresh=true", ("\n".join(lines) + "\n").encode(), "application/x-ndjson"))
+    pipeline_parameter = "&pipeline=vigil-normalize" if data_stream else ""
+    response = json.loads(request("POST", f"/_bulk?refresh=true{pipeline_parameter}", ("\n".join(lines) + "\n").encode(), "application/x-ndjson"))
     if response.get("errors"):
         failures = [item for item in response["items"] if next(iter(item.values())).get("error")]
         raise RuntimeError(f"Bulk indexing failed: {json.dumps(failures[:3], indent=2)}")
@@ -99,16 +100,18 @@ def main() -> None:
     events = ROOT / "artifacts/events.ndjson"
     context = ROOT / "artifacts/bank-context.ndjson"
     mapping = ROOT / "elastic/mappings/vigil-bank-context.json"
+    ingest_pipeline = ROOT / "elastic/ingest/vigil-normalize.json"
     if not events.exists() or not context.exists():
         raise RuntimeError("Run `python3 data/generator/generate.py` before seeding Elastic.")
 
     request("DELETE", "/_data_stream/logs-vigil-security")
     request("DELETE", "/vigil-bank-context")
+    request("PUT", "/_ingest/pipeline/vigil-normalize", ingest_pipeline.read_bytes())
     request("PUT", "/_data_stream/logs-vigil-security")
     request("PUT", "/vigil-bank-context", mapping.read_bytes())
     bulk("logs-vigil-security", events, data_stream=True)
     bulk("vigil-bank-context", context, to_nested)
-    print("Seeded logs-vigil-security and vigil-bank-context. Run elastic/esql/exposure_lookup_join.esql in Kibana.")
+    print("Seeded logs-vigil-security and vigil-bank-context; installed ingest pipeline vigil-normalize. Run elastic/esql/exposure_lookup_join.esql in Kibana.")
 
 
 if __name__ == "__main__":

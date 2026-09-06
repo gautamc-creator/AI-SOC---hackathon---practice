@@ -1,0 +1,8 @@
+{
+  "description": "VIGIL rehearsal: label and normalize synthetic banking-security events on ingest.",
+  "processors": [
+    {"set": {"field": "labels.dataset", "value": "vigil-synthetic", "override": false}},
+    {"append": {"field": "tags", "value": "vigil_rehearsal", "allow_duplicates": false}},
+    {"set": {"field": "event.kind", "value": "event", "override": false}}
+  ]
+}

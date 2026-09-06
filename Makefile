@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: demo seed validate create-rule validate-alerts run-attack-discovery capture-attack-discovery verify tamper-verify clean
+.PHONY: demo seed validate create-rule validate-alerts run-attack-discovery capture-attack-discovery review compliance warroom verify tamper-verify test clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
@@ -24,11 +24,24 @@ run-attack-discovery:
 capture-attack-discovery:
 	$(PYTHON) elastic/capture_attack_discovery.py $(EXECUTION_UUID)
 
+review:
+	$(PYTHON) approvals/review.py --decision hold
+
+compliance:
+	$(PYTHON) compliance/generate.py
+
+warroom:
+	$(PYTHON) warroom/prepare.py
+	@echo "Open http://localhost:8000/warroom/ after running: $(PYTHON) -m http.server 8000"
+
 verify:
 	$(PYTHON) ledger/verify.py artifacts/evidence-ledger.json
 
 tamper-verify:
 	$(PYTHON) ledger/verify.py artifacts/evidence-ledger.tampered.json
+
+test:
+	$(PYTHON) -m unittest discover -s tests -v
 
 clean:
 	rm -rf artifacts

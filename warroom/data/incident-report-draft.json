@@ -1,0 +1,47 @@
+{
+  "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
+  "prototype_notice": "Synthetic data only. This artifact is not filed with RBI, CERT-In, or any regulator.",
+  "incident_id": "VIGIL-2026-09-06-001",
+  "classification": "Potential credential compromise with anomalous UPI transfers",
+  "detection_timestamp_utc": "2026-09-06T08:30:00Z",
+  "cert_in_notice_anchor_utc": "2026-09-06T20:40:56.594817Z",
+  "rbi_daksh_due_basis": "Six-hour prototype timer starts from detection; verify the current filing process before any real-world use.",
+  "affected_asset": "pay-svc-prod-01",
+  "affected_service": "UPI payment gateway",
+  "deterministic_exposure_inr": 1160000,
+  "observed_suspicious_upi_total_inr": 1160000,
+  "evidence_event_ids": [
+    "hero-auth-0",
+    "hero-auth-1",
+    "hero-auth-2",
+    "hero-auth-3",
+    "hero-auth-4",
+    "hero-login-success",
+    "hero-egress",
+    "hero-upi-1",
+    "hero-upi-2",
+    "hero-upi-3",
+    "hero-upi-4",
+    "hero-upi-5"
+  ],
+  "attack_discovery": {
+    "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration",
+    "generation_uuid": "432c3791-859a-44d3-8504-97e905335d80",
+    "discovery_id": "e00e1fae166550db7d75f30953baa03339efaa0f35d43ca002ce886fde285add",
+    "title": "Payment Service Brute Force to Fraud",
+    "summary": "Attacker brute-forced `svc-payments-admin` on `pay-svc-prod-01`, gained privileged access, established C2, and executed anomalous UPI transfers.",
+    "mitre_attack_tactics": [
+      "Credential Access",
+      "Initial Access",
+      "Command and Control",
+      "Exfiltration",
+      "Impact"
+    ],
+    "interpretation": "AI-generated potential attack narrative. It is an investigation lead, not confirmation of compromise, fraud, or regulatory reportability."
+  },
+  "recommended_human_action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels.",
+  "reporting_pack": {
+    "cert_in": "Incident Reporting Form-compatible draft fields are represented in this JSON/HTML artifact.",
+    "rbi_daksh": "Submission-pack draft only; no portal automation or submission occurs."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "status": "SIMULATED \u2014 NO CONTAINMENT EXECUTED",
+  "incident_id": "VIGIL-2026-09-06-001",
+  "decision": "hold",
+  "reviewer": "demo-analyst",
+  "reviewed_at_utc": "2026-09-06T20:40:56.657716Z",
+  "effect": "A decision audit record only. Any containment and regulator submission remain human-operated actions."
+}

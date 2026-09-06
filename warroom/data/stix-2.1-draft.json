@@ -1,0 +1,24 @@
+{
+  "type": "bundle",
+  "id": "bundle--ccefe01a-33b9-5072-9eeb-de2b58dbd108",
+  "objects": [
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--b240ab88-be93-51bc-98eb-c2df4b8bd52b",
+      "created": "2026-09-06T20:40:56.704563Z",
+      "modified": "2026-09-06T20:40:56.704563Z",
+      "name": "VIGIL synthetic payment-service investigation lead",
+      "description": "Synthetic prototype indicator generated for analyst review; not a CERT-In filing or asserted compromise.",
+      "pattern_type": "stix",
+      "pattern": "[x-vigil:incident_id = 'VIGIL-2026-09-06-001']",
+      "valid_from": "2026-09-06T20:40:56.704563Z",
+      "labels": [
+        "synthetic",
+        "human-review-required",
+        "potential-attack-discovery"
+      ]
+    }
+  ],
+  "notice": "Optional interoperability draft. Verify any current recipient format requirements before use."
+}
