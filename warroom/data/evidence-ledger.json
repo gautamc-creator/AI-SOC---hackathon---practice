@@ -25,7 +25,29 @@
   },
   {
     "sequence": 1,
-    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "event_type": "classification_completed",
+    "payload": {
+      "artifact": "classification.json",
+      "method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model."
+    },
+    "previous_hash": "f36e0d77543e96115d73ad5664628934ac71ec8873c6b978c6aeb4a7389b383c",
+    "hash": "7223f7792d25916c9460874864e5db97df529b213c2f5525f5e414a296699879"
+  },
+  {
+    "sequence": 2,
+    "timestamp": "2026-09-06T20:44:51.583546Z",
+    "event_type": "evidence_enveloped",
+    "payload": {
+      "artifact": "evidence-envelope.json",
+      "evidence_set_hash": "ecbade8febaa6ee3658d080d8c8b063a1d2aee5e961047fe63858bc0811cd554"
+    },
+    "previous_hash": "7223f7792d25916c9460874864e5db97df529b213c2f5525f5e414a296699879",
+    "hash": "5ecb4a959a2b73af7b18fae4cb77b8316493a470babc028714d75276aca48ce0"
+  },
+  {
+    "sequence": 3,
+    "timestamp": "2026-09-06T20:44:51.583546Z",
     "event_type": "attack_discovery_generated",
     "payload": {
       "source": "Elastic Security Attack Discovery",
@@ -33,40 +55,40 @@
       "discovery_id": "e00e1fae166550db7d75f30953baa03339efaa0f35d43ca002ce886fde285add",
       "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration"
     },
-    "previous_hash": "f36e0d77543e96115d73ad5664628934ac71ec8873c6b978c6aeb4a7389b383c",
-    "hash": "d920a28a561873673b1e3ce1e1a1df6a5b0cd4e1520a115e7dd48e130634e3e7"
+    "previous_hash": "5ecb4a959a2b73af7b18fae4cb77b8316493a470babc028714d75276aca48ce0",
+    "hash": "a300d8c41004a34ff394cad773ec359a2a4353fa08e82bb75dd79abd3c7f201a"
   },
   {
-    "sequence": 2,
-    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "sequence": 4,
+    "timestamp": "2026-09-06T20:44:51.583546Z",
     "event_type": "exposure_calculated",
     "payload": {
       "method": "deterministic_lookup_context",
       "amount_inr": 1160000
     },
-    "previous_hash": "d920a28a561873673b1e3ce1e1a1df6a5b0cd4e1520a115e7dd48e130634e3e7",
-    "hash": "51667484ce30ad1d9c6c3553e65895fe66a31f8cb1718eb5cb80a216bb8891d1"
+    "previous_hash": "a300d8c41004a34ff394cad773ec359a2a4353fa08e82bb75dd79abd3c7f201a",
+    "hash": "612146bc591ce062665521f52e6d2ee34d41710029c4a26cecaa0154cd07c104"
   },
   {
-    "sequence": 3,
-    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "sequence": 5,
+    "timestamp": "2026-09-06T20:44:51.583546Z",
     "event_type": "human_review_requested",
     "payload": {
       "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
       "action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels."
     },
-    "previous_hash": "51667484ce30ad1d9c6c3553e65895fe66a31f8cb1718eb5cb80a216bb8891d1",
-    "hash": "0fe5a76339b4a45544f3760b3b4e043f47edf0b995d4fef7cf13f028772bcddd"
+    "previous_hash": "612146bc591ce062665521f52e6d2ee34d41710029c4a26cecaa0154cd07c104",
+    "hash": "4d49fc8a13607928de7934d02456e43729130da0ba3e53b1824ca7f207a99d32"
   },
   {
-    "sequence": 4,
-    "timestamp": "2026-09-06T20:40:56.594817Z",
+    "sequence": 6,
+    "timestamp": "2026-09-06T20:44:51.583546Z",
     "event_type": "report_drafted",
     "payload": {
       "artifact": "incident-report-draft.json",
       "submission": "not submitted"
     },
-    "previous_hash": "0fe5a76339b4a45544f3760b3b4e043f47edf0b995d4fef7cf13f028772bcddd",
-    "hash": "f0b6f82b77e0b3daf8be56e98a42f7a27dd9833f0bcba5c8c690ff186ca76566"
+    "previous_hash": "4d49fc8a13607928de7934d02456e43729130da0ba3e53b1824ca7f207a99d32",
+    "hash": "bb62fa7846c439f15f0191ab018b487b806915aab24e300f9b6e8cf86c521038"
   }
 ]

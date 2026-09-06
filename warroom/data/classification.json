@@ -1,0 +1,13 @@
+{
+  "status": "PRELIMINARY \u2014 HUMAN REVIEW REQUIRED",
+  "method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model.",
+  "classification": "Potential credential compromise with anomalous UPI transfers",
+  "reason_codes": [
+    "connection",
+    "login",
+    "upi_transfer"
+  ],
+  "evidence_event_count": 12,
+  "confidence": "not_scored",
+  "safety_boundary": "This classification is an investigation priority, not confirmation of compromise, fraud, or reportability."
+}

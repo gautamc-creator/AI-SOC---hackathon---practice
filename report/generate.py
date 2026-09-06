@@ -20,6 +20,8 @@ def main() -> None:
     artifacts = ROOT / "artifacts"
     events = read_ndjson(artifacts / "events.ndjson")
     truth = json.loads((artifacts / "ground-truth.json").read_text(encoding="utf-8"))
+    classification = json.loads((artifacts / "classification.json").read_text(encoding="utf-8"))
+    envelope = json.loads((artifacts / "evidence-envelope.json").read_text(encoding="utf-8"))
     hero_ids = set(truth["hero"]["event_ids"])
     evidence = [row for row in events if row["_id"] in hero_ids]
     detection_time = min(row["@timestamp"] for row in evidence)
@@ -37,7 +39,8 @@ def main() -> None:
         "status": "DRAFT — HUMAN REVIEW REQUIRED",
         "prototype_notice": "Synthetic data only. This artifact is not filed with RBI, CERT-In, or any regulator.",
         "incident_id": "VIGIL-2026-09-06-001",
-        "classification": "Potential credential compromise with anomalous UPI transfers",
+        "classification": classification["classification"],
+        "classification_method": classification["method"],
         "detection_timestamp_utc": detection_time,
         "cert_in_notice_anchor_utc": generated_at,
         "rbi_daksh_due_basis": "Six-hour prototype timer starts from detection; verify the current filing process before any real-world use.",
@@ -46,6 +49,7 @@ def main() -> None:
         "deterministic_exposure_inr": truth["hero"]["expected_exposure_inr"],
         "observed_suspicious_upi_total_inr": upi_total,
         "evidence_event_ids": [row["_id"] for row in evidence],
+        "evidence_envelope": {"artifact": "evidence-envelope.json", "evidence_set_hash": envelope["integrity"]["evidence_set_hash"]},
         "attack_discovery": ({
             "label": discovery_data["label"],
             "generation_uuid": discovery["generation_uuid"],
@@ -65,6 +69,8 @@ def main() -> None:
 
     chain: list[dict] = []
     append_block(chain, "incident_detected", {"incident_id": report["incident_id"], "evidence_ids": report["evidence_event_ids"]}, detection_time)
+    append_block(chain, "classification_completed", {"artifact": "classification.json", "method": classification["method"]}, generated_at)
+    append_block(chain, "evidence_enveloped", {"artifact": "evidence-envelope.json", "evidence_set_hash": envelope["integrity"]["evidence_set_hash"]}, generated_at)
     if discovery:
         append_block(chain, "attack_discovery_generated", {
             "source": "Elastic Security Attack Discovery",

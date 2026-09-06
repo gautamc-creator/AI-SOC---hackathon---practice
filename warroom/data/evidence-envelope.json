@@ -1,0 +1,34 @@
+{
+  "status": "EVIDENCE ENVELOPE \u2014 SYNTHETIC REHEARSAL",
+  "case_id": "VIGIL-2026-09-06-001",
+  "source": {
+    "data_stream": "logs-vigil-security",
+    "dataset": "vigil-synthetic",
+    "origin": "local deterministic generator"
+  },
+  "scope": {
+    "host": "pay-svc-prod-01",
+    "event_count": 12,
+    "first_seen_utc": "2026-09-06T08:30:00Z",
+    "last_seen_utc": "2026-09-06T08:45:00Z"
+  },
+  "evidence_event_ids": [
+    "hero-auth-0",
+    "hero-auth-1",
+    "hero-auth-2",
+    "hero-auth-3",
+    "hero-auth-4",
+    "hero-login-success",
+    "hero-egress",
+    "hero-upi-1",
+    "hero-upi-2",
+    "hero-upi-3",
+    "hero-upi-4",
+    "hero-upi-5"
+  ],
+  "integrity": {
+    "algorithm": "SHA-256",
+    "evidence_set_hash": "ecbade8febaa6ee3658d080d8c8b063a1d2aee5e961047fe63858bc0811cd554"
+  },
+  "handling_note": "Evidence identifiers and time range are captured for human review. No real customer or bank data is present."
+}

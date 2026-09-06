@@ -1,0 +1,7 @@
+{
+  "status": "PREVIEW ONLY \u2014 NOT SENT",
+  "audience": "Authorised SOC escalation channel (placeholder)",
+  "subject": "VIGIL review requested: VIGIL-2026-09-06-001",
+  "body": "Potential incident on pay-svc-prod-01. Deterministic fixture exposure: \u20b91,160,000. Review is required; no containment or regulatory submission has occurred.",
+  "safe_delivery_boundary": "A future webhook/email connector must be configured and approved by the organisation. This rehearsal never transmits the preview."
+}

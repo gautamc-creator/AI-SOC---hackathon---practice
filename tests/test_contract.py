@@ -17,3 +17,6 @@ class VIGILContractTests(unittest.TestCase):
         content = json.loads(report.read_text())
         self.assertEqual(content["status"], "DRAFT — HUMAN REVIEW REQUIRED")
         self.assertIn("Synthetic", content["prototype_notice"])
+    def test_six_step_workflow_sources_exist(self):
+        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
+            self.assertTrue((ROOT / relative).is_file(), relative)

@@ -17,12 +17,12 @@ Nothing in the local run calls an LLM, contains a system, sends a report, or use
 ## Rehearsal system map
 
 1. **Ingest:** an Elasticsearch data stream and `vigil-normalize` ingest pipeline process synthetic ECS-like security telemetry.
-2. **Detect and investigate:** a custom Elastic Security rule creates alerts; Elastic Attack Discovery can generate a *potential* investigation lead.
-3. **Ground the impact:** ES|QL `LOOKUP JOIN` connects the host to synthetic bank context and calculates exposure deterministically.
-4. **Decide:** the analyst records `approve`, `hold`, or `reject`; this demonstration records intent only and never contains a system.
-5. **Prepare:** VIGIL produces human-review-only RBI DAKSH, CERT-In and optional STIX 2.1 drafts.
-6. **Prove:** a SHA-256 evidence ledger is independently verified; the Golden Path also proves tampering is detected.
-7. **Present:** `make warroom`, then run `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
+2. **Classify and gather:** deterministic code creates a preliminary classification and SHA-256 evidence envelope; it makes no LLM or production-model claim.
+3. **Detect and investigate:** a custom Elastic Security rule creates alerts; Elastic Attack Discovery can generate a *potential* investigation lead.
+4. **Ground the impact:** ES|QL `LOOKUP JOIN` connects the host to synthetic bank context and calculates exposure deterministically.
+5. **Decide:** the analyst records `approve`, `hold`, or `reject`; this demonstration records intent only and never contains a system.
+6. **Prepare:** VIGIL produces human-review-only RBI DAKSH, CERT-In, optional STIX 2.1 and notification-preview artifacts. Nothing is sent.
+7. **Prove and present:** a SHA-256 evidence ledger is independently verified; the Golden Path also proves tampering is detected. Run `make warroom`, then `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
 
 ## Live Elastic gate
 

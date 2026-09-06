@@ -18,9 +18,12 @@ def run(*parts: str, expected: int = 0) -> None:
 
 def main() -> None:
     run("data/generator/generate.py")
+    run("workflow/classify.py")
+    run("workflow/gather_evidence.py")
     run("report/generate.py")
     run("approvals/review.py", "--decision", "hold")
     run("compliance/generate.py")
+    run("notifications/prepare.py")
     run("warroom/prepare.py")
     run("ledger/verify.py", "artifacts/evidence-ledger.json")
 

@@ -10,7 +10,7 @@ OUT = ROOT / "warroom" / "data"
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for filename in ("incident-report-draft.json", "evidence-ledger.json", "review-decision.json", "rbi-daksh-submission-draft.json", "cert-in-notification-draft.json", "stix-2.1-draft.json"):
+    for filename in ("classification.json", "evidence-envelope.json", "incident-report-draft.json", "evidence-ledger.json", "review-decision.json", "rbi-daksh-submission-draft.json", "cert-in-notification-draft.json", "stix-2.1-draft.json", "notification-preview.json"):
         source = ROOT / "artifacts" / filename
         if source.exists(): shutil.copy2(source, OUT / filename)
     (OUT / "manifest.json").write_text(json.dumps({"generated_from": "synthetic VIGIL rehearsal artifacts", "files": sorted(p.name for p in OUT.glob("*.json"))}, indent=2) + "\n", encoding="utf-8")

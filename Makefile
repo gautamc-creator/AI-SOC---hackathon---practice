@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: demo seed validate create-rule validate-alerts run-attack-discovery capture-attack-discovery review compliance warroom verify tamper-verify test clean
+.PHONY: demo seed validate create-rule validate-alerts run-attack-discovery capture-attack-discovery classify envelope review compliance notify warroom verify tamper-verify test clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
@@ -24,11 +24,20 @@ run-attack-discovery:
 capture-attack-discovery:
 	$(PYTHON) elastic/capture_attack_discovery.py $(EXECUTION_UUID)
 
+classify:
+	$(PYTHON) workflow/classify.py
+
+envelope:
+	$(PYTHON) workflow/gather_evidence.py
+
 review:
 	$(PYTHON) approvals/review.py --decision hold
 
 compliance:
 	$(PYTHON) compliance/generate.py
+
+notify:
+	$(PYTHON) notifications/prepare.py
 
 warroom:
 	$(PYTHON) warroom/prepare.py
