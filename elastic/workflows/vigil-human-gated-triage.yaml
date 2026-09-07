@@ -56,13 +56,18 @@ steps:
         create-conversation: false
         with:
           message: |
-            Review the generated finding below only for evidence gaps and
-            unsupported certainty. Do not decide that compromise, fraud, impact,
-            or reportability is confirmed. Return concise bullets for a human
-            analyst and explicitly separate observed facts from inferences.
+            Use only the supplied text; do not call tools. Review it only for
+            evidence gaps and unsupported certainty. Do not decide that
+            compromise, fraud, impact, or reportability is confirmed. Return
+            concise bullets for a human analyst and explicitly separate observed
+            facts from inferences.
 
             <potential_finding>
-            {{ foreach.item | json: 2 }}
+            Title: {{ foreach.item.attack_discovery.title_with_replacements }}
+            Summary: {{ foreach.item.attack_discovery.summary_markdown_with_replacements }}
+            Details: {{ foreach.item.attack_discovery.details_markdown_with_replacements }}
+            Entities: {{ foreach.item.attack_discovery.entity_summary_markdown_with_replacements }}
+            Risk score: {{ foreach.item.risk_score }}
             </potential_finding>
 
       - name: add_review_note
@@ -74,3 +79,37 @@ steps:
             {{ steps.identify_evidence_gaps.output.message }}
 
             VIGIL has not executed containment or submitted any report.
+
+      - name: human_decision
+        type: waitForInput
+        timeout: 72h
+        with:
+          message: |
+            ## Human decision required
+
+            Review case `{{ steps.create_case.output.case.id }}` and the
+            agent-proposed evidence gaps before choosing approve, hold, or
+            reject. No containment or regulator submission follows this gate.
+          schema:
+            type: object
+            properties:
+              decision:
+                type: string
+                title: Analyst decision
+                enum: [approve, hold, reject]
+              analyst_notes:
+                type: string
+                title: Analyst notes
+            required: [decision]
+
+      - name: record_human_decision
+        type: cases.addComment
+        with:
+          case_id: "{{ steps.create_case.output.case.id }}"
+          comment: |
+            ## Accountable human decision
+            - Decision: {{ steps.human_decision.output.response.decision }}
+            - Notes: {{ steps.human_decision.output.response.analyst_notes }}
+            - Responded by: {{ steps.human_decision.output.respondedBy }}
+
+            This record authorises no containment and no regulator submission.

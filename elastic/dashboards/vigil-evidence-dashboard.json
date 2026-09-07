@@ -1,0 +1,88 @@
+{
+  "title": "VIGIL — Synthetic payment compromise evidence",
+  "description": "Rehearsal-only evidence dashboard for one synthetic banking-security scenario. Values are fixture observations, not proven loss or production performance.",
+  "time_range": {
+    "from": "2026-09-06T08:30:00.000Z",
+    "to": "2026-09-06T08:46:00.000Z"
+  },
+  "options": {
+    "auto_apply_filters": true,
+    "hide_panel_borders": false,
+    "hide_panel_titles": false,
+    "use_margins": true,
+    "sync_colors": true,
+    "sync_tooltips": true,
+    "sync_cursor": true
+  },
+  "panels": [
+    {
+      "grid": {"x": 0, "y": 0, "w": 48, "h": 7},
+      "type": "markdown",
+      "config": {
+        "content": "## Evidence before conclusions\n\nElastic detected a potential login → egress → UPI sequence. VIGIL grounds the lead in raw events and bank context, flags unsupported AI certainty, and stops at a human decision. **Synthetic rehearsal only; no containment or regulator submission is executed.**"
+      }
+    },
+    {
+      "grid": {"x": 0, "y": 7, "w": 16, "h": 7},
+      "type": "vis",
+      "config": {
+        "type": "metric",
+        "title": "Correlated evidence events",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM logs-vigil-security | WHERE host.name == \"pay-svc-prod-01\" AND user.name == \"svc-payments-admin\" AND @timestamp >= TO_DATETIME(\"2026-09-06T08:30:00Z\") AND @timestamp <= TO_DATETIME(\"2026-09-06T08:45:00Z\") AND event.action IN (\"login\", \"connection\", \"upi_transfer\") | STATS evidence_events = COUNT(*)"
+        },
+        "metrics": [{"type": "primary", "column": "evidence_events"}]
+      }
+    },
+    {
+      "grid": {"x": 16, "y": 7, "w": 16, "h": 7},
+      "type": "vis",
+      "config": {
+        "type": "metric",
+        "title": "Suspicious UPI total (INR fixture)",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM logs-vigil-security | WHERE host.name == \"pay-svc-prod-01\" AND user.name == \"svc-payments-admin\" AND @timestamp >= TO_DATETIME(\"2026-09-06T08:30:00Z\") AND @timestamp <= TO_DATETIME(\"2026-09-06T08:45:00Z\") AND event.action == \"upi_transfer\" | STATS suspicious_upi_total = SUM(vigil.transaction.amount)"
+        },
+        "metrics": [{"type": "primary", "column": "suspicious_upi_total"}]
+      }
+    },
+    {
+      "grid": {"x": 32, "y": 7, "w": 16, "h": 7},
+      "type": "vis",
+      "config": {
+        "type": "metric",
+        "title": "Affected accounts (lookup context)",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM logs-vigil-security | WHERE host.name == \"pay-svc-prod-01\" AND user.name == \"svc-payments-admin\" AND @timestamp >= TO_DATETIME(\"2026-09-06T08:30:00Z\") AND @timestamp <= TO_DATETIME(\"2026-09-06T08:45:00Z\") | LOOKUP JOIN vigil-bank-context ON host.name | STATS affected_accounts = MAX(vigil.bank.account_count)"
+        },
+        "metrics": [{"type": "primary", "column": "affected_accounts"}]
+      }
+    },
+    {
+      "grid": {"x": 0, "y": 14, "w": 48, "h": 14},
+      "type": "vis",
+      "config": {
+        "type": "xy",
+        "title": "Synthetic incident evidence timeline",
+        "layers": [
+          {
+            "type": "bar",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM logs-vigil-security | WHERE host.name == \"pay-svc-prod-01\" AND user.name == \"svc-payments-admin\" AND event.action IN (\"login\", \"connection\", \"upi_transfer\") | STATS events = COUNT(*) BY event_minute = BUCKET(@timestamp, 16, ?_tstart, ?_tend) | SORT event_minute"
+            },
+            "x": {"column": "event_minute"},
+            "y": [{"column": "events"}]
+          }
+        ],
+        "axis": {
+          "x": {"title": {"visible": false}},
+          "y": {"title": {"visible": true, "text": "Evidence events"}}
+        }
+      }
+    }
+  ]
+}

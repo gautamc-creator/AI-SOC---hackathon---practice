@@ -30,8 +30,17 @@ class VIGILContractTests(unittest.TestCase):
         self.assertIn("occurrence_start_timestamp_utc", content)
         self.assertIn("first_observed_timestamp_utc", content)
     def test_six_step_workflow_sources_exist(self):
-        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "workflow/review_discovery.py", "elastic/create_case.py", "elastic/create_workflow.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
+        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "workflow/review_discovery.py", "elastic/create_case.py", "elastic/create_workflow.py", "elastic/test_agent_workflow.py", "elastic/test_human_gate.py", "elastic/create_dashboard.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
             self.assertTrue((ROOT / relative).is_file(), relative)
+
+    def test_dashboard_is_typed_and_claim_safe(self):
+        dashboard = json.loads((ROOT / "elastic/dashboards/vigil-evidence-dashboard.json").read_text())
+        self.assertEqual(dashboard["title"], "VIGIL — Synthetic payment compromise evidence")
+        self.assertEqual([panel["type"] for panel in dashboard["panels"]], ["markdown", "vis", "vis", "vis", "vis"])
+        serialized = json.dumps(dashboard)
+        self.assertIn("LOOKUP JOIN vigil-bank-context", serialized)
+        self.assertIn("Synthetic rehearsal only", serialized)
+        self.assertNotIn("confirmed fraud", serialized.lower())
     def test_data_provenance_is_documented(self):
         provenance = (ROOT / "data/DATA-PROVENANCE.md").read_text()
         self.assertIn("synthetic", provenance.lower())
@@ -63,5 +72,8 @@ class VIGILContractTests(unittest.TestCase):
         self.assertIn("cases.createCase", workflow)
         self.assertIn("cases.addAlerts", workflow)
         self.assertIn("ai.agent", workflow)
+        self.assertIn("do not call tools", workflow)
+        self.assertIn("type: waitForInput", workflow)
+        self.assertIn("enum: [approve, hold, reject]", workflow)
         self.assertNotIn("/api/endpoint/action/isolate", workflow)
         self.assertIn("HUMAN REVIEW REQUIRED", workflow)

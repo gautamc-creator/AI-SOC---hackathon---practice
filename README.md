@@ -25,6 +25,8 @@ Nothing in the local run calls an LLM, contains a system, sends a report, or use
 7. **Challenge the AI:** a deterministic claim-safety check flags certainty or attribution that the evidence does not establish. It is a phrase-level guardrail, not a second incident verdict.
 8. **Prove and present:** a live Elastic Security case holds the three component alerts; a SHA-256 evidence ledger is independently verified and the Golden Path proves tampering is detected. Run `make warroom`, then `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
 
+The live rehearsal deployment also contains a supported Elastic 9.6 typed dashboard with three ES|QL evidence metrics and a timeline. `make dashboard-live` upserts it and verifies all five panels by reading the dashboard back. `make workflow-agent-test` proves the controlled Agent Builder evidence-gap step; `make workflow-human-gate-test` proves that the native three-way decision gate pauses, accepts `hold`, and resumes without executing an action.
+
 Read [data provenance](data/DATA-PROVENANCE.md) and the [field/schema decisions](data/SCHEMA.md) before presenting the corpus. They make the synthetic-data boundary, source, event fields, and live ingest proof explicit.
 
 For the defensible, source-backed answer to “does this look like the real world?”, see the [realism and format audit](docs/REALISM-AND-FORMAT-AUDIT.md). It states exactly which formats are aligned, which are drafts, and which claims are prohibited.
@@ -42,7 +44,7 @@ After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHEC
 
 Run `make benchmark` only for the local deterministic path. Its output explicitly excludes Elastic/LLM/network latency and must not be presented as a production SLO.
 
-`make workflow-live` validates and saves the human-gated Elastic workflow **disabled**. A saved/valid workflow is not the same as a successful execution; the current Agent Builder execution gap is recorded in the readiness audit.
+`make workflow-live` validates and saves the human-gated Elastic workflow **disabled**. Its Agent Builder and native `waitForInput` components are proven separately in controlled tests. The complete alert-triggered workflow has not yet been executed end to end, so it must remain disabled and must not be described as fully automated.
 
 ## Key limitations
 
