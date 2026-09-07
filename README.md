@@ -33,6 +33,17 @@ For the defensible, source-backed answer to “does this look like the real worl
 
 For the evidence mapped to the judging rubric and the remaining build order, see the [judge-readiness audit](docs/JUDGE-READINESS.md).
 
+## Presentation and rehearsal pack
+
+- [Verified rehearsal pitch](presentation/VIGIL-Verified-Rehearsal-Pitch.pptx) — nine judge-facing slides with speaker notes and primary-source links.
+- [Claim register](presentation/CLAIM-REGISTER.md) — the only approved source for stage claims.
+- [Stage script](presentation/STAGE-SCRIPT.md) — 90-second and three-minute versions.
+- [Demo cue sheet](presentation/DEMO-CUE-SHEET.md) — primary path, recovery branches, and pre-stage checks.
+- [Judge Q&A](presentation/JUDGE-QA.md) — direct answers to the expected technical, data, compliance, and originality questions.
+- [Event-day rebuild](presentation/EVENT-DAY-REBUILD.md) — the clean-room implementation order and evidence log requirements.
+
+The original submission PDF and earlier pitch deck describe the idea that was submitted, but they do not describe the current rehearsal accurately. Do not present them without the corrections in the claim register.
+
 ## Live Elastic gate
 
 After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHECKLIST.md). The live demonstration is not complete until it shows:
