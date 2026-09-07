@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live classify envelope review compliance notify warroom verify tamper-verify test clean
+.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live workflow-live classify envelope review compliance notify warroom verify tamper-verify test clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
@@ -44,6 +44,9 @@ case-preview:
 
 case-live:
 	$(PYTHON) elastic/create_case.py --live
+
+workflow-live:
+	$(PYTHON) elastic/create_workflow.py
 
 classify:
 	$(PYTHON) workflow/classify.py

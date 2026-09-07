@@ -10,5 +10,6 @@ Use this only after the local golden path passes. Record screenshots or exports 
 6. Run Attack Discovery against final alerts only. Preserve the actual output and actual connector label.
 7. Capture the discovery, run `make demo`, and show the AI claim-safety finding. If generated language says “confirmed,” “fraudulent,” or attributes an attacker, present that as a VIGIL review flag—not as fact.
 8. Run `make case-live` once to create a synthetic Elastic Security case and attach all three component alerts. Do not create repeated duplicate cases during the stage demo.
+9. Run `make workflow-live` to validate and save the workflow disabled. Do not claim Agent Builder execution yet: the 7 September isolated step test remained running and was cancelled. Enable or attach the workflow only after a complete controlled test succeeds.
 
 Do not automate a regulator portal. The VIGIL report is explicitly a human-review draft.

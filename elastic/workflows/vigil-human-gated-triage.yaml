@@ -62,7 +62,7 @@ steps:
             analyst and explicitly separate observed facts from inferences.
 
             <potential_finding>
-            {{ foreach.item | json(2) }}
+            {{ foreach.item | json: 2 }}
             </potential_finding>
 
       - name: add_review_note

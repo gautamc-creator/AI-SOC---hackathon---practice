@@ -25,6 +25,7 @@ Arrive at the 18–19 September hackathon able to recreate, explain, test, and p
 - The ES|QL lookup join returned ₹1,160,000 potential exposure and five affected accounts for the fixed scenario.
 - One fresh live Attack Discovery run used all three final alerts and produced one potential discovery through the preconfigured Elastic connector. It is **not an AWS Bedrock demonstration**.
 - The AI claim-safety review flagged five phrases that overstated certainty or attribution, and a live Elastic Security case attached all three component alerts.
+- The human-gated Elastic Workflow validates and is saved disabled. Its isolated Agent Builder step test stalled and was cancelled, so workflow execution is not yet a stage claim.
 - The local Golden Path and contract tests pass.
 - `make verify-ingest` checks live that all 136 synthetic events received the ingest-pipeline enrichment tags.
 
@@ -33,8 +34,9 @@ Arrive at the 18–19 September hackathon able to recreate, explain, test, and p
 1. Record screenshots of the proven data stream, ingest pipeline, three rules, one Attack Discovery, ES|QL result and live Security case.
 2. Configure an AWS Bedrock inference integration only if account access is granted. Do not rename the current baseline or imply it is Bedrock.
 3. Build saved Kibana Discover views and one dashboard that demonstrate the data stream, ingest pipeline, alerts, ES|QL query, Attack Discovery result and case.
-4. Run three full rehearsals: operator flow, 3–5 minute stage demo, and judge Q&A.
-5. Record a backup video only if hackathon rules permit it.
+4. Diagnose the stalled `ai.agent` test, then prove one complete workflow execution before enabling or attaching the workflow to a rule.
+5. Run three full rehearsals: operator flow, 3–5 minute stage demo, and judge Q&A.
+6. Record a backup video only if hackathon rules permit it.
 
 ## Event-day rebuild order
 

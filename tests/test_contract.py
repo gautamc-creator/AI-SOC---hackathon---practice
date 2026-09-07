@@ -30,7 +30,7 @@ class VIGILContractTests(unittest.TestCase):
         self.assertIn("occurrence_start_timestamp_utc", content)
         self.assertIn("first_observed_timestamp_utc", content)
     def test_six_step_workflow_sources_exist(self):
-        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "workflow/review_discovery.py", "elastic/create_case.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
+        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "workflow/review_discovery.py", "elastic/create_case.py", "elastic/create_workflow.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
             self.assertTrue((ROOT / relative).is_file(), relative)
     def test_data_provenance_is_documented(self):
         provenance = (ROOT / "data/DATA-PROVENANCE.md").read_text()

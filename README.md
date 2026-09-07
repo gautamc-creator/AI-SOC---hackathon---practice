@@ -42,6 +42,8 @@ After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHEC
 
 Run `make benchmark` only for the local deterministic path. Its output explicitly excludes Elastic/LLM/network latency and must not be presented as a production SLO.
 
+`make workflow-live` validates and saves the human-gated Elastic workflow **disabled**. A saved/valid workflow is not the same as a successful execution; the current Agent Builder execution gap is recorded in the readiness audit.
+
 ## Key limitations
 
 - Synthetic data only; the rupee amount is deterministic fixture context, not a production risk calculation.
