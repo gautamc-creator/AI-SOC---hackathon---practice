@@ -27,7 +27,7 @@ Arrive at the 18–19 September hackathon able to recreate, explain, test, and p
 - The ES|QL lookup join returned ₹1,160,000 potential exposure and five affected accounts for the fixed scenario.
 - One fresh live Attack Discovery run used all three final alerts and produced one potential discovery through the preconfigured Elastic connector. It is **not an AWS Bedrock demonstration**.
 - The AI claim-safety review flagged five phrases that overstated certainty or attribution, and a live Elastic Security case attached all three component alerts.
-- The human-gated Elastic Workflow validates and is saved disabled. A constrained Agent Builder evidence-gap test completed in 34,375 ms, and the native decision harness paused, accepted `hold`, and resumed. The complete alert-triggered chain remains unproven.
+- The human-gated Elastic Workflow validates and is saved disabled. A controlled manual full-chain run completed eight steps in 70,927 ms: created one synthetic case, attached three real rehearsal alerts, ran the constrained Agent Builder review, paused, accepted `hold`, and recorded the decision. Automatic alert-trigger event binding remains unproven.
 - The supported Elastic 9.6 typed dashboard renders 12 correlated events, INR 1,160,000 fixture total, five affected accounts and the incident timeline without API warnings.
 - The local Golden Path and contract tests pass.
 - `make verify-ingest` checks live that all 136 synthetic events received the ingest-pipeline enrichment tags.
@@ -36,7 +36,7 @@ Arrive at the 18–19 September hackathon able to recreate, explain, test, and p
 
 1. Record screenshots of the proven data stream, ingest pipeline, three rules, one Attack Discovery, ES|QL result and live Security case.
 2. Configure an AWS Bedrock inference integration only if account access is granted. Do not rename the current baseline or imply it is Bedrock.
-3. Prove one complete workflow execution before enabling or attaching the workflow to a rule. Until then, demonstrate the separately proven components and label that boundary.
+3. Test automatic Attack Discovery alert-trigger binding before enabling the saved workflow. Until then, demonstrate the proven controlled full-chain run and label that boundary.
 4. Run three full rehearsals: operator flow, 3–5 minute stage demo, and judge Q&A.
 5. Record a backup video only if hackathon rules permit it.
 

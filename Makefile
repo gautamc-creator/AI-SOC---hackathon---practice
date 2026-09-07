@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live workflow-live workflow-agent-test workflow-human-gate-test dashboard-live classify envelope review compliance notify warroom verify tamper-verify test clean
+.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live workflow-live workflow-agent-test workflow-human-gate-test workflow-e2e-test dashboard-live classify envelope review compliance notify warroom verify tamper-verify test clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
@@ -53,6 +53,9 @@ workflow-agent-test:
 
 workflow-human-gate-test:
 	$(PYTHON) elastic/test_human_gate.py
+
+workflow-e2e-test:
+	$(PYTHON) elastic/test_full_workflow.py --live
 
 dashboard-live:
 	$(PYTHON) elastic/create_dashboard.py

@@ -25,7 +25,7 @@ Nothing in the local run calls an LLM, contains a system, sends a report, or use
 7. **Challenge the AI:** a deterministic claim-safety check flags certainty or attribution that the evidence does not establish. It is a phrase-level guardrail, not a second incident verdict.
 8. **Prove and present:** a live Elastic Security case holds the three component alerts; a SHA-256 evidence ledger is independently verified and the Golden Path proves tampering is detected. Run `make warroom`, then `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
 
-The live rehearsal deployment also contains a supported Elastic 9.6 typed dashboard with three ES|QL evidence metrics and a timeline. `make dashboard-live` upserts it and verifies all five panels by reading the dashboard back. `make workflow-agent-test` proves the controlled Agent Builder evidence-gap step; `make workflow-human-gate-test` proves that the native three-way decision gate pauses, accepts `hold`, and resumes without executing an action.
+The live rehearsal deployment also contains a supported Elastic 9.6 typed dashboard with three ES|QL evidence metrics and a timeline. `make dashboard-live` upserts it and verifies all five panels by reading the dashboard back. `make workflow-agent-test` proves the controlled Agent Builder evidence-gap step; `make workflow-human-gate-test` proves the native three-way decision gate. `make workflow-e2e-test` is an explicitly live, synthetic test: it creates one case, attaches three alerts, runs the constrained agent, pauses for `approve` / `hold` / `reject`, records `hold`, and verifies the case. It has no containment, external notification, or submission step.
 
 Read [data provenance](data/DATA-PROVENANCE.md) and the [field/schema decisions](data/SCHEMA.md) before presenting the corpus. They make the synthetic-data boundary, source, event fields, and live ingest proof explicit.
 
@@ -44,7 +44,7 @@ After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHEC
 
 Run `make benchmark` only for the local deterministic path. Its output explicitly excludes Elastic/LLM/network latency and must not be presented as a production SLO.
 
-`make workflow-live` validates and saves the human-gated Elastic workflow **disabled**. Its Agent Builder and native `waitForInput` components are proven separately in controlled tests. The complete alert-triggered workflow has not yet been executed end to end, so it must remain disabled and must not be described as fully automated.
+`make workflow-live` validates and saves the human-gated Elastic workflow **disabled**. The complete sequence is proven through a controlled manual test harness, but automatic Attack Discovery alert-trigger attachment is not. Keep the saved trigger disabled until that event binding is tested in the event environment; do not describe the system as autonomously responding.
 
 ## Key limitations
 

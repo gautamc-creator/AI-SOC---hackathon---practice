@@ -30,7 +30,7 @@ class VIGILContractTests(unittest.TestCase):
         self.assertIn("occurrence_start_timestamp_utc", content)
         self.assertIn("first_observed_timestamp_utc", content)
     def test_six_step_workflow_sources_exist(self):
-        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "workflow/review_discovery.py", "elastic/create_case.py", "elastic/create_workflow.py", "elastic/test_agent_workflow.py", "elastic/test_human_gate.py", "elastic/create_dashboard.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
+        for relative in ("workflow/classify.py", "workflow/gather_evidence.py", "workflow/review_discovery.py", "elastic/create_case.py", "elastic/create_workflow.py", "elastic/test_agent_workflow.py", "elastic/test_human_gate.py", "elastic/test_full_workflow.py", "elastic/create_dashboard.py", "approvals/review.py", "compliance/generate.py", "notifications/prepare.py"):
             self.assertTrue((ROOT / relative).is_file(), relative)
 
     def test_dashboard_is_typed_and_claim_safe(self):
