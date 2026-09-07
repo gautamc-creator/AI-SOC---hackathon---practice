@@ -25,70 +25,70 @@
   },
   {
     "sequence": 1,
-    "timestamp": "2026-09-06T20:55:27.331793Z",
+    "timestamp": "2026-09-06T21:20:08.685234Z",
     "event_type": "classification_completed",
     "payload": {
       "artifact": "classification.json",
       "method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model."
     },
     "previous_hash": "87a9daa33c93a49ceef759af77955c1b1406d89682e7efd5f538792a0d876247",
-    "hash": "771243c84015c8a97268767aa8edb5af3a984669bf26fdecdc17604f1d291a23"
+    "hash": "581e72064c4e820530a926a4138f6456e90c1bd5470adda1cea20c6b6ce4b2a0"
   },
   {
     "sequence": 2,
-    "timestamp": "2026-09-06T20:55:27.331793Z",
+    "timestamp": "2026-09-06T21:20:08.685234Z",
     "event_type": "evidence_enveloped",
     "payload": {
       "artifact": "evidence-envelope.json",
-      "evidence_set_hash": "56bd8fd0f438088d9233053a7227860e9fbf210e2259ca8efdaf3391b4856712"
+      "evidence_set_hash": "2d6449cbec469c6a3cbd6caa8064db285d913d4ddb6cbeba200dd09b6a6069fb"
     },
-    "previous_hash": "771243c84015c8a97268767aa8edb5af3a984669bf26fdecdc17604f1d291a23",
-    "hash": "2c5f64e3063a725af01055e0ed06220e1a9b664d930517a09ed340213e7a99d3"
+    "previous_hash": "581e72064c4e820530a926a4138f6456e90c1bd5470adda1cea20c6b6ce4b2a0",
+    "hash": "20e79449e0138a4e09f7ec5975aee1c78cc3cb92ab8353e928d1e22d1cc7a0e7"
   },
   {
     "sequence": 3,
-    "timestamp": "2026-09-06T20:55:27.331793Z",
+    "timestamp": "2026-09-06T21:20:08.685234Z",
     "event_type": "attack_discovery_generated",
     "payload": {
       "source": "Elastic Security Attack Discovery",
-      "generation_uuid": "432c3791-859a-44d3-8504-97e905335d80",
-      "discovery_id": "e00e1fae166550db7d75f30953baa03339efaa0f35d43ca002ce886fde285add",
+      "generation_uuid": "98f7c3b5-661b-407d-ad2a-2d42491c2a57",
+      "discovery_id": "234d4d9d408218069fbc3856cfb6c31b761802527934733482c5988d73a40498",
       "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration"
     },
-    "previous_hash": "2c5f64e3063a725af01055e0ed06220e1a9b664d930517a09ed340213e7a99d3",
-    "hash": "3158d85c04ac8bb62fb8ae5dd78e3bfff288fd382d95cabd347e4c38d66d270d"
+    "previous_hash": "20e79449e0138a4e09f7ec5975aee1c78cc3cb92ab8353e928d1e22d1cc7a0e7",
+    "hash": "b33386af8ae7786c245629267067dfedecd111530b516ec49c66a9d7f44a51c1"
   },
   {
     "sequence": 4,
-    "timestamp": "2026-09-06T20:55:27.331793Z",
+    "timestamp": "2026-09-06T21:20:08.685234Z",
     "event_type": "exposure_calculated",
     "payload": {
       "method": "deterministic_lookup_context",
       "amount_inr": 1160000
     },
-    "previous_hash": "3158d85c04ac8bb62fb8ae5dd78e3bfff288fd382d95cabd347e4c38d66d270d",
-    "hash": "fae656c3fa90f729493e87d60cd8ae2c381c18b2592abb2f4ae0b6ff67fdcf8c"
+    "previous_hash": "b33386af8ae7786c245629267067dfedecd111530b516ec49c66a9d7f44a51c1",
+    "hash": "4c5c5595fe0dbd0dcb814f35449fd97c49c52bd4c5bf3a1ab9c9f6f02e5c73c8"
   },
   {
     "sequence": 5,
-    "timestamp": "2026-09-06T20:55:27.331793Z",
+    "timestamp": "2026-09-06T21:20:08.685234Z",
     "event_type": "human_review_requested",
     "payload": {
       "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
       "action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels."
     },
-    "previous_hash": "fae656c3fa90f729493e87d60cd8ae2c381c18b2592abb2f4ae0b6ff67fdcf8c",
-    "hash": "05ef34b98f8f2d9678e12e757364ae1a1fbfa01738b1160e49945da660104e1f"
+    "previous_hash": "4c5c5595fe0dbd0dcb814f35449fd97c49c52bd4c5bf3a1ab9c9f6f02e5c73c8",
+    "hash": "27740619486218850d3dd12ec6e5982b5fec30603857f0517a4d8477e7f74c73"
   },
   {
     "sequence": 6,
-    "timestamp": "2026-09-06T20:55:27.331793Z",
+    "timestamp": "2026-09-06T21:20:08.685234Z",
     "event_type": "report_drafted",
     "payload": {
       "artifact": "incident-report-draft.json",
       "submission": "not submitted"
     },
-    "previous_hash": "05ef34b98f8f2d9678e12e757364ae1a1fbfa01738b1160e49945da660104e1f",
-    "hash": "8703d57077bb3888436805cee5ead67bcbddcdbdfbcd3052d43489460cea8ea6"
+    "previous_hash": "27740619486218850d3dd12ec6e5982b5fec30603857f0517a4d8477e7f74c73",
+    "hash": "80e8392619b20e1e2fd4b45fcb78731b403ef35de557c979aa2b4afaafaa3ff4"
   }
 ]

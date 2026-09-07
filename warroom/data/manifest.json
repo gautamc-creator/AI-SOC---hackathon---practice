@@ -1,6 +1,7 @@
 {
   "generated_from": "synthetic VIGIL rehearsal artifacts",
   "files": [
+    "attack-discovery-claim-review.json",
     "cert-in-incident-form-draft.json",
     "classification.json",
     "evidence-envelope.json",

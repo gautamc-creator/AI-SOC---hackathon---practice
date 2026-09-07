@@ -1,0 +1,76 @@
+name: VIGIL human-gated Attack Discovery triage
+description: >
+  Create a synthetic rehearsal case from each Attack Discovery alert, attach its
+  component alerts, ask an agent for evidence gaps, and stop at human review.
+enabled: false
+tags: [VIGIL, synthetic, attack-discovery, human-review-required]
+
+triggers:
+  - type: alert
+    enabled: true
+
+steps:
+  - name: for_each_discovery
+    type: foreach
+    foreach: event.alerts
+    steps:
+      - name: create_case
+        type: cases.createCase
+        with:
+          title: "[VIGIL rehearsal] Potential payment-service incident"
+          description: |
+            ## Prototype boundary
+            Synthetic rehearsal only. This finding is a potential investigation
+            lead, not confirmed compromise or fraud. No containment or regulator
+            submission is authorised by this workflow.
+
+            ## Attack Discovery output
+            {{ foreach.item.attack_discovery.summary_markdown_with_replacements }}
+
+            ## Investigation context
+            - Discovery ID: {{ foreach.item.uuid }}
+            - Risk score: {{ foreach.item.risk_score }}
+            - Human review: REQUIRED
+          owner: securitySolution
+          severity: high
+          tags: [VIGIL, synthetic, attack-discovery, human-review-required]
+
+      - name: attach_alerts
+        type: foreach
+        foreach: foreach.item.attack_discovery.alert_ids
+        steps:
+          - name: add_alert
+            type: cases.addAlerts
+            with:
+              case_id: "{{ steps.create_case.output.case.id }}"
+              alerts:
+                - alertId: "{{ foreach.item }}"
+                  index: ".alerts-security.alerts-default"
+                  rule:
+                    id: "{{ event.alerts[0].kibana.alert.rule.uuid }}"
+                    name: "{{ event.alerts[0].kibana.alert.rule.name }}"
+
+      - name: identify_evidence_gaps
+        type: ai.agent
+        agent-id: elastic-ai-agent
+        create-conversation: false
+        with:
+          message: |
+            Review the generated finding below only for evidence gaps and
+            unsupported certainty. Do not decide that compromise, fraud, impact,
+            or reportability is confirmed. Return concise bullets for a human
+            analyst and explicitly separate observed facts from inferences.
+
+            <potential_finding>
+            {{ foreach.item | json(2) }}
+            </potential_finding>
+
+      - name: add_review_note
+        type: cases.addComment
+        with:
+          case_id: "{{ steps.create_case.output.case.id }}"
+          comment: |
+            ## Agent-proposed evidence gaps — HUMAN REVIEW REQUIRED
+            {{ steps.identify_evidence_gaps.output.message }}
+
+            VIGIL has not executed containment or submitted any report.

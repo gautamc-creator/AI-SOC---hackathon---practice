@@ -1,9 +1,12 @@
 PYTHON ?= python3
 
-.PHONY: demo seed validate verify-ingest create-rule validate-alerts run-attack-discovery capture-attack-discovery classify envelope review compliance notify warroom verify tamper-verify test clean
+.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live classify envelope review compliance notify warroom verify tamper-verify test clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
+
+benchmark:
+	$(PYTHON) scripts/benchmark.py --runs $(or $(RUNS),5)
 
 seed:
 	$(PYTHON) data/generator/generate.py
@@ -18,6 +21,12 @@ verify-ingest:
 create-rule:
 	$(PYTHON) elastic/create_rule.py
 
+validate-detection-queries:
+	$(PYTHON) elastic/validate_detection_queries.py
+
+validate-rules:
+	$(PYTHON) elastic/validate_rules.py
+
 validate-alerts:
 	$(PYTHON) elastic/validate_alerts.py
 
@@ -26,6 +35,15 @@ run-attack-discovery:
 
 capture-attack-discovery:
 	$(PYTHON) elastic/capture_attack_discovery.py $(EXECUTION_UUID)
+
+review-discovery:
+	$(PYTHON) workflow/review_discovery.py
+
+case-preview:
+	$(PYTHON) elastic/create_case.py
+
+case-live:
+	$(PYTHON) elastic/create_case.py --live
 
 classify:
 	$(PYTHON) workflow/classify.py

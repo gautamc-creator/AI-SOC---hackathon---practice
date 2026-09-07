@@ -9,7 +9,11 @@ import sys
 import seed
 
 CONNECTOR_ID = "Anthropic-Claude-Sonnet-3-7"
-RULE_ID = "vigil-synthetic-payment-compromise-v1"
+RULE_IDS = [
+    "vigil-privileged-auth-failure-threshold-v2",
+    "vigil-external-login-payment-sequence-v2",
+    "vigil-anomalous-upi-burst-v2",
+]
 ALERTS_INDEX = ".alerts-security.alerts-default"
 
 
@@ -38,7 +42,10 @@ def main() -> None:
         "size": 20,
         "subAction": "invokeAI",
         "replacements": {},
-        "filter": {"bool": {"filter": [{"term": {"kibana.alert.rule.rule_id": RULE_ID}}]}},
+        "filter": {"bool": {
+            "filter": [{"terms": {"kibana.alert.rule.rule_id": RULE_IDS}}],
+            "must_not": [{"exists": {"field": "kibana.alert.building_block_type"}}],
+        }},
     }
     response = json.loads(seed.request(
         "POST", "/api/attack_discovery/_generate", json.dumps(body).encode(),

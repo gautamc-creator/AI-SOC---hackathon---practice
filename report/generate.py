@@ -30,6 +30,8 @@ def main() -> None:
     upi_total = sum(row.get("vigil", {}).get("transaction", {}).get("amount", 0) for row in evidence)
     discovery_path = artifacts / "attack-discovery-baseline.json"
     discovery: dict | None = None
+    claim_review_path = artifacts / "attack-discovery-claim-review.json"
+    claim_review = json.loads(claim_review_path.read_text(encoding="utf-8")) if claim_review_path.exists() else None
     if discovery_path.exists():
         discovery_data = json.loads(discovery_path.read_text(encoding="utf-8"))
         discoveries = discovery_data.get("response", {}).get("data", [])
@@ -61,6 +63,10 @@ def main() -> None:
             "mitre_attack_tactics": discovery.get("mitre_attack_tactics", []),
             "interpretation": "AI-generated potential attack narrative. It is an investigation lead, not confirmation of compromise, fraud, or regulatory reportability.",
         } if discovery else {"status": "Not yet captured; local fixture mode only."}),
+        "attack_discovery_claim_review": claim_review or {
+            "status": "NOT_RUN",
+            "safe_interpretation": "Human review is required before relying on generated claims.",
+        },
         "recommended_human_action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels.",
         "reporting_pack": {
             "cert_in": "Information draft aligned to the public CERT-In incident-reporting form; required reporter and organisation fields remain intentionally blank.",

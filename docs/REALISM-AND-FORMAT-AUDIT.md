@@ -11,9 +11,10 @@ VIGIL uses ECS as the common telemetry model, not a fictional bank-log schema. E
 | `@timestamp` | Time the source event occurred. | Synthetic timestamp. |
 | `event.created` | ECS defines this as when an agent/pipeline first read the event. | Synthetic +2-second fixture delay; not a measured agent latency. |
 | `event.ingested` | Set by the Elasticsearch ingest pipeline. | It is observed only in the rehearsal project. |
-| `event.kind`, `event.category`, `event.action`, `event.outcome` | ECS categorisation fields. VIGIL uses `authentication`, `network`, and `api`, not an invented `transaction` category. | `upi_transfer` is a VIGIL action value, not a universal payment standard. |
+| `event.kind`, `event.category`, `event.type`, `event.action`, `event.outcome` | ECS categorisation fields. VIGIL uses allowed categories `authentication`, `network`, and `web`, plus allowed types `start`, `connection`, and `access`. | `upi_transfer` is a VIGIL action value, not a universal payment standard. |
 | `host.*`, `service.*`, `user.*`, `source.*`, `destination.*`, `related.*` | Standard ECS field sets. ECS recommends source/destination as the baseline for network events and `related.*` for pivots. | Values are documentation/test addresses and synthetic service names. |
-| `vigil.transaction.*`, `vigil.bank.*` | Namespaced custom fields, deliberately separate from ECS. | These are VIGIL fixture fields, not an NPCI/UPI message specification or bank loss model. |
+| `transaction.id`, `http.*`, `url.path` | Standard ECS transaction and HTTP request context for the synthetic payment API call. | It is still a fabricated API event, not an NPCI payload. |
+| `vigil.transaction.*`, `vigil.bank.*` | Namespaced custom fields for bank-specific amount/profile/context, deliberately separate from ECS. | These are VIGIL fixture fields, not an NPCI/UPI message specification or bank loss model. |
 
 The event field choices follow Elastic guidance that normalization usually maps source data into ECS and uses fixed categorization values based on the source type. [ECS event fields](https://www.elastic.co/docs/reference/ecs/ecs-event) | [ECS network mapping](https://www.elastic.co/docs/reference/ecs/ecs-mapping-network-events)
 

@@ -18,15 +18,18 @@ Nothing in the local run calls an LLM, contains a system, sends a report, or use
 
 1. **Ingest:** an Elasticsearch data stream and `vigil-normalize` ingest pipeline process synthetic ECS-like security telemetry.
 2. **Classify and gather:** deterministic code creates a preliminary classification and SHA-256 evidence envelope; it makes no LLM or production-model claim.
-3. **Detect and investigate:** a custom Elastic Security rule creates alerts; Elastic Attack Discovery can generate a *potential* investigation lead.
+3. **Detect and investigate:** two threshold rules and one EQL sequence rule create three behavior-based final alerts; Elastic Attack Discovery generates a *potential* investigation lead.
 4. **Ground the impact:** ES|QL `LOOKUP JOIN` connects the host to synthetic bank context and calculates exposure deterministically.
 5. **Decide:** the analyst records `approve`, `hold`, or `reject`; this demonstration records intent only and never contains a system.
 6. **Prepare:** VIGIL produces human-review-only RBI DAKSH, CERT-In, optional STIX 2.1 and notification-preview artifacts. Nothing is sent.
-7. **Prove and present:** a SHA-256 evidence ledger is independently verified; the Golden Path also proves tampering is detected. Run `make warroom`, then `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
+7. **Challenge the AI:** a deterministic claim-safety check flags certainty or attribution that the evidence does not establish. It is a phrase-level guardrail, not a second incident verdict.
+8. **Prove and present:** a live Elastic Security case holds the three component alerts; a SHA-256 evidence ledger is independently verified and the Golden Path proves tampering is detected. Run `make warroom`, then `python3 -m http.server 8000` at repository root and open `http://localhost:8000/warroom/`.
 
 Read [data provenance](data/DATA-PROVENANCE.md) and the [field/schema decisions](data/SCHEMA.md) before presenting the corpus. They make the synthetic-data boundary, source, event fields, and live ingest proof explicit.
 
 For the defensible, source-backed answer to “does this look like the real world?”, see the [realism and format audit](docs/REALISM-AND-FORMAT-AUDIT.md). It states exactly which formats are aligned, which are drafts, and which claims are prohibited.
+
+For the evidence mapped to the judging rubric and the remaining build order, see the [judge-readiness audit](docs/JUDGE-READINESS.md).
 
 ## Live Elastic gate
 
@@ -36,6 +39,8 @@ After the local run passes, follow [docs/ELASTIC-CHECKLIST.md](docs/ELASTIC-CHEC
 2. a real alert and Attack Discovery output using the configured LLM connection, labelled accurately as Bedrock-backed only after Bedrock is actually configured;
 3. the saved ES|QL lookup join; and
 4. the local human-review draft and passing/failing ledger verification.
+
+Run `make benchmark` only for the local deterministic path. Its output explicitly excludes Elastic/LLM/network latency and must not be presented as a production SLO.
 
 ## Key limitations
 

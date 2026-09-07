@@ -1,0 +1,19 @@
+{
+  "type": "threshold",
+  "language": "kuery",
+  "name": "VIGIL — anomalous UPI activity burst",
+  "description": "Detects five UPI API events outside the normal batch profile for the same host and user. The profile is synthetic upstream context, not a production fraud model.",
+  "rule_id": "vigil-anomalous-upi-burst-v2",
+  "index": ["logs-vigil-security"],
+  "query": "labels.dataset: \"vigil-synthetic\" and event.category: web and event.action: upi_transfer and vigil.transaction.profile: \"outside_normal_batch\"",
+  "threshold": {"field": ["host.name", "user.name"], "value": 5},
+  "severity": "high",
+  "risk_score": 65,
+  "tags": ["VIGIL", "synthetic", "behavioral", "payment-security"],
+  "references": ["https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"],
+  "investigation_fields": {"field_names": ["host.name", "user.name", "transaction.id", "vigil.transaction.amount", "vigil.transaction.currency"]},
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": true
+}

@@ -18,6 +18,7 @@ def run(*parts: str, expected: int = 0) -> None:
 
 def main() -> None:
     run("data/generator/generate.py")
+    run("workflow/review_discovery.py")
     run("workflow/classify.py")
     run("workflow/gather_evidence.py")
     run("report/generate.py")

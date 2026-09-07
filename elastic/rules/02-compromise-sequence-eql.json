@@ -1,0 +1,20 @@
+{
+  "type": "eql",
+  "language": "eql",
+  "name": "VIGIL — external privileged login to payment activity",
+  "description": "Correlates an external privileged login, outbound network connection and anomalous UPI API activity on the same host within twenty minutes.",
+  "rule_id": "vigil-external-login-payment-sequence-v2",
+  "index": ["logs-vigil-security"],
+  "query": "sequence by host.name, user.name with maxspan=20m\n  [authentication where event.action == \"login\" and event.outcome == \"success\" and vigil.security.source_zone == \"external\"]\n  [network where event.action == \"connection\" and destination.ip != null]\n  [web where event.action == \"upi_transfer\" and vigil.transaction.profile == \"outside_normal_batch\"]",
+  "event_category_override": "event.category",
+  "timestamp_field": "@timestamp",
+  "severity": "high",
+  "risk_score": 73,
+  "tags": ["VIGIL", "synthetic", "behavioral", "event-correlation", "payment-security"],
+  "references": ["https://www.elastic.co/docs/solutions/security/detect-and-alert/eql"],
+  "investigation_fields": {"field_names": ["host.name", "user.name", "source.ip", "destination.ip", "vigil.transaction.amount"]},
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": true
+}

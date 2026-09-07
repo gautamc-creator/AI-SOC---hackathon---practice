@@ -21,11 +21,12 @@ DECOY_HOST = "pay-svc-batch-01"
 
 def event(event_id: str, timestamp: datetime, host: str, category: str, action: str,
           outcome: str, message: str, **extra: object) -> dict:
+    event_types = {"authentication": ["start"], "network": ["connection"], "web": ["access"]}
     result = {
         "_id": event_id,
         "@timestamp": timestamp.isoformat().replace("+00:00", "Z"),
         "event": {
-            "kind": "event", "category": [category], "action": action, "outcome": outcome,
+            "kind": "event", "category": [category], "type": event_types[category], "action": action, "outcome": outcome,
             "created": (timestamp + timedelta(seconds=2)).isoformat().replace("+00:00", "Z"),
         },
         "host": {"name": host},
@@ -34,6 +35,10 @@ def event(event_id: str, timestamp: datetime, host: str, category: str, action: 
         "labels": {"dataset": "vigil-synthetic", "synthetic": "true"},
     }
     result.update(extra)
+    source_ip = result.get("source", {}).get("ip")
+    if source_ip:
+        zone = "external" if source_ip.startswith(("198.51.100.", "203.0.113.")) else "internal"
+        result.setdefault("vigil", {}).setdefault("security", {})["source_zone"] = zone
     return result
 
 
@@ -81,15 +86,19 @@ def main() -> None:
         "hero-egress", hero_start + timedelta(minutes=8), HERO_HOST, "network", "connection", "success",
         "Outbound TLS session to an unapproved destination immediately after privileged login.",
         destination={"address": "203.0.113.77", "ip": "203.0.113.77", "port": 443}, source={"ip": "10.42.0.11", "port": 51540},
+        user={"name": "svc-payments-admin"},
         network={"transport": "tcp", "protocol": "https"}, related={"ip": ["10.42.0.11", "203.0.113.77"], "hosts": [HERO_HOST]},
         tags=["vigil_hero", "command_and_control"],
     ))
     for n, amount in enumerate((175000, 225000, 310000, 190000, 260000), start=1):
         events.append(event(
-            f"hero-upi-{n}", hero_start + timedelta(minutes=10 + n), HERO_HOST, "api", "upi_transfer", "success",
+            f"hero-upi-{n}", hero_start + timedelta(minutes=10 + n), HERO_HOST, "web", "upi_transfer", "success",
             "UPI transfer approved outside the normal payment-service batch profile.",
             user={"name": "svc-payments-admin"}, source={"ip": "10.42.0.11"},
-            vigil={"transaction": {"id": f"UPI-HERO-{n:03d}", "amount": amount, "currency": "INR", "channel": "UPI"}},
+            transaction={"id": f"UPI-HERO-{n:03d}"},
+            http={"request": {"method": "POST"}, "response": {"status_code": 200}},
+            url={"path": "/payments/upi/transfer"},
+            vigil={"transaction": {"amount": amount, "currency": "INR", "channel": "UPI", "profile": "outside_normal_batch"}},
             related={"user": ["svc-payments-admin"], "hosts": [HERO_HOST]},
             tags=["vigil_hero", "impact"],
         ))

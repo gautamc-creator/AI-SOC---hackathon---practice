@@ -6,7 +6,7 @@
   "classification_method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model.",
   "occurrence_start_timestamp_utc": "2026-09-06T08:30:00Z",
   "first_observed_timestamp_utc": "2026-09-06T08:30:02Z",
-  "cert_in_notice_anchor_utc": "2026-09-06T20:55:27.331793Z",
+  "cert_in_notice_anchor_utc": "2026-09-06T21:20:08.685234Z",
   "regulatory_timing_note": "Prototype timing anchors only. Confirm the regulated entity's current RBI and CERT-In obligations before any real-world use.",
   "affected_asset": "pay-svc-prod-01",
   "affected_service": "UPI payment gateway",
@@ -28,22 +28,51 @@
   ],
   "evidence_envelope": {
     "artifact": "evidence-envelope.json",
-    "evidence_set_hash": "56bd8fd0f438088d9233053a7227860e9fbf210e2259ca8efdaf3391b4856712"
+    "evidence_set_hash": "2d6449cbec469c6a3cbd6caa8064db285d913d4ddb6cbeba200dd09b6a6069fb"
   },
   "attack_discovery": {
     "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration",
-    "generation_uuid": "432c3791-859a-44d3-8504-97e905335d80",
-    "discovery_id": "e00e1fae166550db7d75f30953baa03339efaa0f35d43ca002ce886fde285add",
-    "title": "Payment Service Brute Force to Fraud",
-    "summary": "Attacker brute-forced `svc-payments-admin` on `pay-svc-prod-01`, gained privileged access, established C2, and executed anomalous UPI transfers.",
+    "generation_uuid": "98f7c3b5-661b-407d-ad2a-2d42491c2a57",
+    "discovery_id": "234d4d9d408218069fbc3856cfb6c31b761802527934733482c5988d73a40498",
+    "title": "Brute Force to Fraudulent Payment Activity",
+    "summary": "User `svc-payments-admin` on host `pay-svc-prod-01` was targeted by credential brute-force from `198.51.100.42`, followed by a privileged login and anomalous UPI payment API activity.",
     "mitre_attack_tactics": [
       "Credential Access",
       "Initial Access",
-      "Command and Control",
-      "Exfiltration",
       "Impact"
     ],
     "interpretation": "AI-generated potential attack narrative. It is an investigation lead, not confirmation of compromise, fraud, or regulatory reportability."
+  },
+  "attack_discovery_claim_review": {
+    "status": "REVIEW_REQUIRED",
+    "method": "Deterministic phrase-level claim-safety check; not an incident verdict or semantic fact checker.",
+    "source": "Elastic Security Attack Discovery captured rehearsal output",
+    "discovery_count": 1,
+    "alert_context_count": 3,
+    "findings": [
+      {
+        "phrase": "confirmed",
+        "review_note": "The alerts correlate suspicious behavior but do not adjudicate compromise or fraud."
+      },
+      {
+        "phrase": "confirming",
+        "review_note": "Correlation is not confirmation; retain this only as an investigation lead."
+      },
+      {
+        "phrase": "fraudulent",
+        "review_note": "No customer dispute, fraud adjudication, or transaction-reversal evidence is present."
+      },
+      {
+        "phrase": "attacker",
+        "review_note": "The actor identity and intent are not established by the available alerts."
+      },
+      {
+        "phrase": "successfully authenticated",
+        "review_note": "A successful login is observed, but attribution to an attacker is not established."
+      }
+    ],
+    "safe_interpretation": "Treat the generated narrative as a potential investigation lead. A human must validate compromise, fraud, impact, and reportability.",
+    "submission_effect": "None. VIGIL does not contain a system or submit a report based on this check."
   },
   "recommended_human_action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels.",
   "reporting_pack": {

@@ -23,7 +23,7 @@ The `reportable` field in `ground-truth.json` is an internal fixture expectation
 - Input generation is deterministic: the same seed produces the same corpus.
 - Every generated event includes `labels.synthetic: "true"` and `labels.dataset: "vigil-synthetic"`.
 - The live ingest pipeline adds `vigil_rehearsal`; `make verify-ingest` confirms this enrichment on all 136 events.
-- `ground-truth.json` identifies the designed hero and decoy sets for evaluation; it is never presented as live incident truth.
+- `ground-truth.json` identifies the designed hero and decoy sets for evaluation; detection rules never query those labels or the `vigil_hero` tag.
 - The evidence envelope includes a SHA-256 hash of the selected evidence set. The separate ledger chains later decision/report artifacts and detects tampering.
 
 ## External data roadmap

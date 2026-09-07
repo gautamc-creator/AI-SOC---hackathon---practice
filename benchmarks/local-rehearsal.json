@@ -1,0 +1,104 @@
+{
+  "status": "LOCAL REHEARSAL MEASUREMENT \u2014 NOT A PRODUCTION SLO",
+  "measured_at_utc": "2026-09-06T21:20:08.959016Z",
+  "scope": "Deterministic local Python path over 136 synthetic events. Excludes Elasticsearch network time, detection-rule scheduling, Attack Discovery/LLM generation, UI rendering, and regulator systems.",
+  "environment": {
+    "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+    "python": "3.14.3"
+  },
+  "runs": [
+    {
+      "run": 1,
+      "total_ms": 518.587,
+      "stages_ms": {
+        "generate_fixture": 72.859,
+        "review_ai_claims": 39.334,
+        "classify_fixture": 40.12,
+        "gather_evidence": 47.162,
+        "draft_report": 49.681,
+        "record_human_hold": 62.445,
+        "prepare_compliance": 45.253,
+        "prepare_notification": 40.117,
+        "prepare_war_room": 48.658,
+        "verify_ledger": 72.845
+      }
+    },
+    {
+      "run": 2,
+      "total_ms": 515.355,
+      "stages_ms": {
+        "generate_fixture": 68.158,
+        "review_ai_claims": 39.42,
+        "classify_fixture": 42.16,
+        "gather_evidence": 44.911,
+        "draft_report": 49.518,
+        "record_human_hold": 64.099,
+        "prepare_compliance": 46.215,
+        "prepare_notification": 39.502,
+        "prepare_war_room": 50.076,
+        "verify_ledger": 71.174
+      }
+    },
+    {
+      "run": 3,
+      "total_ms": 507.502,
+      "stages_ms": {
+        "generate_fixture": 68.544,
+        "review_ai_claims": 39.751,
+        "classify_fixture": 40.764,
+        "gather_evidence": 45.298,
+        "draft_report": 49.468,
+        "record_human_hold": 61.574,
+        "prepare_compliance": 44.732,
+        "prepare_notification": 38.787,
+        "prepare_war_room": 49.738,
+        "verify_ledger": 68.732
+      }
+    },
+    {
+      "run": 4,
+      "total_ms": 519.794,
+      "stages_ms": {
+        "generate_fixture": 70.762,
+        "review_ai_claims": 39.16,
+        "classify_fixture": 41.4,
+        "gather_evidence": 45.217,
+        "draft_report": 54.015,
+        "record_human_hold": 67.001,
+        "prepare_compliance": 44.995,
+        "prepare_notification": 38.06,
+        "prepare_war_room": 51.25,
+        "verify_ledger": 67.801
+      }
+    },
+    {
+      "run": 5,
+      "total_ms": 516.829,
+      "stages_ms": {
+        "generate_fixture": 69.513,
+        "review_ai_claims": 39.743,
+        "classify_fixture": 40.732,
+        "gather_evidence": 44.849,
+        "draft_report": 54.937,
+        "record_human_hold": 63.679,
+        "prepare_compliance": 44.786,
+        "prepare_notification": 38.712,
+        "prepare_war_room": 50.858,
+        "verify_ledger": 68.907
+      }
+    }
+  ],
+  "summary_ms": {
+    "minimum": 507.502,
+    "median": 516.829,
+    "p95_nearest_rank": 519.794,
+    "maximum": 519.794
+  },
+  "fixture_conformance": {
+    "events": 136,
+    "hero_evidence_events": 12,
+    "benign_decoy_events": 4,
+    "expected_exposure_inr": 1160000,
+    "claim": "Fixture conformance only; not model accuracy, recall, false-positive rate, or production throughput."
+  }
+}

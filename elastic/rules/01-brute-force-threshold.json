@@ -1,0 +1,19 @@
+{
+  "type": "threshold",
+  "language": "kuery",
+  "name": "VIGIL — privileged authentication failure threshold",
+  "description": "Detects five or more failed authentication events for the same host, user and source address. Synthetic rehearsal rule; threshold must be tuned against a real bank baseline.",
+  "rule_id": "vigil-privileged-auth-failure-threshold-v2",
+  "index": ["logs-vigil-security"],
+  "query": "labels.dataset: \"vigil-synthetic\" and event.category: authentication and event.action: login and event.outcome: failure and user.name: \"svc-payments-admin\"",
+  "threshold": {"field": ["host.name", "user.name", "source.ip"], "value": 5},
+  "severity": "medium",
+  "risk_score": 47,
+  "tags": ["VIGIL", "synthetic", "behavioral", "credential-access"],
+  "references": ["https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"],
+  "investigation_fields": {"field_names": ["host.name", "user.name", "source.ip", "event.action", "event.outcome"]},
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": true
+}

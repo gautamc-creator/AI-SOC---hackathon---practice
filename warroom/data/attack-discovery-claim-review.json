@@ -1,0 +1,31 @@
+{
+  "status": "REVIEW_REQUIRED",
+  "method": "Deterministic phrase-level claim-safety check; not an incident verdict or semantic fact checker.",
+  "source": "Elastic Security Attack Discovery captured rehearsal output",
+  "discovery_count": 1,
+  "alert_context_count": 3,
+  "findings": [
+    {
+      "phrase": "confirmed",
+      "review_note": "The alerts correlate suspicious behavior but do not adjudicate compromise or fraud."
+    },
+    {
+      "phrase": "confirming",
+      "review_note": "Correlation is not confirmation; retain this only as an investigation lead."
+    },
+    {
+      "phrase": "fraudulent",
+      "review_note": "No customer dispute, fraud adjudication, or transaction-reversal evidence is present."
+    },
+    {
+      "phrase": "attacker",
+      "review_note": "The actor identity and intent are not established by the available alerts."
+    },
+    {
+      "phrase": "successfully authenticated",
+      "review_note": "A successful login is observed, but attribution to an attacker is not established."
+    }
+  ],
+  "safe_interpretation": "Treat the generated narrative as a potential investigation lead. A human must validate compromise, fraud, impact, and reportability.",
+  "submission_effect": "None. VIGIL does not contain a system or submit a report based on this check."
+}

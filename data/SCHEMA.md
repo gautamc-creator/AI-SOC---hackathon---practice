@@ -6,10 +6,11 @@
 |---|---|---|
 | `@timestamp` | `2026-09-06T08:30:00Z` | Orders the evidence timeline and reporting anchors. |
 | `event.kind` | `event` | Standard event classification; ensured by ingest pipeline. |
-| `event.category` | `authentication`, `network`, `api` | ECS categorization uses allowed categories; UPI transfers are represented as API activity. |
+| `event.category` / `event.type` | `web` / `access` | Uses ECS allowed categorization values; UPI API calls are web access events, not a non-ECS `api` category. |
 | `event.action` / `event.outcome` | `login` / `failure` | Drives the transparent alert query and evidence explanation. |
 | `host.name` | `pay-svc-prod-01` | Join key to bank context. |
 | `user.name`, `source.ip`, `destination.ip` | synthetic identifiers | Evidence context; never real identities or customer addresses. |
+| `transaction.id`, `http.*`, `url.path` | `UPI-HERO-001`, `POST`, `/payments/upi/transfer` | Standard ECS transaction and HTTP request context for the fabricated payment API call. |
 | `vigil.transaction.amount`, `vigil.transaction.currency`, `vigil.transaction.channel` | `175000`, `INR`, `UPI` | VIGIL-namespaced synthetic payment fixture detail; this is not claimed as an ECS payment schema. |
 | `event.created`, `event.ingested` | timestamps | Distinguishes first observation by the source/pipeline from Elasticsearch ingestion time. |
 | `tags` | `vigil_hero`, `vigil_decoy`, `vigil_rehearsal` | Deterministic scenario selection and ingest provenance. |
@@ -21,7 +22,7 @@ This index uses Elasticsearch `index.mode: lookup`. It contains only two synthet
 
 ## Retrieval decision
 
-The ES|QL query first limits to the specific synthetic host and hero tag, then performs `LOOKUP JOIN vigil-bank-context ON host.name`. This keeps evidence filtering in the security event stream and ownership/exposure context in the lookup index. The query returns evidence count, suspicious UPI total, deterministic exposure, affected-account count, service, tier, and owner.
+The ES|QL query pivots from the alert's host, user and 15-minute time window, then performs `LOOKUP JOIN vigil-bank-context ON host.name`. It never queries the hidden `vigil_hero` ground-truth tag. This keeps evidence filtering in the security stream and ownership/exposure context in the lookup index. The query returns evidence count, suspicious UPI total, deterministic exposure, affected-account count, service, tier, and owner.
 
 ## Event ingestion
 
