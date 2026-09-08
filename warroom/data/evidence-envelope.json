@@ -8,6 +8,7 @@
   },
   "scope": {
     "host": "pay-svc-prod-01",
+    "user": "svc-payments-admin",
     "event_count": 12,
     "first_seen_utc": "2026-09-06T08:30:00Z",
     "last_seen_utc": "2026-09-06T08:45:00Z"
@@ -28,7 +29,7 @@
   ],
   "integrity": {
     "algorithm": "SHA-256",
-    "evidence_set_hash": "2d6449cbec469c6a3cbd6caa8064db285d913d4ddb6cbeba200dd09b6a6069fb"
+    "evidence_set_hash": "15bffc4154dbd7ee50e72aedcafe89ffd8e810bc0881c6dd2fef49561d74520d"
   },
   "handling_note": "Evidence identifiers and time range are captured for human review. No real customer or bank data is present."
 }

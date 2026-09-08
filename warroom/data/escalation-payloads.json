@@ -1,0 +1,133 @@
+{
+  "status": "PREVIEW ONLY — NOT SENT",
+  "generated_at_utc": "2026-09-08T18:02:37.751977+00:00",
+  "incident_id": "VIGIL-2026-09-06-001",
+  "boundary": "These payloads are schema-valid and derived entirely from generated artifacts. VIGIL holds no delivery credential for Slack, PagerDuty or Jira and makes no network call. Delivery requires an organisation-approved connector and an authorised operator.",
+  "channels": {
+    "slack_incoming_webhook": {
+      "text": "VIGIL review requested: VIGIL-2026-09-06-001",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "VIGIL review requested: VIGIL-2026-09-06-001"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "Potential credential compromise on pay-svc-prod-01 affecting the UPI payment gateway. Deterministic fixture exposure INR 1,160,000. 12 evidence events sealed. 5 AI certainty phrase(s) flagged for human review. No containment executed; no regulatory submission made."
+          }
+        },
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*Asset*\npay-svc-prod-01"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Fixture exposure*\nINR 1,160,000"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Analyst decision*\nhold"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*AI claims flagged*\n5"
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "Bedrock grounded brief: not run."
+            }
+          ]
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": ":warning: Synthetic rehearsal data. Human review required. Nothing filed with RBI or CERT-In."
+            }
+          ]
+        }
+      ]
+    },
+    "pagerduty_events_v2": {
+      "routing_key": "<PAGERDUTY_ROUTING_KEY — supplied by an authorised operator>",
+      "event_action": "trigger",
+      "dedup_key": "VIGIL-2026-09-06-001",
+      "payload": {
+        "summary": "VIGIL review requested: VIGIL-2026-09-06-001",
+        "severity": "warning",
+        "source": "pay-svc-prod-01",
+        "component": "UPI payment gateway",
+        "group": "payments",
+        "class": "potential-credential-compromise",
+        "timestamp": "2026-09-06T08:30:00Z",
+        "custom_details": {
+          "deterministic_exposure_inr": 1160000,
+          "evidence_event_count": 12,
+          "ai_certainty_phrases_flagged": 5,
+          "analyst_decision": "hold",
+          "containment_executed": false,
+          "regulatory_submission": "none",
+          "data": "synthetic rehearsal"
+        }
+      }
+    },
+    "jira_rest_issue_create": {
+      "fields": {
+        "project": {
+          "key": "<JIRA_PROJECT_KEY>"
+        },
+        "issuetype": {
+          "name": "Incident"
+        },
+        "summary": "VIGIL review requested: VIGIL-2026-09-06-001",
+        "labels": [
+          "vigil",
+          "synthetic-rehearsal",
+          "human-review-required"
+        ],
+        "description": "Potential credential compromise on pay-svc-prod-01 affecting the UPI payment gateway. Deterministic fixture exposure INR 1,160,000. 12 evidence events sealed. 5 AI certainty phrase(s) flagged for human review. No containment executed; no regulatory submission made.\n\nBedrock grounded brief: not run.\n\nOccurrence start (UTC): 2026-09-06T08:30:00Z\nFirst observed (UTC): 2026-09-06T08:30:02Z\nEvidence set hash: 15bffc4154dbd7ee50e72aedcafe89ffd8e810bc0881c6dd2fef49561d74520d\n\nThis ticket is a rehearsal preview built from synthetic data. It was not created in any Jira instance."
+      }
+    },
+    "elastic_webhook_connector": {
+      "purpose": "Route the detection-rule action through Elastic's own connector framework rather than a bespoke poster, so the escalation is governed by Kibana roles and is visible in the rule's action history.",
+      "connector": {
+        "name": "vigil-soc-escalation",
+        "connector_type_id": ".webhook",
+        "config": {
+          "method": "post",
+          "url": "<https endpoint supplied by the organisation>",
+          "headers": {
+            "content-type": "application/json"
+          },
+          "hasAuth": true
+        },
+        "secrets": {
+          "user": "<set at configuration time>",
+          "password": "<set at configuration time>"
+        }
+      },
+      "rule_action_body_template": {
+        "incident": "{{context.rule.name}}",
+        "alerts": "{{context.alerts.length}}",
+        "opened_at": "{{context.date}}",
+        "kibana_link": "{{{context.rule.url}}}",
+        "boundary": "Human review required. VIGIL executes no containment."
+      },
+      "status": "DEFINITION ONLY — not created in the rehearsal deployment"
+    }
+  }
+}

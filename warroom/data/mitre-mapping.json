@@ -1,0 +1,131 @@
+{
+  "status": "MAPPED FROM SEALED EVIDENCE",
+  "boundary": "Techniques are mapped deterministically by VIGIL from tags and event actions in the synthetic corpus. They are not conclusions drawn by the AI and are not a claim that an adversary was present.",
+  "framework": "MITRE ATT&CK Enterprise",
+  "tactics_named_by_attack_discovery": [
+    "Credential Access",
+    "Initial Access",
+    "Impact"
+  ],
+  "tactics_mapped_by_vigil_from_evidence": [
+    "Command and Control",
+    "Credential Access",
+    "Impact",
+    "Initial Access"
+  ],
+  "tactic_agreement": [
+    "Credential Access",
+    "Impact",
+    "Initial Access"
+  ],
+  "tactics_only_claimed_by_ai": [],
+  "enterprise_tactics": [
+    {
+      "id": "TA0043",
+      "name": "Reconnaissance"
+    },
+    {
+      "id": "TA0042",
+      "name": "Resource Development"
+    },
+    {
+      "id": "TA0001",
+      "name": "Initial Access"
+    },
+    {
+      "id": "TA0002",
+      "name": "Execution"
+    },
+    {
+      "id": "TA0003",
+      "name": "Persistence"
+    },
+    {
+      "id": "TA0004",
+      "name": "Privilege Escalation"
+    },
+    {
+      "id": "TA0005",
+      "name": "Defense Evasion"
+    },
+    {
+      "id": "TA0006",
+      "name": "Credential Access"
+    },
+    {
+      "id": "TA0007",
+      "name": "Discovery"
+    },
+    {
+      "id": "TA0008",
+      "name": "Lateral Movement"
+    },
+    {
+      "id": "TA0009",
+      "name": "Collection"
+    },
+    {
+      "id": "TA0011",
+      "name": "Command and Control"
+    },
+    {
+      "id": "TA0010",
+      "name": "Exfiltration"
+    },
+    {
+      "id": "TA0040",
+      "name": "Impact"
+    }
+  ],
+  "observed_techniques": [
+    {
+      "tactic_id": "TA0001",
+      "tactic": "Initial Access",
+      "technique_id": "T1078",
+      "technique": "Valid Accounts",
+      "observable": "Privileged login succeeded from a previously unseen external address.",
+      "evidence_event_ids": [
+        "hero-login-success"
+      ]
+    },
+    {
+      "tactic_id": "TA0006",
+      "tactic": "Credential Access",
+      "technique_id": "T1110",
+      "technique": "Brute Force",
+      "observable": "Repeated failed privileged logins from a single external address.",
+      "evidence_event_ids": [
+        "hero-auth-0",
+        "hero-auth-1",
+        "hero-auth-2",
+        "hero-auth-3",
+        "hero-auth-4",
+        "hero-login-success"
+      ]
+    },
+    {
+      "tactic_id": "TA0011",
+      "tactic": "Command and Control",
+      "technique_id": "T1071.001",
+      "technique": "Application Layer Protocol: Web Protocols",
+      "observable": "Outbound TLS session to an unapproved destination immediately after login.",
+      "evidence_event_ids": [
+        "hero-egress"
+      ]
+    },
+    {
+      "tactic_id": "TA0040",
+      "tactic": "Impact",
+      "technique_id": "T1657",
+      "technique": "Financial Theft",
+      "observable": "UPI transfers approved outside the normal payment-service batch profile.",
+      "evidence_event_ids": [
+        "hero-upi-1",
+        "hero-upi-2",
+        "hero-upi-3",
+        "hero-upi-4",
+        "hero-upi-5"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "index_patterns": ["logs-vigil-security*"],
+  "data_stream": {},
+  "priority": 500,
+  "_meta": {
+    "description": "VIGIL rehearsal mappings for the synthetic banking-security data stream.",
+    "why_explicit": "Dynamic mapping would type vigil.bank.customer_tier and vigil.bank.batch_id as text, which cannot be grouped in an ES|QL STATS ... BY clause and cannot back a threshold rule. Every bank-domain field is therefore typed on purpose: keyword for grouping, float for the AML score so range predicates work, boolean for the KYC flag, and long for rupee amounts to avoid floating-point drift on money.",
+    "namespace_decision": "ECS reserves the top-level namespace, so bank-domain fields sit under the vendor prefix vigil.bank.* rather than a bare bank.*. A future ECS release cannot then collide with them."
+  },
+  "template": {
+    "settings": {
+      "index.default_pipeline": "vigil-normalize",
+      "index.mapping.total_fields.limit": 2000
+    },
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "@timestamp":  {"type": "date"},
+        "message":     {"type": "text"},
+        "tags":        {"type": "keyword"},
+        "ecs":         {"properties": {"version": {"type": "keyword"}}},
+        "labels":      {"properties": {"dataset": {"type": "keyword"}, "synthetic": {"type": "keyword"}}},
+        "event": {
+          "properties": {
+            "kind": {"type": "keyword"}, "category": {"type": "keyword"}, "type": {"type": "keyword"},
+            "action": {"type": "keyword"}, "outcome": {"type": "keyword"}, "dataset": {"type": "keyword"},
+            "created": {"type": "date"}, "ingested": {"type": "date"}
+          }
+        },
+        "host":        {"properties": {"name": {"type": "keyword"}}},
+        "service":     {"properties": {"name": {"type": "keyword"}}},
+        "user":        {"properties": {"name": {"type": "keyword"}}},
+        "source":      {"properties": {"ip": {"type": "ip"}, "port": {"type": "long"}}},
+        "destination": {"properties": {"ip": {"type": "ip"}, "port": {"type": "long"}, "address": {"type": "keyword"}}},
+        "network":     {"properties": {"transport": {"type": "keyword"}, "protocol": {"type": "keyword"}}},
+        "transaction": {"properties": {"id": {"type": "keyword"}}},
+        "url":         {"properties": {"path": {"type": "keyword"}}},
+        "http": {
+          "properties": {
+            "request":  {"properties": {"method": {"type": "keyword"}}},
+            "response": {"properties": {"status_code": {"type": "long"}}}
+          }
+        },
+        "related": {
+          "properties": {
+            "ip": {"type": "ip"}, "user": {"type": "keyword"}, "hosts": {"type": "keyword"}
+          }
+        },
+        "vigil": {
+          "properties": {
+            "security": {"properties": {"source_zone": {"type": "keyword"}}},
+            "transaction": {
+              "properties": {
+                "amount":   {"type": "long"},
+                "currency": {"type": "keyword"},
+                "channel":  {"type": "keyword"},
+                "profile":  {"type": "keyword"}
+              }
+            },
+            "bank": {
+              "properties": {
+                "account_id":     {"type": "keyword"},
+                "upi_vpa":        {"type": "keyword"},
+                "customer_tier":  {"type": "keyword"},
+                "kyc_verified":   {"type": "boolean"},
+                "aml_risk_score": {"type": "float"},
+                "batch_id":       {"type": "keyword"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

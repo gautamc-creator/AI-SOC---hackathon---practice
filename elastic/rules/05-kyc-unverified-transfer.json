@@ -1,0 +1,26 @@
+{
+  "type": "query",
+  "language": "kuery",
+  "name": "VIGIL — UPI transfer to an account without completed KYC",
+  "description": "Raises an alert for any UPI transfer whose beneficiary account carries kyc_verified:false. In a regulated entity this is a control exception in its own right, independent of whether an intrusion occurred, which is why it is a separate rule at medium severity rather than a condition folded into the intrusion chain. The KYC flag is synthetic upstream context, not a live CKYC registry lookup.",
+  "rule_id": "vigil-kyc-unverified-upi-transfer-v1",
+  "index": ["logs-vigil-security"],
+  "query": "labels.dataset: \"vigil-synthetic\" and event.category: web and event.action: upi_transfer and vigil.bank.kyc_verified: false",
+  "severity": "medium",
+  "risk_score": 47,
+  "tags": ["VIGIL", "synthetic", "compliance-control", "payment-security", "kyc"],
+  "references": [
+    "https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"
+  ],
+  "investigation_fields": {
+    "field_names": [
+      "host.name", "user.name", "transaction.id",
+      "vigil.bank.account_id", "vigil.bank.upi_vpa", "vigil.bank.customer_tier",
+      "vigil.transaction.amount"
+    ]
+  },
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": true
+}

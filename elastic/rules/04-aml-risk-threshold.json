@@ -1,0 +1,27 @@
+{
+  "type": "threshold",
+  "language": "kuery",
+  "name": "VIGIL — high AML-risk UPI transfer burst",
+  "description": "Detects three or more UPI transfers scored at or above the bank's AML alert threshold for the same host and user. The rule keys on the AML risk score carried on the event, not on any address, host or account literal, so it generalises to a host and identity it has never seen. The score is synthetic upstream context, not a production AML engine output.",
+  "rule_id": "vigil-high-aml-risk-upi-burst-v1",
+  "index": ["logs-vigil-security"],
+  "query": "labels.dataset: \"vigil-synthetic\" and event.category: web and event.action: upi_transfer and vigil.bank.aml_risk_score >= 85",
+  "threshold": {"field": ["host.name", "user.name"], "value": 3},
+  "severity": "high",
+  "risk_score": 70,
+  "tags": ["VIGIL", "synthetic", "behavioral", "payment-security", "aml"],
+  "references": [
+    "https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"
+  ],
+  "investigation_fields": {
+    "field_names": [
+      "host.name", "user.name", "transaction.id",
+      "vigil.bank.aml_risk_score", "vigil.bank.account_id", "vigil.bank.customer_tier",
+      "vigil.transaction.amount"
+    ]
+  },
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": true
+}

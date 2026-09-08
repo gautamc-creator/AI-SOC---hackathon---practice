@@ -1,8 +1,946 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VIGIL | Investigation War Room</title><style>
-:root{--ink:#e8edf5;--muted:#9eabbc;--bg:#09111e;--panel:#101c2d;--line:#263750;--red:#ff8e89;--amber:#ffd38a;--green:#8fe1b5;--blue:#87b8ff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:1160px;margin:auto;padding:32px 24px 64px}.eyebrow{color:var(--blue);font-size:12px;letter-spacing:.13em;text-transform:uppercase}h1{font-size:38px;margin:5px 0}h2{font-size:17px;margin:0 0 12px}.notice{border:1px solid #765723;background:#2a2112;color:var(--amber);padding:14px 16px;border-radius:10px;margin:24px 0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}.number{font-weight:700;font-size:26px;margin-top:7px}.red{color:var(--red)}.amber{color:var(--amber)}.green{color:var(--green)}.blue{color:var(--blue)}.two{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-top:14px}.row{padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.label{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.07em}.value{font-weight:600;overflow-wrap:anywhere}pre{white-space:pre-wrap;color:#c9d6e9;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;margin:0}.footer{color:var(--muted);font-size:13px;margin-top:22px}@media(max-width:760px){.grid,.two{grid-template-columns:1fr 1fr}.two{gap:12px}}@media(max-width:480px){.grid,.two{grid-template-columns:1fr}}
-</style></head><body><main class="wrap"><div class="eyebrow">VIGIL · Elastic Security rehearsal</div><h1>Investigation War Room</h1><p style="color:var(--muted);max-width:780px">An evidence-first decision view for a potential payment-service compromise. The data, exposure and outputs shown here are synthetic.</p><div class="notice"><strong>HUMAN REVIEW REQUIRED.</strong> This prototype neither contains systems nor files reports with RBI or CERT-In.</div><section class="grid"><article class="card"><span class="label">Investigation status</span><div class="number amber" id="status">Loading…</div></article><article class="card"><span class="label">Potential exposure</span><div class="number red" id="exposure">—</div></article><article class="card"><span class="label">AI claim guardrail</span><div class="number red" id="guardrail">—</div></article><article class="card"><span class="label">Ledger integrity</span><div class="number green" id="ledger">—</div></article></section><section class="two"><article class="card"><h2>Grounded investigation lead</h2><div id="report"></div></article><article class="card"><h2>Human decision gate</h2><div id="decision"></div><h2 style="margin-top:22px">Compliance pack</h2><div id="pack"></div></article></section><section class="card" style="margin-top:14px"><h2>Evidence-chain preview</h2><pre id="chain">Loading evidence ledger…</pre></section><p class="footer">Practice artifact only. On 18 September, rebuild the selected implementation in the official hackathon repository and disclose this as pre-event experimentation.</p></main><script>
-const get=async n=>{let r=await fetch('data/'+n);return r.ok?r.json():null}; const text=(x)=>String(x??'—').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-Promise.all([get('incident-report-draft.json'),get('evidence-ledger.json'),get('review-decision.json'),get('manifest.json')]).then(([r,l,d,m])=>{if(!r){document.getElementById('status').textContent='Run make demo';return}const ad=r.attack_discovery||{},cr=r.attack_discovery_claim_review||{};document.getElementById('status').textContent='Potential incident';document.getElementById('exposure').textContent='₹'+Number(r.deterministic_exposure_inr).toLocaleString('en-IN');document.getElementById('guardrail').textContent=(cr.findings||[]).length+' claims flagged';document.getElementById('ledger').textContent=(l||[]).length+' blocks';document.getElementById('report').innerHTML=[['Classification',r.classification],['Asset',r.affected_asset],['Evidence events',(r.evidence_event_ids||[]).length+' linked'],['Occurrence start',r.occurrence_start_timestamp_utc],['First observed',r.first_observed_timestamp_utc],['Elastic Attack Discovery',ad.title||ad.status],['AI claim-safety check',cr.status],['Flagged certainty phrases',(cr.findings||[]).map(f=>f.phrase).join(', ')||'None'],['Interpretation',ad.interpretation]].map(x=>'<div class="row"><span class="label">'+text(x[0])+'</span><span class="value">'+text(x[1])+'</span></div>').join('');document.getElementById('decision').innerHTML=d?[['Decision',d.decision],['Reviewer',d.reviewer],['Effect',d.effect]].map(x=>'<div class="row"><span class="label">'+x[0]+'</span><span class="value">'+text(x[1])+'</span></div>').join(''):'<span class="value">No review decision recorded.</span>';document.getElementById('pack').innerHTML=(m?.files||[]).filter(x=>/draft|pack/.test(x)).map(x=>'<div class="row"><span class="value green">✓ '+text(x)+'</span></div>').join('');document.getElementById('chain').textContent=(l||[]).map(b=>`${b.sequence}  ${b.event_type}  ${b.hash.slice(0,16)}…`).join('\n')||'No ledger found.'});
-</script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VIGIL | SOC Cockpit</title>
+<style>
+:root{
+  --bg:#070d17; --bg2:#0b1424; --panel:#0f1b2e; --panel2:#132340; --line:#22354f;
+  --line2:#2e4568; --ink:#e9eff8; --muted:#93a4bd; --dim:#6b7f9b;
+  --blue:#6fb2ff; --cyan:#5fe3d6; --red:#ff8a84; --amber:#ffcf7a; --green:#7fe0aa; --violet:#b39dff;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:14.5px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+h1,h2,h3{margin:0;line-height:1.25}
+button{font:inherit;cursor:pointer}
+code,pre,.mono{font-family:var(--mono)}
+
+/* ---------- shell ---------- */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(7,13,23,.93);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1400px;margin:auto;padding:11px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:9px}
+.brand b{font-size:19px;letter-spacing:.14em}
+.brand span{color:var(--dim);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.pill{border:1px solid var(--line2);border-radius:999px;padding:3px 11px;font-size:11.5px;
+  letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.pill.warn{border-color:#7d5f22;background:#251d0e;color:var(--amber)}
+.pill.ok{border-color:#2a6047;background:#0e2419;color:var(--green)}
+.pill.info{border-color:#264a72;background:#0d1c2e;color:var(--blue)}
+.spacer{flex:1}
+main{max-width:1400px;margin:auto;padding:22px 22px 90px}
+
+/* ---------- notice ---------- */
+.notice{display:flex;gap:12px;align-items:flex-start;border:1px solid #7d5f22;background:#1d1709;
+  color:#f2dcae;padding:13px 16px;border-radius:11px;margin:0 0 20px}
+.notice b{color:var(--amber)}
+.notice-icon{font-size:16px;line-height:1.3}
+
+/* ---------- stepper ---------- */
+.stepper{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px 18px;margin-bottom:18px}
+.stepper-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.stepper-head h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ctl{display:flex;gap:8px;flex-wrap:wrap}
+.btn{background:var(--panel2);color:var(--ink);border:1px solid var(--line2);
+  border-radius:8px;padding:7px 14px;font-size:13px;transition:.15s}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{background:#14365e;border-color:#2f6ba8;color:#cfe6ff}
+.btn.primary:hover{background:#1a4373}
+.btn.danger{border-color:#7a3733;color:var(--red)}
+.btn.danger:hover{background:#2a1412}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}
+.step{position:relative;border:1px solid var(--line);background:var(--bg2);border-radius:10px;
+  padding:11px 12px;text-align:left;transition:.2s;opacity:.45}
+.step:hover{border-color:var(--line2)}
+.step .n{font:600 10.5px/1 var(--mono);color:var(--dim);letter-spacing:.1em}
+.step .t{font-weight:600;font-size:13px;margin-top:5px}
+.step .d{color:var(--dim);font-size:11.5px;margin-top:3px}
+.step.done{opacity:1;border-color:#2a6047}
+.step.done .n{color:var(--green)}
+.step.active{opacity:1;border-color:var(--blue);box-shadow:0 0 0 1px rgba(111,178,255,.35),0 6px 22px -12px rgba(111,178,255,.6)}
+.step.active .n{color:var(--blue)}
+
+/* ---------- kpis ---------- */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.kpi{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:15px 16px}
+.kpi .l{color:var(--dim);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase}
+.kpi .v{font-weight:700;font-size:23px;margin-top:7px;letter-spacing:-.01em}
+.kpi .s{color:var(--dim);font-size:11.5px;margin-top:4px}
+.red{color:var(--red)}.amber{color:var(--amber)}.green{color:var(--green)}
+.blue{color:var(--blue)}.cyan{color:var(--cyan)}.violet{color:var(--violet)}.muted{color:var(--muted)}
+
+/* ---------- panels ---------- */
+.grid2{display:grid;grid-template-columns:1.45fr 1fr;gap:14px;align-items:start}
+.panel{border:1px solid var(--line);background:var(--panel);border-radius:13px;padding:18px;margin-bottom:14px;
+  transition:.25s}
+.panel.gated{opacity:.32;filter:saturate(.4)}
+.panel-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.panel-head h3{font-size:15px}
+.panel-head .tag{margin-left:auto}
+.sub{color:var(--dim);font-size:12.5px;margin:-8px 0 14px}
+
+.row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:9px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0;padding-bottom:0}
+.row .k{color:var(--dim);font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding-top:2px}
+.row .v{overflow-wrap:anywhere}
+@media(max-width:620px){.row{grid-template-columns:1fr;gap:3px}}
+
+/* the hero contrast */
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line2);border-radius:11px;overflow:hidden}
+.contrast>div{padding:15px 16px}
+.contrast .ai{background:#1b1220;border-right:1px solid var(--line2)}
+.contrast .vg{background:#0c1c17}
+.contrast h4{font-size:11px;letter-spacing:.11em;text-transform:uppercase;margin:0 0 9px}
+.contrast .ai h4{color:var(--violet)}
+.contrast .vg h4{color:var(--green)}
+.contrast p{margin:0;font-size:13px;color:#d3dcea}
+.claimlist{list-style:none;margin:11px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+.claimlist li{font-size:12.5px;color:var(--muted);padding-left:19px;position:relative}
+.claimlist li:before{content:"⚑";position:absolute;left:0;color:var(--red)}
+.strike{text-decoration:line-through;text-decoration-color:var(--red);color:var(--dim)}
+@media(max-width:820px){.contrast{grid-template-columns:1fr}.contrast .ai{border-right:0;border-bottom:1px solid var(--line2)}}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:560px}
+th{text-align:left;color:var(--dim);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:9px 12px;background:var(--bg2);border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0}
+td{padding:9px 12px;border-bottom:1px solid #1a2a41;vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#101f34}
+td.num{text-align:right;font-family:var(--mono)}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:5px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:16px;padding-bottom:0}
+.tab{background:none;border:1px solid transparent;border-bottom:none;color:var(--muted);
+  padding:9px 15px;border-radius:9px 9px 0 0;font-size:13px;margin-bottom:-1px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected=true]{background:var(--panel);border-color:var(--line);color:var(--blue);font-weight:600}
+.tabpanel[hidden]{display:none}
+
+/* ---------- ledger ---------- */
+.chain{display:flex;flex-direction:column;gap:0}
+.blk{display:grid;grid-template-columns:52px 1fr auto;gap:13px;align-items:center;
+  border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:var(--bg2)}
+.blk.bad{border-color:#7a3733;background:#1d1010}
+.blk.tainted{border-color:#7d5f22;background:#1d1709}
+.blk .seq{font:700 15px/1 var(--mono);color:var(--dim);text-align:center}
+.blk .et{font-weight:600;font-size:13px}
+.blk .hh{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:3px;overflow-wrap:anywhere}
+.blk .vd{font-size:11px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.link{height:13px;width:1px;background:var(--line2);margin-left:26px}
+.link.bad{background:var(--red)}
+
+/* ---------- misc ---------- */
+pre.box{background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:13px;
+  font-size:11.5px;line-height:1.5;color:#c6d4e8;overflow-x:auto;white-space:pre;margin:0}
+pre.box.wrap{white-space:pre-wrap;overflow-wrap:anywhere}
+.matrix{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.tac{border:1px solid var(--line);background:var(--bg2);border-radius:9px;padding:10px;min-height:76px}
+.tac.hit{border-color:#2a6047;background:#0e2419}
+.tac.aionly{border-color:#5b4a8a;background:#171334}
+.tac .ti{font:600 9.5px/1 var(--mono);color:var(--dim);letter-spacing:.08em}
+.tac .tn{font-size:12px;font-weight:600;margin-top:5px;color:var(--muted)}
+.tac.hit .tn{color:var(--green)}
+.tac .tk{font-family:var(--mono);font-size:10.5px;color:var(--cyan);margin-top:6px}
+.langbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
+.lang{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+  font-size:12.5px;color:var(--muted)}
+.lang[aria-pressed=true]{border-color:var(--cyan);color:var(--cyan);background:#0c1f21}
+.lang:disabled{opacity:.35;cursor:not-allowed}
+.badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:5px;padding:2px 7px;color:var(--dim);white-space:nowrap}
+.badge.obs{border-color:#2a6047;color:var(--green)}
+.badge.calc{border-color:#264a72;color:var(--blue)}
+.badge.ai{border-color:#5b4a8a;color:var(--violet)}
+.badge.req{border-color:#7d5f22;color:var(--amber)}
+.footer{color:var(--dim);font-size:12.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:18px}
+.selftest{font-family:var(--mono);font-size:11px}
+.empty{color:var(--dim);font-size:12.5px;padding:14px;text-align:center;border:1px dashed var(--line);border-radius:9px}
+
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}.steps{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}}
+@media(max-width:640px){.kpis,.steps{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- print: CERT-In form ---------- */
+@media print{
+  body{background:#fff;color:#000}
+  .topbar,.stepper,.kpis,.notice,.tabs,.footer,.noprint{display:none!important}
+  main{max-width:none;padding:0}
+  .panel{border:0;background:#fff;padding:0;margin:0}
+  .tabpanel[hidden]{display:none}
+  #tp-certin{display:block!important}
+  .row{border-color:#ccc}.row .k{color:#444}
+  pre.box{background:#f6f6f6;border-color:#ccc;color:#000}
+  h3,.row .v{color:#000}
+  @page{margin:16mm}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><b>VIGIL</b><span>SOC Cockpit</span></div>
+    <span class="pill info" id="pill-incident">—</span>
+    <span class="pill warn">SYNTHETIC DATA</span>
+    <span class="pill warn">HUMAN REVIEW REQUIRED</span>
+    <span class="spacer"></span>
+    <span class="pill" id="pill-elastic">Elastic: rehearsal</span>
+    <span class="pill" id="pill-model">AI model: —</span>
+  </div>
+</header>
+
+<main>
+  <div class="notice">
+    <span class="notice-icon">⚠</span>
+    <div>
+      <b>This is a pre-event rehearsal build on synthetic data.</b>
+      VIGIL contains no system, executes no containment, and files nothing with RBI or CERT-In.
+      Every figure on this page is read from a generated artifact — none is typed into the interface.
+      On 18 September the selected design is rebuilt in the official repository, with pre-event work disclosed.
+    </div>
+  </div>
+
+  <!-- ================= STEPPER ================= -->
+  <section class="stepper">
+    <div class="stepper-head">
+      <h2>Autonomous investigation pipeline</h2>
+      <span class="pill" id="pill-step">Step 0 of 6</span>
+      <span class="spacer"></span>
+      <div class="ctl">
+        <button class="btn primary" id="btn-auto">▶ Auto-run</button>
+        <button class="btn" id="btn-step">Step forward</button>
+        <button class="btn" id="btn-reset">Reset</button>
+      </div>
+    </div>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <!-- ================= KPIs ================= -->
+  <section class="kpis">
+    <div class="kpi"><div class="l">Deterministic exposure</div><div class="v red" id="kpi-exposure">—</div><div class="s" id="kpi-exposure-s">fixture value</div></div>
+    <div class="kpi"><div class="l">Evidence events sealed</div><div class="v blue" id="kpi-events">—</div><div class="s" id="kpi-events-s">—</div></div>
+    <div class="kpi"><div class="l">AI claims challenged</div><div class="v amber" id="kpi-claims">—</div><div class="s">certainty language flagged</div></div>
+    <div class="kpi"><div class="l">Ledger integrity</div><div class="v green" id="kpi-ledger">—</div><div class="s" id="kpi-ledger-s">verified in this browser</div></div>
+    <div class="kpi"><div class="l">Ungrounded AI claims</div><div class="v" id="kpi-ungrounded">—</div><div class="s" id="kpi-ungrounded-s">Bedrock brief</div></div>
+  </section>
+
+  <div class="grid2">
+    <div>
+      <!-- ============ STEP 2/3: AI vs VIGIL ============ -->
+      <section class="panel gated" id="p-challenge" data-step="3">
+        <div class="panel-head">
+          <h3>The accountability gate</h3>
+          <span class="badge ai tag">AI output vs VIGIL</span>
+        </div>
+        <p class="sub">Elastic Attack Discovery produces an investigation lead. VIGIL does not adopt its conclusions:
+          it flags the certainty the evidence does not establish, and rejects any figure it cannot trace to the sealed evidence.</p>
+        <div class="contrast">
+          <div class="ai">
+            <h4>Elastic Attack Discovery said</h4>
+            <p id="ai-title">—</p>
+            <p id="ai-summary" style="margin-top:9px;color:var(--muted);font-size:12.5px">—</p>
+          </div>
+          <div class="vg">
+            <h4>VIGIL refused to treat as established</h4>
+            <ul class="claimlist" id="claim-list"><li>—</li></ul>
+            <p id="claim-boundary" style="margin-top:11px;color:var(--dim);font-size:11.5px"></p>
+          </div>
+        </div>
+        <div class="row" style="margin-top:15px"><div class="k">Guardrail method</div><div class="v muted" id="guard-method">—</div></div>
+        <div class="row"><div class="k">Effect on submission</div><div class="v muted" id="guard-effect">—</div></div>
+      </section>
+
+      <!-- ============ STEP 1: DETECTION ============ -->
+      <section class="panel gated" id="p-detect" data-step="1">
+        <div class="panel-head"><h3>Evidence timeline</h3><span class="badge obs tag">observed</span></div>
+        <p class="sub">The events sealed in the evidence envelope, in order. Every row carries the event id that a judge can query in Elastic.</p>
+        <div class="tablewrap"><table id="tbl-timeline">
+          <thead><tr><th>#</th><th>Event id</th><th>UTC</th><th>Action</th><th>Outcome</th><th class="num">Amount (INR)</th></tr></thead>
+          <tbody><tr><td colspan="6" class="muted">Loading…</td></tr></tbody>
+        </table></div>
+      </section>
+    </div>
+
+    <div>
+      <!-- ============ STEP 4: EXPOSURE ============ -->
+      <section class="panel gated" id="p-ground" data-step="4">
+        <div class="panel-head"><h3>Grounded bank exposure</h3><span class="badge calc tag">calculated</span></div>
+        <p class="sub">Two independently meaningful figures. They must agree, or the run is not presentable.</p>
+        <div id="exposure-rows"></div>
+      </section>
+
+      <!-- ============ STEP 5: DECISION ============ -->
+      <section class="panel gated" id="p-decide" data-step="5">
+        <div class="panel-head"><h3>Human decision gate</h3><span class="badge req tag">analyst required</span></div>
+        <p class="sub">Three-way outcome recorded as an audit fact. The demo records <code>hold</code>; no containment is executed either way.</p>
+        <div id="decision-rows"></div>
+      </section>
+
+      <!-- ============ STEP 6: PACK ============ -->
+      <section class="panel gated" id="p-seal" data-step="6">
+        <div class="panel-head"><h3>Review-only compliance pack</h3><span class="badge req tag">not submitted</span></div>
+        <p class="sub">Drafts prepared for an authorised human. Nothing is transmitted.</p>
+        <div id="pack-rows"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ================= EVIDENCE DECK ================= -->
+  <section class="panel" id="deck" style="margin-top:6px">
+    <div class="tabs" role="tablist" id="tabs">
+      <button class="tab" role="tab" aria-selected="true"  data-tab="ledger">Evidence ledger</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="topology">Attack topology</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="mitre">MITRE ATT&amp;CK</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="esql">ES|QL evidence</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="ai">Bedrock brief</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="indic">Regional brief</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="certin">CERT-In draft</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="escalate">Escalation</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="prov">Provenance</button>
+    </div>
+
+    <div class="tabpanel" id="tp-ledger">
+      <div class="panel-head" style="margin-bottom:8px">
+        <h3>SHA-256 evidence chain</h3>
+        <span class="pill ok" id="ledger-verdict">—</span>
+        <span class="spacer"></span>
+        <div class="ctl noprint">
+          <button class="btn danger" id="btn-tamper">Alter one evidence value</button>
+          <button class="btn" id="btn-restore" disabled>Restore genuine ledger</button>
+        </div>
+      </div>
+      <p class="sub">Verification runs <b>in this browser</b> with Web Crypto — it re-serialises each block canonically and
+        recomputes its digest. It does not trust the stored hash, and it does not ask a server. Alter any value and every
+        block from that point on fails.</p>
+      <div class="chain" id="chain"></div>
+      <details style="margin-top:14px">
+        <summary class="muted" style="cursor:pointer;font-size:12.5px">Canonicaliser self-test and the exact bytes hashed</summary>
+        <p class="selftest" id="selftest" style="margin:10px 0">—</p>
+        <pre class="box wrap" id="canon-sample">—</pre>
+      </details>
+    </div>
+
+    <div class="tabpanel" id="tp-topology" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>Attack topology</h3><span class="badge obs tag">derived from evidence</span></div>
+      <p class="sub">Every node and edge is backed by an evidence event id. Direction shows observed flow; it asserts no intent or attribution.</p>
+      <div id="topology"></div>
+    </div>
+
+    <div class="tabpanel" id="tp-mitre" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>MITRE ATT&amp;CK Enterprise</h3><span class="badge tag" id="mitre-agree">—</span></div>
+      <p class="sub" id="mitre-sub">—</p>
+      <div class="matrix" id="matrix"></div>
+      <div class="tablewrap" style="margin-top:15px"><table id="tbl-tech">
+        <thead><tr><th>Tactic</th><th>Technique</th><th>Justifying observable</th><th>Evidence</th></tr></thead><tbody></tbody>
+      </table></div>
+    </div>
+
+    <div class="tabpanel" id="tp-esql" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>Incident-scoped ES|QL</h3><span class="badge calc tag">rendered from evidence scope</span></div>
+      <p class="sub">Host, principal user and time bounds come from the sealed evidence envelope. The template contains no fixture host, user, address or hidden ground-truth tag.</p>
+      <div id="esql-params"></div>
+      <pre class="box wrap" id="esql-query" style="margin-top:14px">—</pre>
+    </div>
+
+    <div class="tabpanel" id="tp-ai" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>AWS Bedrock grounded brief</h3><span class="pill" id="ai-status">—</span></div>
+      <p class="sub">The brief is generated from a closed fact set built only from the sealed evidence ids, then every
+        financial magnitude, IPv4 literal and transaction id in the output is checked back against that fact set.</p>
+      <div id="ai-body"></div>
+    </div>
+
+    <div class="tabpanel" id="tp-indic" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>Regional incident brief</h3><span class="pill" id="indic-status">—</span></div>
+      <p class="sub">Localised through Sarvam AI from <i>this run's</i> brief, then re-checked to confirm the rupee figure
+        survived translation. VIGIL emits no pre-written regional text.</p>
+      <div class="langbar" id="langbar"></div>
+      <div id="indic-body"></div>
+    </div>
+
+    <div class="tabpanel" id="tp-certin" hidden>
+      <div class="panel-head" style="margin-bottom:8px">
+        <h3>CERT-In incident report — draft</h3>
+        <span class="pill warn">DRAFT · NOT FILED</span>
+        <span class="spacer"></span>
+        <button class="btn noprint" id="btn-print">Export PDF</button>
+      </div>
+      <p class="sub">Fields an authorised reporter must complete are left blank on purpose. VIGIL does not sign or submit
+        on a bank's behalf, and the applicable obligation must be confirmed by the entity's compliance owner.</p>
+      <div id="certin-body"></div>
+    </div>
+
+    <div class="tabpanel" id="tp-escalate" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>SOC escalation payloads</h3><span class="pill warn">PREVIEW · NOT SENT</span></div>
+      <p class="sub">Schema-valid bodies for each destination, built from the artifacts. VIGIL holds no delivery credential
+        and makes no network call; routing belongs in an organisation-approved Elastic connector.</p>
+      <div id="escalate-body"></div>
+    </div>
+
+    <div class="tabpanel" id="tp-prov" hidden>
+      <div class="panel-head" style="margin-bottom:8px"><h3>Where every number came from</h3></div>
+      <p class="sub">The claim boundary for each surface on this page. If a judge asks "how do you know that?", this is the answer.</p>
+      <div class="tablewrap"><table id="tbl-prov">
+        <thead><tr><th>Surface</th><th>Provenance</th><th>Boundary</th></tr></thead><tbody></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <p class="footer">
+    Pre-event rehearsal artifact on synthetic data. Loaded from generated JSON in <code>warroom/data/</code> —
+    regenerate with <code>make demo &amp;&amp; make warroom</code>. Ledger verification and the tamper demonstration run
+    entirely client-side. No containment, no regulatory submission, no real bank data.
+  </p>
+</main>
+
+<script>
+/* ============================================================
+   Canonical JSON + SHA-256, byte-compatible with ledger/chain.py
+   Python side: json.dumps(obj, sort_keys=True, separators=(",",":"), ensure_ascii=True)
+   Any divergence makes the genuine ledger fail, which the self-test surfaces loudly.
+   ============================================================ */
+function jsonString(s){
+  let out = '"';
+  for (const ch of s){
+    const c = ch.codePointAt(0);
+    if (ch === '"') out += '\\"';
+    else if (ch === '\\') out += '\\\\';
+    else if (ch === '\n') out += '\\n';
+    else if (ch === '\r') out += '\\r';
+    else if (ch === '\t') out += '\\t';
+    else if (ch === '\b') out += '\\b';
+    else if (ch === '\f') out += '\\f';
+    else if (c < 0x20) out += '\\u' + c.toString(16).padStart(4,'0');
+    else if (c <= 0x7e) out += ch;
+    else if (c <= 0xffff) out += '\\u' + c.toString(16).padStart(4,'0');
+    else {                                  // astral plane -> surrogate pair, as Python does
+      const v = c - 0x10000;
+      out += '\\u' + (0xd800 + (v >> 10)).toString(16).padStart(4,'0')
+           + '\\u' + (0xdc00 + (v & 0x3ff)).toString(16).padStart(4,'0');
+    }
+  }
+  return out + '"';
+}
+function canonical(v){
+  if (v === null) return 'null';
+  if (typeof v === 'boolean') return v ? 'true' : 'false';
+  if (typeof v === 'number') return String(v);
+  if (typeof v === 'string') return jsonString(v);
+  if (Array.isArray(v)) return '[' + v.map(canonical).join(',') + ']';
+  return '{' + Object.keys(v).sort().map(k => jsonString(k) + ':' + canonical(v[k])).join(',') + '}';
+}
+async function sha256Hex(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+const GENESIS = '0'.repeat(64);
+
+/** Recompute the whole chain the way ledger/verify.py does. */
+async function verifyChain(blocks){
+  const results = [];
+  let previous = GENESIS, broken = false;
+  for (let i = 0; i < blocks.length; i++){
+    const block = blocks[i];
+    const unsigned = {}; for (const k of Object.keys(block)) if (k !== 'hash') unsigned[k] = block[k];
+    const recomputed = await sha256Hex(canonical(unsigned));
+    let issue = null;
+    if (block.sequence !== i) issue = 'sequence expected ' + i + ', got ' + block.sequence;
+    else if (block.previous_hash !== previous) issue = 'previous_hash does not match the preceding block';
+    else if (recomputed !== block.hash) issue = 'hash does not match block contents';
+    results.push({block, recomputed, issue, downstream: broken && !issue});
+    if (issue) broken = true;
+    previous = block.hash;
+  }
+  return results;
+}
+
+/* ============================================================ data ============================================================ */
+const A = {};                               // loaded artifacts
+const load = async name => { try { const r = await fetch('data/' + name, {cache:'no-store'}); return r.ok ? await r.json() : null; } catch { return null; } };
+const esc  = v => String(v ?? '—').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inr  = n => Number(n).toLocaleString('en-IN');
+const short = h => h ? h.slice(0,20) + '…' : '—';
+const rows = pairs => pairs.map(([k,v,badge]) =>
+  '<div class="row"><div class="k">' + esc(k) + '</div><div class="v">' + (v ?? '—') +
+  (badge ? ' <span class="badge ' + badge[0] + '">' + esc(badge[1]) + '</span>' : '') + '</div></div>').join('');
+
+/* ============================================================ stepper ============================================================ */
+const STEPS = [
+  ['DETECT',    'Elastic detection rules raise behaviour-based alerts',            'p-detect'],
+  ['CORRELATE', 'Attack Discovery correlates the alerts into one lead',            'p-challenge'],
+  ['CHALLENGE', 'VIGIL flags unsupported certainty and ungrounded figures',        'p-challenge'],
+  ['GROUND',    'ES|QL lookup joins bank context and computes exposure',           'p-ground'],
+  ['DECIDE',    'A human records approve, hold or reject',                         'p-decide'],
+  ['SEAL',      'Evidence is chained and review-only drafts are prepared',         'p-seal'],
+];
+let current = 0, autoTimer = null;
+
+function renderSteps(){
+  document.getElementById('steps').innerHTML = STEPS.map((s,i) =>
+    '<button class="step' + (i < current ? ' done' : i === current - 1 ? ' active' : '') + '" data-i="' + i + '">' +
+    '<div class="n">STEP ' + (i+1) + (i < current ? ' ✓' : '') + '</div><div class="t">' + s[0] + '</div><div class="d">' + esc(s[1]) + '</div></button>'
+  ).join('');
+  document.getElementById('pill-step').textContent = 'Step ' + current + ' of ' + STEPS.length;
+  document.querySelectorAll('.panel[data-step]').forEach(p =>
+    p.classList.toggle('gated', Number(p.dataset.step) > current));
+  document.getElementById('btn-step').disabled = current >= STEPS.length;
+}
+function setStep(n){ current = Math.max(0, Math.min(STEPS.length, n)); renderSteps(); }
+function stopAuto(){ if (autoTimer){ clearInterval(autoTimer); autoTimer = null; document.getElementById('btn-auto').textContent = '▶ Auto-run'; } }
+
+document.getElementById('btn-step').onclick  = () => { stopAuto(); setStep(current + 1); };
+document.getElementById('btn-reset').onclick = () => { stopAuto(); setStep(0); };
+document.getElementById('btn-auto').onclick  = () => {
+  if (autoTimer) return stopAuto();
+  if (current >= STEPS.length) setStep(0);
+  document.getElementById('btn-auto').textContent = '⏸ Pause';
+  autoTimer = setInterval(() => { if (current >= STEPS.length) stopAuto(); else setStep(current + 1); }, 1100);
+};
+document.getElementById('steps').onclick = e => {
+  const btn = e.target.closest('.step'); if (!btn) return; stopAuto(); setStep(Number(btn.dataset.i) + 1);
+};
+
+/* ============================================================ tabs ============================================================ */
+document.getElementById('tabs').onclick = e => {
+  const tab = e.target.closest('.tab'); if (!tab) return;
+  document.querySelectorAll('#tabs .tab').forEach(t => t.setAttribute('aria-selected', String(t === tab)));
+  document.querySelectorAll('.tabpanel').forEach(p => { p.hidden = p.id !== 'tp-' + tab.dataset.tab; });
+};
+
+/* ============================================================ ledger tab ============================================================ */
+let genuineLedger = [], workingLedger = [];
+
+async function renderChain(){
+  const results = await verifyChain(workingLedger);
+  const failed  = results.filter(r => r.issue);
+  const html = results.map((r,i) => {
+    const cls = r.issue ? (r.downstream ? 'tainted' : 'bad') : '';
+    const verdict = r.issue
+      ? '<span class="vd red">✕ ' + esc(r.issue) + '</span>'
+      : '<span class="vd green">✓ recomputed</span>';
+    return (i ? '<div class="link' + (failed.length && i > failed[0].block.sequence ? ' bad' : '') + '"></div>' : '') +
+      '<div class="blk ' + cls + '"><div class="seq">' + r.block.sequence + '</div>' +
+      '<div><div class="et">' + esc(r.block.event_type) + '</div>' +
+      '<div class="hh">stored ' + esc(short(r.block.hash)) +
+      (r.issue === 'hash does not match block contents' ? ' · recomputed ' + esc(short(r.recomputed)) : '') + '</div></div>' +
+      verdict + '</div>';
+  }).join('');
+  document.getElementById('chain').innerHTML = html || '<div class="empty">No ledger found. Run <code>make demo</code>.</div>';
+
+  const verdictPill = document.getElementById('ledger-verdict');
+  if (!results.length){ verdictPill.textContent = 'no ledger'; verdictPill.className = 'pill'; }
+  else if (failed.length){
+    verdictPill.textContent = 'CHAIN BROKEN at block ' + failed[0].block.sequence;
+    verdictPill.className = 'pill warn';
+  } else {
+    verdictPill.textContent = results.length + ' blocks verified';
+    verdictPill.className = 'pill ok';
+  }
+  document.getElementById('kpi-ledger').textContent = failed.length ? 'BROKEN' : results.length + ' blocks';
+  document.getElementById('kpi-ledger').className = 'v ' + (failed.length ? 'red' : 'green');
+  document.getElementById('kpi-ledger-s').textContent = failed.length
+    ? 'tamper detected at block ' + failed[0].block.sequence : 'recomputed in this browser';
+}
+
+document.getElementById('btn-tamper').onclick = async () => {
+  // Alter the one value a fraudster would care about: the rupee exposure in the chain.
+  workingLedger = JSON.parse(JSON.stringify(genuineLedger));
+  const target = workingLedger.find(b => b.payload && 'amount_inr' in b.payload) || workingLedger[1];
+  if (target && target.payload && 'amount_inr' in target.payload) target.payload.amount_inr = 1;
+  else if (target) target.payload.artifact = 'altered.json';
+  document.getElementById('btn-restore').disabled = false;
+  await renderChain();
+  document.getElementById('tp-ledger').scrollIntoView({block:'nearest'});
+};
+document.getElementById('btn-restore').onclick = async () => {
+  workingLedger = JSON.parse(JSON.stringify(genuineLedger));
+  document.getElementById('btn-restore').disabled = true;
+  await renderChain();
+};
+
+async function selfTest(){
+  const el = document.getElementById('selftest');
+  if (!genuineLedger.length){ el.textContent = 'no ledger to test'; return; }
+  const results = await verifyChain(genuineLedger);
+  const bad = results.filter(r => r.issue).length;
+  el.innerHTML = bad
+    ? '<span class="red">SELF-TEST FAILED — ' + bad + ' of ' + results.length +
+      ' genuine blocks did not reproduce. The browser canonicaliser has diverged from ledger/chain.py; ' +
+      'trust <code>make verify</code>, not this page.</span>'
+    : '<span class="green">SELF-TEST PASS — all ' + results.length + ' genuine blocks reproduced their stored digest, ' +
+      'so this browser canonicaliser matches ledger/chain.py byte-for-byte.</span>';
+  const sample = {}; for (const k of Object.keys(genuineLedger[1] || genuineLedger[0])) if (k !== 'hash') sample[k] = (genuineLedger[1] || genuineLedger[0])[k];
+  document.getElementById('canon-sample').textContent =
+    'exact bytes hashed for block ' + sample.sequence + ':\n\n' + canonical(sample) +
+    '\n\nsha256 -> ' + await sha256Hex(canonical(sample));
+}
+
+/* ============================================================ topology ============================================================ */
+function renderTopology(t){
+  const host = document.getElementById('topology');
+  if (!t){ host.innerHTML = '<div class="empty">No topology artifact. Run <code>make topology</code>.</div>'; return; }
+  const order = {external:0, internal:1};
+  const kindColor = {ip:'#6fb2ff', host:'#5fe3d6', identity:'#b39dff'};
+  const EDGE_COLORS = {fail:'#ff8a84', money:'#ffcf7a', plain:'#4a6688'};
+  const cols = [
+    t.nodes.filter(n => n.zone === 'external'),
+    t.nodes.filter(n => n.zone === 'internal' && n.kind === 'ip'),
+    t.nodes.filter(n => n.zone === 'internal' && n.kind !== 'ip'),
+  ].filter(c => c.length);
+  const W = 900, colW = W / cols.length, H = Math.max(220, 74 * Math.max(...cols.map(c => c.length)));
+  const pos = {};
+  cols.forEach((col, ci) => col.forEach((n, ri) => {
+    pos[n.id] = { x: colW * ci + colW / 2, y: (H / (col.length + 1)) * (ri + 1) };
+  }));
+  // Collapse repeated edges between the same pair so the graph stays readable.
+  const seen = new Map();
+  for (const e of t.edges){
+    const key = e.from + '>' + e.to + '>' + e.action;
+    const agg = seen.get(key) || { ...e, count: 0, total: 0 };
+    agg.count++; agg.total += (e.amount_inr || 0);
+    seen.set(key, agg);
+  }
+  const edges = [...seen.values()].filter(e => pos[e.from] && pos[e.to]);
+  const svg = [
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;height:auto;max-height:420px" role="img" aria-label="Attack topology derived from evidence">',
+    // One arrowhead per stroke colour, so edge direction is readable at a glance.
+    '<defs>' + Object.entries(EDGE_COLORS).map(([kind, color]) =>
+      '<marker id="ar-' + kind + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" ' +
+      'orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="' + color + '"/></marker>').join('') + '</defs>',
+  ];
+  for (const e of edges){
+    const a = pos[e.from], b = pos[e.to];
+    const kind = e.outcome === 'failure' ? 'fail' : e.amount_inr ? 'money' : 'plain';
+    const stroke = EDGE_COLORS[kind];
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - 18;
+    const label = e.action.replace(/_/g,' ') + (e.count > 1 ? ' ×' + e.count : '') +
+                  (e.total ? ' · ₹' + inr(e.total) : '');
+    svg.push('<path d="M' + a.x + ',' + a.y + ' Q' + mx + ',' + my + ' ' + b.x + ',' + b.y +
+      '" fill="none" stroke="' + stroke + '" stroke-width="1.5" opacity=".85" marker-end="url(#ar-' + kind + ')"/>');
+    svg.push('<text x="' + mx + '" y="' + (my + 2) + '" fill="' + stroke +
+      '" font-size="9.5" font-family="ui-monospace,monospace" text-anchor="middle" opacity=".95">' + esc(label) + '</text>');
+  }
+  for (const n of t.nodes){
+    const p = pos[n.id]; if (!p) continue;
+    const c = kindColor[n.kind] || '#93a4bd';
+    svg.push('<circle cx="' + p.x + '" cy="' + p.y + '" r="7" fill="' + c + '" opacity=".9"/>');
+    svg.push('<circle cx="' + p.x + '" cy="' + p.y + '" r="13" fill="none" stroke="' + c + '" stroke-width="1" opacity=".3"/>');
+    svg.push('<text x="' + p.x + '" y="' + (p.y + 28) + '" fill="#e9eff8" font-size="11.5" text-anchor="middle" font-family="ui-monospace,monospace">' + esc(n.label) + '</text>');
+    svg.push('<text x="' + p.x + '" y="' + (p.y + 42) + '" fill="#6b7f9b" font-size="9.5" text-anchor="middle" letter-spacing="1">' +
+      esc(n.kind.toUpperCase()) + ' · ' + n.zone + '</text>');
+  }
+  svg.push('</svg>');
+  host.innerHTML = svg.join('') +
+    '<div class="row" style="margin-top:12px"><div class="k">Backed by</div><div class="v muted">' +
+    t.evidence_event_count + ' sealed evidence events · ' + t.nodes.length + ' nodes · ' + t.edges.length + ' edges</div></div>' +
+    '<div class="row"><div class="k">Boundary</div><div class="v muted">' + esc(t.boundary) + '</div></div>';
+}
+
+/* ============================================================ mitre ============================================================ */
+function renderMitre(m){
+  if (!m){ document.getElementById('matrix').innerHTML = '<div class="empty">No mapping artifact. Run <code>make mitre</code>.</div>'; return; }
+  const byTactic = {};
+  for (const t of m.observed_techniques) (byTactic[t.tactic] = byTactic[t.tactic] || []).push(t);
+  const aiOnly = new Set(m.tactics_only_claimed_by_ai);
+  document.getElementById('matrix').innerHTML = m.enterprise_tactics.map(t => {
+    const hits = byTactic[t.name] || [];
+    const cls = hits.length ? 'hit' : aiOnly.has(t.name) ? 'aionly' : '';
+    return '<div class="tac ' + cls + '"><div class="ti">' + esc(t.id) + '</div><div class="tn">' + esc(t.name) + '</div>' +
+      hits.map(h => '<div class="tk">' + esc(h.technique_id) + '</div>').join('') +
+      (aiOnly.has(t.name) && !hits.length ? '<div class="tk" style="color:var(--violet)">AI claim only</div>' : '') + '</div>';
+  }).join('');
+  document.querySelector('#tbl-tech tbody').innerHTML = m.observed_techniques.map(t =>
+    '<tr><td>' + esc(t.tactic) + ' <span class="badge">' + esc(t.tactic_id) + '</span></td>' +
+    '<td class="mono">' + esc(t.technique_id) + '<br><span class="muted">' + esc(t.technique) + '</span></td>' +
+    '<td class="muted">' + esc(t.observable) + '</td>' +
+    '<td class="mono muted">' + esc(t.evidence_event_ids.join(', ')) + '</td></tr>').join('');
+  const agree = document.getElementById('mitre-agree');
+  agree.textContent = m.tactics_only_claimed_by_ai.length
+    ? m.tactics_only_claimed_by_ai.length + ' tactic(s) claimed by AI alone'
+    : 'no unsupported AI tactic';
+  agree.className = 'badge tag ' + (m.tactics_only_claimed_by_ai.length ? 'ai' : 'obs');
+  const extra = m.tactics_mapped_by_vigil_from_evidence.filter(x => !m.tactics_named_by_attack_discovery.includes(x));
+  document.getElementById('mitre-sub').innerHTML =
+    'Green cells are mapped by VIGIL from observables in the sealed evidence. Attack Discovery named ' +
+    '<b>' + esc(m.tactics_named_by_attack_discovery.join(', ') || 'none') + '</b>. ' +
+    (extra.length ? 'VIGIL’s evidence mapping additionally supports <b>' + esc(extra.join(', ')) +
+      '</b>, which the AI narrative did not name. ' : '') +
+    esc(m.boundary);
+}
+
+/* ============================================================ bedrock brief ============================================================ */
+function renderAiBrief(b){
+  const statusPill = document.getElementById('ai-status'), host = document.getElementById('ai-body');
+  const kpi = document.getElementById('kpi-ungrounded'), kpiS = document.getElementById('kpi-ungrounded-s');
+  if (!b || b.status !== 'CAPTURED'){
+    statusPill.textContent = 'NOT RUN'; statusPill.className = 'pill warn';
+    host.innerHTML = '<div class="empty">' + esc(b?.reason || 'No Bedrock brief captured.') +
+      '<br><br>Run <code>make brief-live</code> once AWS credentials are set. The demo does not depend on this step.</div>';
+    kpi.textContent = 'n/a'; kpi.className = 'v muted'; kpiS.textContent = 'Bedrock not run';
+    document.getElementById('pill-model').textContent = 'AI model: Elastic connector only';
+    return;
+  }
+  const v = b.verification, p = b.provenance, bad = v.ungrounded_claim_count > 0;
+  statusPill.textContent = v.status.replace(/_/g,' ');
+  statusPill.className = 'pill ' + (bad ? 'warn' : 'ok');
+  kpi.textContent = v.ungrounded_claim_count;
+  kpi.className = 'v ' + (bad ? 'red' : 'green');
+  kpiS.textContent = p.model_id;
+  document.getElementById('pill-model').textContent = 'AI model: ' + p.model_id;
+
+  const flagged = [...v.ungrounded_magnitudes, ...v.ungrounded_ip_literals, ...(v.ungrounded_transaction_ids||[])];
+  host.innerHTML =
+    (b.mode === 'adversarial'
+      ? '<div class="notice" style="margin-bottom:14px"><span class="notice-icon">⚗</span><div><b>Deliberate adversarial probe.</b> ' +
+        'This brief was produced with a loose prompt that invites speculation, purely to prove the grounding verifier fires. ' +
+        'Its text is never used in any compliance artifact.</div></div>' : '') +
+    '<pre class="box wrap" style="margin-bottom:14px">' + esc(b.model_output) + '</pre>' +
+    rows([
+      ['Verification', '<span class="' + (bad ? 'red' : 'green') + '">' + esc(v.status.replace(/_/g,' ')) + '</span>'],
+      ['Magnitudes checked', '<span class="mono">' + esc(v.magnitudes_checked.join(', ') || 'none') + '</span>'],
+      ['Ungrounded claims', flagged.length
+        ? flagged.map(f => '<span class="strike mono">' + esc(f.written_as) + '</span>').join(' &nbsp; ')
+        : '<span class="green">none</span>'],
+      ['Certainty flagged', v.flagged_certainty_phrases.length
+        ? v.flagged_certainty_phrases.map(f => '<span class="strike">' + esc(f.phrase) + '</span>').join(', ')
+        : '<span class="green">none</span>'],
+      ['Gate effect', '<span class="muted">' + esc(v.gate_effect) + '</span>'],
+      ['Model', '<span class="mono">' + esc(p.model_id) + '</span>', ['ai','AWS Bedrock']],
+      ['Region / API', esc(p.region) + ' · ' + esc(p.api)],
+      ['Tokens in / out', '<span class="mono">' + esc(p.input_tokens) + ' / ' + esc(p.output_tokens) + '</span>'],
+      ['Latency', '<span class="mono">' + esc(p.measured_latency_ms) + ' ms</span>'],
+      ['Estimated cost', '<span class="mono">USD ' + esc(p.estimated_cost_usd) + '</span>'],
+      ['Prompt digest', '<span class="mono">' + esc(short(b.prompt_sha256)) + '</span>'],
+      ['Verifier method', '<span class="muted">' + esc(v.method) + '</span>'],
+      ['Verifier boundary', '<span class="muted">' + esc(v.boundary) + '</span>'],
+    ]);
+}
+
+/* ============================================================ indic ============================================================ */
+function renderIndic(d){
+  const statusPill = document.getElementById('indic-status'), bar = document.getElementById('langbar'), host = document.getElementById('indic-body');
+  if (!d || d.status !== 'CAPTURED'){
+    statusPill.textContent = 'NOT RUN'; statusPill.className = 'pill warn';
+    bar.innerHTML = '';
+    host.innerHTML = '<div class="empty">' + esc(d?.reason || 'No localisation captured.') +
+      '<br><br>' + esc(d?.boundary || '') + '<br><br>Run <code>make localise</code> once SARVAM_API_KEY is set.</div>';
+    return;
+  }
+  const codes = Object.keys(d.translations).filter(c => d.translations[c].status === 'TRANSLATED');
+  const lost = codes.filter(c => d.translations[c].magnitude_check.status !== 'MAGNITUDE_PRESERVED');
+  statusPill.textContent = codes.length + ' language' + (codes.length === 1 ? '' : 's') +
+    (lost.length ? ' · ' + lost.length + ' figure mismatch' : '');
+  statusPill.className = 'pill ' + (lost.length ? 'warn' : 'ok');
+  bar.innerHTML = '<button class="lang" data-c="en" aria-pressed="true">English (source)</button>' +
+    Object.entries(d.translations).map(([c, t]) =>
+      '<button class="lang" data-c="' + esc(c) + '" aria-pressed="false"' +
+      (t.status === 'TRANSLATED' ? '' : ' disabled') + '>' + esc(t.language) + '</button>').join('');
+  const show = code => {
+    bar.querySelectorAll('.lang').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.c === code)));
+    if (code === 'en'){
+      host.innerHTML = '<pre class="box wrap">' + esc(d.source_brief) + '</pre>' +
+        rows([['Source', '<span class="muted">' + esc(d.source_brief_provenance) + '</span>'],
+              ['Boundary', '<span class="muted">' + esc(d.boundary) + '</span>']]);
+      return;
+    }
+    const t = d.translations[code], c = t.magnitude_check;
+    const ok = c.status === 'MAGNITUDE_PRESERVED';
+    host.innerHTML = '<pre class="box wrap" style="font-size:13.5px;line-height:1.7">' + esc(t.translated_text) + '</pre>' +
+      rows([
+        ['Figure check', '<span class="' + (ok ? 'green' : 'red') + '">' + esc(c.status.replace(/_/g,' ')) + '</span>'],
+        ['Expected', '<span class="mono">₹' + c.expected_values.map(inr).join(', ₹') + '</span>'],
+        ['Missing after translation', c.missing_values.length
+          ? '<span class="mono red">₹' + c.missing_values.map(inr).join(', ₹') + '</span>' : '<span class="green">none</span>'],
+        ['Review note', '<span class="muted">' + esc(c.review_note) + '</span>'],
+        ['Sarvam request ids', '<span class="mono muted">' + esc((t.sarvam_request_ids||[]).join(', ') || '—') + '</span>'],
+        ['Check method', '<span class="muted">' + esc(c.method) + '</span>'],
+      ]);
+  };
+  bar.onclick = e => { const b = e.target.closest('.lang'); if (b && !b.disabled) show(b.dataset.c); };
+  show('en');
+}
+
+/* ============================================================ cert-in ============================================================ */
+function renderCertIn(form, report){
+  const host = document.getElementById('certin-body');
+  if (!form){ host.innerHTML = '<div class="empty">No CERT-In draft. Run <code>make compliance</code>.</div>'; return; }
+  const flat = [];
+  const walk = (obj, prefix) => {
+    for (const [k, v] of Object.entries(obj)){
+      const label = (prefix ? prefix + ' · ' : '') + k.replace(/_/g,' ');
+      if (v && typeof v === 'object' && !Array.isArray(v)) walk(v, label);
+      else {
+        const empty = v === '' || v === null || v === undefined;
+        flat.push([label,
+          empty ? '<span class="amber">to be completed by an authorised reporter</span>'
+                : '<span>' + esc(Array.isArray(v) ? v.join(', ') : v) + '</span>',
+          empty ? ['req','analyst required'] : null]);
+      }
+    }
+  };
+  walk(form, '');
+  host.innerHTML = '<h3 style="margin-bottom:4px">CERT-In incident report — VIGIL draft</h3>' +
+    '<p class="sub">Incident ' + esc(report?.incident_id) + ' · generated from synthetic rehearsal evidence · DRAFT, NOT FILED</p>' +
+    rows(flat);
+}
+document.getElementById('btn-print').onclick = () => {
+  document.querySelectorAll('.tabpanel').forEach(p => { p.hidden = p.id !== 'tp-certin'; });
+  document.querySelectorAll('#tabs .tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === 'certin')));
+  window.print();
+};
+
+/* ============================================================ escalation ============================================================ */
+function renderEscalate(d){
+  const host = document.getElementById('escalate-body');
+  if (!d){ host.innerHTML = '<div class="empty">No escalation payloads. Run <code>make dispatch</code>.</div>'; return; }
+  host.innerHTML = rows([['Boundary', '<span class="muted">' + esc(d.boundary) + '</span>']]) +
+    Object.entries(d.channels).map(([name, body]) =>
+      '<details style="margin-top:12px"><summary style="cursor:pointer;font-weight:600">' +
+      esc(name.replace(/_/g,' ')) + ' <span class="badge">schema-valid · not sent</span></summary>' +
+      '<pre class="box" style="margin-top:9px">' + esc(JSON.stringify(body, null, 2)) + '</pre></details>').join('');
+}
+
+/* ============================================================ provenance ============================================================ */
+function renderProvenance(){
+  const brief = A.brief, indic = A.indic;
+  const table = [
+    ['Deterministic exposure', 'ES|QL lookup join over the sealed evidence against synthetic bank context', 'Fixture value, not a proven loss'],
+    ['Evidence timeline', 'events.ndjson rows whose id is in the evidence envelope', 'Synthetic corpus, deterministic generator'],
+    ['Attack Discovery narrative', 'One captured Elastic Attack Discovery run on the preconfigured Elastic LLM connector', 'AI investigation lead, not an adjudication'],
+    ['Certainty flags', 'Deterministic phrase-level check in workflow/review_discovery.py', 'Phrase guardrail, not a semantic fact checker'],
+    ['Ungrounded-claim check', 'Magnitude, IPv4 and transaction-id matching against the closed fact set', 'Grounding check on figures and identifiers only'],
+    ['MITRE techniques', 'Mapped by VIGIL from corpus tags and event actions', 'Not a conclusion drawn by the AI'],
+    ['Attack topology', 'Nodes and edges derived from evidence event ids', 'Observed flow; no intent or attribution'],
+    ['Ledger verification', 'Recomputed client-side with Web Crypto from the canonical block bytes', 'Tamper-evident prototype, not immutable storage'],
+    ['Bedrock brief', brief?.status === 'CAPTURED'
+        ? 'Live AWS Bedrock Converse call to ' + esc(brief.provenance.model_id) + ' in ' + esc(brief.provenance.region)
+        : 'Not run in this build', 'Review aid only; blocked from artifacts if ungrounded'],
+    ['Regional brief', indic?.status === 'CAPTURED'
+        ? 'Live Sarvam AI translate call on this run’s brief'
+        : 'Not run in this build', 'Internal readability aid; English draft is authoritative'],
+    ['CERT-In draft', 'Field-mapped from the evidence; reporter fields left blank', 'Draft for human review, never filed'],
+    ['Escalation payloads', 'Built from artifacts to each service’s documented schema', 'Preview only; no delivery credential held'],
+  ];
+  document.querySelector('#tbl-prov tbody').innerHTML = table.map(r =>
+    '<tr><td><b>' + esc(r[0]) + '</b></td><td class="muted">' + r[1] + '</td><td class="muted">' + esc(r[2]) + '</td></tr>').join('');
+}
+
+/* ============================================================ boot ============================================================ */
+(async function boot(){
+  const [report, ledger, decision, manifest, mitre, topology, brief, indic, escalate, certin, envelope, events, esql] = await Promise.all([
+    load('incident-report-draft.json'), load('evidence-ledger.json'), load('review-decision.json'),
+    load('manifest.json'), load('mitre-mapping.json'), load('attack-topology.json'),
+    load('bedrock-grounded-brief.json'), load('indic-localisation.json'), load('escalation-payloads.json'),
+    load('cert-in-incident-form-draft.json'), load('evidence-envelope.json'), load('evidence-timeline.json'), load('exposure-query.json'),
+  ]);
+  Object.assign(A, {report, ledger, decision, manifest, mitre, topology, brief, indic, escalate, certin, envelope, events, esql});
+
+  if (!report){
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      '<div class="notice"><span class="notice-icon">✕</span><div><b>No artifacts loaded.</b> ' +
+      'Run <code>make demo &amp;&amp; make warroom</code>, then serve over HTTP: ' +
+      '<code>python3 -m http.server 8000</code> and open <code>http://localhost:8000/warroom/</code>. ' +
+      'Opening this file directly with <code>file://</code> blocks the data fetches.</div></div>');
+    renderSteps(); return;
+  }
+
+  const ad = report.attack_discovery || {}, cr = report.attack_discovery_claim_review || {};
+  document.getElementById('pill-incident').textContent = report.incident_id;
+
+  // KPIs
+  document.getElementById('kpi-exposure').textContent = '₹' + inr(report.deterministic_exposure_inr);
+  document.getElementById('kpi-exposure-s').textContent =
+    report.deterministic_exposure_inr === report.observed_suspicious_upi_total_inr
+      ? 'agrees with observed UPI total' : 'DISAGREES with observed total — do not present';
+  document.getElementById('kpi-events').textContent = (report.evidence_event_ids || []).length;
+  document.getElementById('kpi-events-s').textContent = (envelope?.scope?.host || '') + ' · ' +
+    (envelope?.scope?.first_seen_utc || '').slice(11,16) + '–' + (envelope?.scope?.last_seen_utc || '').slice(11,16) + ' UTC';
+  document.getElementById('kpi-claims').textContent = (cr.findings || []).length;
+
+  // Step 2/3 contrast
+  document.getElementById('ai-title').textContent = ad.title || ad.status || '—';
+  document.getElementById('ai-summary').textContent = ad.summary || '';
+  document.getElementById('claim-list').innerHTML = (cr.findings || []).length
+    ? cr.findings.map(f => '<li><span class="strike">' + esc(f.phrase) + '</span> — ' + esc(f.review_note) + '</li>').join('')
+    : '<li style="color:var(--green)">No unsupported certainty language found.</li>';
+  document.getElementById('claim-boundary').textContent = ad.interpretation || '';
+  document.getElementById('guard-method').textContent = cr.method || '—';
+  document.getElementById('guard-effect').textContent = cr.submission_effect || '—';
+
+  // Timeline
+  const tbody = document.querySelector('#tbl-timeline tbody');
+  if (events?.rows?.length){
+    tbody.innerHTML = events.rows.map((r,i) =>
+      '<tr><td class="muted">' + (i+1) + '</td><td class="mono">' + esc(r.id) + '</td>' +
+      '<td class="mono muted">' + esc(r.timestamp.slice(11,19)) + '</td>' +
+      '<td>' + esc(r.action.replace(/_/g,' ')) + '</td>' +
+      '<td class="' + (r.outcome === 'failure' ? 'red' : 'green') + '">' + esc(r.outcome) + '</td>' +
+      '<td class="num">' + (r.amount_inr ? inr(r.amount_inr) : '—') + '</td></tr>').join('');
+  } else {
+    tbody.innerHTML = '<tr><td colspan="6" class="muted">No timeline artifact. Run <code>make timeline</code>.</td></tr>';
+  }
+
+  // Exposure
+  document.getElementById('exposure-rows').innerHTML = rows([
+    ['Deterministic exposure', '<b class="red">₹' + inr(report.deterministic_exposure_inr) + '</b>', ['calc','ES|QL lookup join']],
+    ['Observed UPI total', '<b>₹' + inr(report.observed_suspicious_upi_total_inr) + '</b>', ['obs','summed from evidence']],
+    ['Cross-check', report.deterministic_exposure_inr === report.observed_suspicious_upi_total_inr
+      ? '<span class="green">the two independent figures agree</span>'
+      : '<span class="red">figures disagree — the run is not presentable</span>'],
+    ['Affected asset', esc(report.affected_asset), ['obs','observed']],
+    ['Affected service', esc(report.affected_service), ['obs','observed']],
+    ['Boundary', '<span class="muted">Fixture exposure against synthetic bank context. Not a proven or recovered loss.</span>'],
+  ]);
+
+  // Decision
+  document.getElementById('decision-rows').innerHTML = decision ? rows([
+    ['Decision', '<b class="amber">' + esc(String(decision.decision).toUpperCase()) + '</b>'],
+    ['Reviewer', esc(decision.reviewer)],
+    ['Recorded at', '<span class="mono muted">' + esc(decision.reviewed_at_utc) + '</span>'],
+    ['Effect', '<span class="muted">' + esc(decision.effect) + '</span>'],
+    ['Status', '<span class="muted">' + esc(decision.status) + '</span>'],
+  ]) : '<div class="empty">No decision recorded.</div>';
+
+  // Pack
+  const packFiles = (manifest?.files || []).filter(f => /draft|pack|preview|localisation|escalation/.test(f));
+  document.getElementById('pack-rows').innerHTML = packFiles.length
+    ? packFiles.map(f => '<div class="row"><div class="k">prepared</div><div class="v green mono">✓ ' + esc(f) + '</div></div>').join('') +
+      rows([['Boundary', '<span class="muted">Human-review drafts only. VIGIL transmits nothing and signs nothing.</span>']])
+    : '<div class="empty">No compliance pack found.</div>';
+
+  // Ledger
+  genuineLedger = ledger || [];
+  workingLedger = JSON.parse(JSON.stringify(genuineLedger));
+  await renderChain();
+  await selfTest();
+
+  renderTopology(topology);
+  renderMitre(mitre);
+  if (esql){
+    document.getElementById('esql-params').innerHTML = rows([
+      ['Host', '<span class="mono">' + esc(esql.parameters?.host) + '</span>', ['obs','sealed scope']],
+      ['Principal user', '<span class="mono">' + esc(esql.parameters?.user) + '</span>', ['obs','sealed scope']],
+      ['UTC window', '<span class="mono">' + esc(esql.parameters?.first_seen_utc) + ' → ' + esc(esql.parameters?.last_seen_utc) + '</span>'],
+      ['Boundary', '<span class="muted">' + esc(esql.boundary) + '</span>'],
+    ]);
+    document.getElementById('esql-query').textContent = esql.query;
+  } else {
+    document.getElementById('esql-query').textContent = 'No rendered query. Run make exposure-query.';
+  }
+  renderAiBrief(brief);
+  renderIndic(indic);
+  renderCertIn(certin, report);
+  renderEscalate(escalate);
+  renderProvenance();
+  renderSteps();
+})();
+</script>
+</body>
+</html>

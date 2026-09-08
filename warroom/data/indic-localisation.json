@@ -1,0 +1,100 @@
+{
+  "status": "CAPTURED",
+  "provider": "Sarvam AI",
+  "api": "https://api.sarvam.ai/translate",
+  "source_language": "en-IN",
+  "source_brief": "Draft for human review. A potential credential compromise was observed on pay-svc-prod-01, affecting the UPI payment gateway. Five UPI transfers totalling INR 11,60,000 rupees were observed outside the normal batch profile. Compromise, fraud and customer impact are not established. A human analyst must validate the evidence before any containment or regulatory filing.",
+  "source_brief_provenance": "deterministic incident draft (no verified AI brief available)",
+  "expected_magnitudes_inr": [
+    1160000
+  ],
+  "generated_at_utc": "2026-09-08T18:01:28.171668+00:00",
+  "boundary": "Regional briefs are an internal readability aid for branch and regional staff. The English draft remains the authoritative record, and nothing here is filed with a regulator.",
+  "translations": {
+    "hi-IN": {
+      "language": "Hindi",
+      "status": "TRANSLATED",
+      "translated_text": "मानव समीक्षा के लिए मसौदा। पे-एस.वी.सी.-प्रोड-01 पर एक संभावित क्रेडेंशियल समझौता देखा गया, जिसने यू.पी.आई. भुगतान गेटवे को प्रभावित किया। सामान्य बैच प्रोफ़ाइल के बाहर 11,60,000 रुपये के कुल पाँच यू.पी.आई. ट्रांसफ़र्स देखे गए। समझौता, धोखाधड़ी और ग्राहक प्रभाव स्थापित नहीं हैं। किसी भी निरोध या नियामक फाइलिंग से पहले एक मानव विश्लेषक को साक्ष्य को प्रमाणित करना चाहिए।",
+      "sarvam_request_ids": [
+        "20260908_b74a63d3-daef-4864-b13f-a11cf1947f85"
+      ],
+      "magnitude_check": {
+        "status": "MAGNITUDE_PRESERVED",
+        "method": "Indic digit forms are normalised to Latin, comma separators are removed, then each expected rupee magnitude must equal a complete numeric token.",
+        "expected_values": [
+          1160000
+        ],
+        "missing_values": [],
+        "review_note": "The regional brief carries this incident's figure unchanged."
+      }
+    },
+    "mr-IN": {
+      "language": "Marathi",
+      "status": "TRANSLATED",
+      "translated_text": "मानवी पुनरावलोकनासाठी मसुदा. पे-एस.व्ही.सी.-प्रोड-01 वर संभाव्य ओळखपत्रांचा विपर्यास आढळून आला, ज्याचा यूपीआय पेमेंट गेटवेवर परिणाम झाला. 11,60,000 रुपयांचे पाच UPI हस्तांतरण सामान्य बॅच प्रोफाइलच्या बाहेर आढळले. तडजोड, फसवणूक आणि ग्राहकांवर होणारा परिणाम स्थापित झालेला नाही. कोणत्याही प्रतिबंध किंवा नियामक फाइलिंगपूर्वी मानवी विश्लेषकाने पुराव्याची पडताळणी करणे आवश्यक आहे.",
+      "sarvam_request_ids": [
+        "20260908_06d5e9dc-cbfb-4f84-bff3-199f26b1b581"
+      ],
+      "magnitude_check": {
+        "status": "MAGNITUDE_PRESERVED",
+        "method": "Indic digit forms are normalised to Latin, comma separators are removed, then each expected rupee magnitude must equal a complete numeric token.",
+        "expected_values": [
+          1160000
+        ],
+        "missing_values": [],
+        "review_note": "The regional brief carries this incident's figure unchanged."
+      }
+    },
+    "ta-IN": {
+      "language": "Tamil",
+      "status": "TRANSLATED",
+      "translated_text": "மனித ஆய்வுக்குரிய வரைவு. யுபிஐ பணம் செலுத்தும் நுழைவாயிலை பாதிக்கும் வகையில், பணம்-சேவை-தயாரிப்பு-01 இல் ஒரு சாத்தியமான நம்பகத்தன்மை மீறல் கவனிக்கப்பட்டது. ஐந்து UPI பரிமாற்றங்கள் மொத்தம் 11,60,000 ரூபாய் தொகையை சாதாரண தொகுதி விவரக்குறிப்புக்கு வெளியே காணப்பட்டன. சமரசம், மோசடி மற்றும் வாடிக்கையாளர் தாக்கம் ஆகியவை நிறுவப்படவில்லை. எந்தவொரு கட்டுப்பாடு அல்லது ஒழுங்குமுறை தாக்கல் செய்வதற்கு முன்பும், ஒரு மனித ஆய்வாளர் சான்றுகளை சரிபார்க்க வேண்டும்.",
+      "sarvam_request_ids": [
+        "20260908_dcf5b318-f634-417d-bc93-cf76eaa699c7"
+      ],
+      "magnitude_check": {
+        "status": "MAGNITUDE_PRESERVED",
+        "method": "Indic digit forms are normalised to Latin, comma separators are removed, then each expected rupee magnitude must equal a complete numeric token.",
+        "expected_values": [
+          1160000
+        ],
+        "missing_values": [],
+        "review_note": "The regional brief carries this incident's figure unchanged."
+      }
+    },
+    "te-IN": {
+      "language": "Telugu",
+      "status": "TRANSLATED",
+      "translated_text": "మానవ సమీక్ష కోసం ముసాయిదా. పే-ఎస్‌విసి-ప్రోడ్-01లో సంభావ్య ఆధారపత్రాల రాజీ గమనించబడింది, ఇది యుపిఐ చెల్లింపు గేట్‌వేను ప్రభావితం చేసింది. సాధారణ బ్యాచ్ ప్రొఫైల్ వెలుపల మొత్తం 11,60,000 రూపాయల ఐదు UPI బదిలీలు గమనించబడ్డాయి. రాజీ, మోసం మరియు వినియోగదారులపై ప్రభావం అనేవి స్థాపించబడలేదు. ఏదైనా కంటైన్‌మెంట్ లేదా రెగ్యులేటరీ ఫైలింగ్‌కు ముందు మానవ విశ్లేషకుడు సాక్ష్యాన్ని ధృవీకరించాలి.",
+      "sarvam_request_ids": [
+        "20260908_a96cb05c-d90c-4a6d-ac35-117975bd55aa"
+      ],
+      "magnitude_check": {
+        "status": "MAGNITUDE_PRESERVED",
+        "method": "Indic digit forms are normalised to Latin, comma separators are removed, then each expected rupee magnitude must equal a complete numeric token.",
+        "expected_values": [
+          1160000
+        ],
+        "missing_values": [],
+        "review_note": "The regional brief carries this incident's figure unchanged."
+      }
+    },
+    "bn-IN": {
+      "language": "Bengali",
+      "status": "TRANSLATED",
+      "translated_text": "খসড়া মানব পর্যালোচনার জন্য। ইউ.পি.আই পেমেন্ট গেটওয়েকে প্রভাবিত করে পে-এস.ভি.সি-প্রোড-01-এ একটি সম্ভাব্য ক্রেডিট কার্ডের তথ্য চুরির ঘটনা লক্ষ্য করা গেছে। স্বাভাবিক ব্যাচ প্রোফাইলের বাইরে 11,60,000 টাকা মূল্যের পাঁচটি ইউপিআই স্থানান্তর লক্ষ্য করা গেছে। সমঝোতা, জালিয়াতি এবং গ্রাহক প্রভাব প্রতিষ্ঠিত হয়নি। কোনও নিয়ন্ত্রণ বা নিয়ন্ত্রক জমা দেওয়ার আগে একজন মানব বিশ্লেষকের প্রমাণকে বৈধতা প্রদান করতে হবে।",
+      "sarvam_request_ids": [
+        "20260908_4f06e771-7479-4c9f-9ddc-0d564270a374"
+      ],
+      "magnitude_check": {
+        "status": "MAGNITUDE_PRESERVED",
+        "method": "Indic digit forms are normalised to Latin, comma separators are removed, then each expected rupee magnitude must equal a complete numeric token.",
+        "expected_values": [
+          1160000
+        ],
+        "missing_values": [],
+        "review_note": "The regional brief carries this incident's figure unchanged."
+      }
+    }
+  }
+}

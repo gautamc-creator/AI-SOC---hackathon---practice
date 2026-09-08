@@ -20,14 +20,29 @@ def main() -> None:
     artifacts = ROOT / "artifacts"
     events = read_ndjson(artifacts / "events.ndjson")
     truth = json.loads((artifacts / "ground-truth.json").read_text(encoding="utf-8"))
+    bank_context = read_ndjson(artifacts / "bank-context.ndjson")
     classification = json.loads((artifacts / "classification.json").read_text(encoding="utf-8"))
     envelope = json.loads((artifacts / "evidence-envelope.json").read_text(encoding="utf-8"))
-    hero_ids = set(truth["hero"]["event_ids"])
-    evidence = [row for row in events if row["_id"] in hero_ids]
+    evidence_ids = set(envelope["evidence_event_ids"])
+    evidence = [row for row in events if row["_id"] in evidence_ids]
+    hosts = sorted({row.get("host", {}).get("name") for row in evidence if row.get("host", {}).get("name")})
+    if len(hosts) != 1:
+        raise RuntimeError(f"Expected one affected host in the sealed evidence; found {hosts}.")
+    affected_asset = hosts[0]
+    context_matches = [row for row in bank_context if row.get("host.name") == affected_asset]
+    if len(context_matches) != 1:
+        raise RuntimeError(f"Expected one bank-context row for {affected_asset}; found {len(context_matches)}.")
+    affected_service = context_matches[0]["vigil.bank.service"]
     occurrence_start = min(row["@timestamp"] for row in evidence)
     first_observed = min(row["event"]["created"] for row in evidence)
     generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     upi_total = sum(row.get("vigil", {}).get("transaction", {}).get("amount", 0) for row in evidence)
+    expected_exposure = truth["hero"]["expected_exposure_inr"]
+    if upi_total != expected_exposure:
+        raise RuntimeError(
+            f"Evidence-derived exposure INR {upi_total:,} does not match the fixture answer key "
+            f"INR {expected_exposure:,}; refusing to generate a report."
+        )
     discovery_path = artifacts / "attack-discovery-baseline.json"
     discovery: dict | None = None
     claim_review_path = artifacts / "attack-discovery-claim-review.json"
@@ -48,9 +63,9 @@ def main() -> None:
         "first_observed_timestamp_utc": first_observed,
         "cert_in_notice_anchor_utc": generated_at,
         "regulatory_timing_note": "Prototype timing anchors only. Confirm the regulated entity's current RBI and CERT-In obligations before any real-world use.",
-        "affected_asset": truth["hero"]["host"],
-        "affected_service": "UPI payment gateway",
-        "deterministic_exposure_inr": truth["hero"]["expected_exposure_inr"],
+        "affected_asset": affected_asset,
+        "affected_service": affected_service,
+        "deterministic_exposure_inr": upi_total,
         "observed_suspicious_upi_total_inr": upi_total,
         "evidence_event_ids": [row["_id"] for row in evidence],
         "evidence_envelope": {"artifact": "evidence-envelope.json", "evidence_set_hash": envelope["integrity"]["evidence_set_hash"]},

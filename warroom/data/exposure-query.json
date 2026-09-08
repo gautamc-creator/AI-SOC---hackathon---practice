@@ -1,0 +1,12 @@
+{
+  "status": "RENDERED_FROM_SEALED_INCIDENT_SCOPE",
+  "template": "elastic/esql/exposure_lookup_join.esql",
+  "parameters": {
+    "host": "pay-svc-prod-01",
+    "user": "svc-payments-admin",
+    "first_seen_utc": "2026-09-06T08:30:00Z",
+    "last_seen_utc": "2026-09-06T08:45:00Z"
+  },
+  "query": "FROM logs-vigil-security\n| WHERE host.name == \"pay-svc-prod-01\"\n| WHERE user.name == \"svc-payments-admin\"\n| WHERE @timestamp >= TO_DATETIME(\"2026-09-06T08:30:00Z\") AND @timestamp <= TO_DATETIME(\"2026-09-06T08:45:00Z\")\n| WHERE event.action IN (\"login\", \"connection\", \"upi_transfer\")\n| LOOKUP JOIN vigil-bank-context ON host.name\n| STATS\n    evidence_events = COUNT(*),\n    suspicious_upi_total = SUM(vigil.transaction.amount),\n    bank_exposure_inr = MAX(vigil.bank.exposure_inr),\n    affected_accounts = MAX(vigil.bank.account_count)\n  BY host.name, vigil.bank.service, vigil.bank.tier, vigil.bank.owner",
+  "boundary": "The query is incident-scoped from the evidence envelope; it contains no hidden ground-truth tag or fixed IOC."
+}

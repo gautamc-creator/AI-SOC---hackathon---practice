@@ -25,29 +25,29 @@
   },
   {
     "sequence": 1,
-    "timestamp": "2026-09-07T01:30:57.026900Z",
+    "timestamp": "2026-09-08T18:02:37.533696Z",
     "event_type": "classification_completed",
     "payload": {
       "artifact": "classification.json",
       "method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model."
     },
     "previous_hash": "87a9daa33c93a49ceef759af77955c1b1406d89682e7efd5f538792a0d876247",
-    "hash": "b55c96980db0d5e0a87e765321a67a54b7608f0673a892bd42b351fca47e7132"
+    "hash": "9adb43c2667a47b98f08de9afcf407119e4c9511253eb3095944cfbf8ab5a42a"
   },
   {
     "sequence": 2,
-    "timestamp": "2026-09-07T01:30:57.026900Z",
+    "timestamp": "2026-09-08T18:02:37.533696Z",
     "event_type": "evidence_enveloped",
     "payload": {
       "artifact": "evidence-envelope.json",
-      "evidence_set_hash": "2d6449cbec469c6a3cbd6caa8064db285d913d4ddb6cbeba200dd09b6a6069fb"
+      "evidence_set_hash": "15bffc4154dbd7ee50e72aedcafe89ffd8e810bc0881c6dd2fef49561d74520d"
     },
-    "previous_hash": "b55c96980db0d5e0a87e765321a67a54b7608f0673a892bd42b351fca47e7132",
-    "hash": "15fccb7e565c26689d5a550f2e39a151f5e322c90ca601f02ea46f8c09d90bf4"
+    "previous_hash": "9adb43c2667a47b98f08de9afcf407119e4c9511253eb3095944cfbf8ab5a42a",
+    "hash": "b2133845dd6b5c692176661db614f8d5f0232a09ae5946656b7089efa1dccc71"
   },
   {
     "sequence": 3,
-    "timestamp": "2026-09-07T01:30:57.026900Z",
+    "timestamp": "2026-09-08T18:02:37.533696Z",
     "event_type": "attack_discovery_generated",
     "payload": {
       "source": "Elastic Security Attack Discovery",
@@ -55,40 +55,40 @@
       "discovery_id": "234d4d9d408218069fbc3856cfb6c31b761802527934733482c5988d73a40498",
       "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration"
     },
-    "previous_hash": "15fccb7e565c26689d5a550f2e39a151f5e322c90ca601f02ea46f8c09d90bf4",
-    "hash": "63f8e7ca9fc47cec55b13ab4984635ce2394317002de096877e5056b6395e3a2"
+    "previous_hash": "b2133845dd6b5c692176661db614f8d5f0232a09ae5946656b7089efa1dccc71",
+    "hash": "8d3c34eac064c7335cafab50df91eda300603a77cd65ed81daebc863194d5388"
   },
   {
     "sequence": 4,
-    "timestamp": "2026-09-07T01:30:57.026900Z",
+    "timestamp": "2026-09-08T18:02:37.533696Z",
     "event_type": "exposure_calculated",
     "payload": {
       "method": "deterministic_lookup_context",
       "amount_inr": 1160000
     },
-    "previous_hash": "63f8e7ca9fc47cec55b13ab4984635ce2394317002de096877e5056b6395e3a2",
-    "hash": "e7308a4e9243cf35c1d4600d7f5ba0104fd464c8275e9af7f73ed2bfbd524f39"
+    "previous_hash": "8d3c34eac064c7335cafab50df91eda300603a77cd65ed81daebc863194d5388",
+    "hash": "5a4a6f536d43e0f7d224b56a06092c6c19f39a23f21c776f7b2dd95c66173443"
   },
   {
     "sequence": 5,
-    "timestamp": "2026-09-07T01:30:57.026900Z",
+    "timestamp": "2026-09-08T18:02:37.533696Z",
     "event_type": "human_review_requested",
     "payload": {
       "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
       "action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels."
     },
-    "previous_hash": "e7308a4e9243cf35c1d4600d7f5ba0104fd464c8275e9af7f73ed2bfbd524f39",
-    "hash": "f5388011c952a531a284a04c69ff9978af64cd89ed8467deafc946970c9c3ba3"
+    "previous_hash": "5a4a6f536d43e0f7d224b56a06092c6c19f39a23f21c776f7b2dd95c66173443",
+    "hash": "f9494569b55dc0656da8db30c86c2db8d5a1880ed73dbb2f79985b5d1a66424d"
   },
   {
     "sequence": 6,
-    "timestamp": "2026-09-07T01:30:57.026900Z",
+    "timestamp": "2026-09-08T18:02:37.533696Z",
     "event_type": "report_drafted",
     "payload": {
       "artifact": "incident-report-draft.json",
       "submission": "not submitted"
     },
-    "previous_hash": "f5388011c952a531a284a04c69ff9978af64cd89ed8467deafc946970c9c3ba3",
-    "hash": "a1436c848034db68fe972bcfcc91ca46c0ebb748ded7fb74d16ab5c9e1306fa7"
+    "previous_hash": "f9494569b55dc0656da8db30c86c2db8d5a1880ed73dbb2f79985b5d1a66424d",
+    "hash": "850d8e4377399739f9d653e48fbb7c088276496b1e45b0b5d08c448420700abb"
   }
 ]

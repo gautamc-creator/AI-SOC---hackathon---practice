@@ -100,6 +100,7 @@ def main() -> None:
     events = ROOT / "artifacts/events.ndjson"
     context = ROOT / "artifacts/bank-context.ndjson"
     mapping = ROOT / "elastic/mappings/vigil-bank-context.json"
+    stream_template = ROOT / "elastic/mappings/logs-vigil-security-template.json"
     ingest_pipeline = ROOT / "elastic/ingest/vigil-normalize.json"
     if not events.exists() or not context.exists():
         raise RuntimeError("Run `python3 data/generator/generate.py` before seeding Elastic.")
@@ -107,11 +108,19 @@ def main() -> None:
     request("DELETE", "/_data_stream/logs-vigil-security")
     request("DELETE", "/vigil-bank-context")
     request("PUT", "/_ingest/pipeline/vigil-normalize", ingest_pipeline.read_bytes())
+    # The index template must exist before the data stream is created, otherwise the stream
+    # is born with dynamic mappings and vigil.bank.customer_tier becomes a text field that
+    # cannot be grouped in ES|QL or thresholded in a detection rule.
+    request("PUT", "/_index_template/logs-vigil-security", stream_template.read_bytes())
     request("PUT", "/_data_stream/logs-vigil-security")
     request("PUT", "/vigil-bank-context", mapping.read_bytes())
     bulk("logs-vigil-security", events, data_stream=True)
     bulk("vigil-bank-context", context, to_nested)
-    print("Seeded logs-vigil-security and vigil-bank-context; installed ingest pipeline vigil-normalize. Run elastic/esql/exposure_lookup_join.esql in Kibana.")
+    print(
+        "Seeded logs-vigil-security and vigil-bank-context; installed ingest pipeline "
+        "vigil-normalize and index template logs-vigil-security. "
+        "Run elastic/esql/exposure_lookup_join.esql in Kibana."
+    )
 
 
 if __name__ == "__main__":

@@ -15,11 +15,14 @@ def main() -> None:
     truth = json.loads((ROOT / "artifacts/ground-truth.json").read_text())
     ids = set(truth["hero"]["event_ids"])
     evidence = [event for event in events if event["_id"] in ids]
+    users = sorted({event.get("user", {}).get("name") for event in evidence if event.get("user", {}).get("name")})
+    if len(users) != 1:
+        raise RuntimeError(f"Expected one principal user in the sealed incident scope; found {users}.")
     envelope = {
         "status": "EVIDENCE ENVELOPE — SYNTHETIC REHEARSAL",
         "case_id": "VIGIL-2026-09-06-001",
         "source": {"data_stream": "logs-vigil-security", "dataset": "vigil-synthetic", "origin": "local deterministic generator"},
-        "scope": {"host": truth["hero"]["host"], "event_count": len(evidence), "first_seen_utc": min(e["@timestamp"] for e in evidence), "last_seen_utc": max(e["@timestamp"] for e in evidence)},
+        "scope": {"host": truth["hero"]["host"], "user": users[0], "event_count": len(evidence), "first_seen_utc": min(e["@timestamp"] for e in evidence), "last_seen_utc": max(e["@timestamp"] for e in evidence)},
         "evidence_event_ids": [event["_id"] for event in evidence],
         "integrity": {"algorithm": "SHA-256", "evidence_set_hash": digest(evidence)},
         "handling_note": "Evidence identifiers and time range are captured for human review. No real customer or bank data is present.",

@@ -5,21 +5,55 @@
   "mappings": {
     "dynamic": "strict",
     "properties": {
-      "host": {"properties": {"name": {"type": "keyword"}}},
+      "host": {
+        "properties": {
+          "name": {
+            "type": "keyword"
+          }
+        }
+      },
       "vigil": {
         "properties": {
           "bank": {
             "properties": {
-              "service": {"type": "keyword"},
-              "tier": {"type": "keyword"},
-              "account_count": {"type": "integer"},
-              "exposure_inr": {"type": "long"},
-              "owner": {"type": "keyword"},
-              "approved_maintenance_ip": {"type": "ip"}
+              "service": {
+                "type": "keyword"
+              },
+              "tier": {
+                "type": "keyword"
+              },
+              "account_count": {
+                "type": "integer"
+              },
+              "exposure_inr": {
+                "type": "long"
+              },
+              "owner": {
+                "type": "keyword"
+              },
+              "approved_maintenance_ip": {
+                "type": "ip"
+              },
+              "criticality": {
+                "type": "keyword"
+              },
+              "regulated_channel": {
+                "type": "keyword"
+              },
+              "aml_alert_threshold": {
+                "type": "float"
+              },
+              "kyc_required": {
+                "type": "boolean"
+              }
             }
           }
         }
       }
     }
+  },
+  "_meta": {
+    "description": "Lookup index holding synthetic per-host bank context for the ES|QL LOOKUP JOIN.",
+    "why_strict": "dynamic:strict makes an unmapped context field a loud ingest failure rather than a silently untyped field that then breaks the join."
   }
 }

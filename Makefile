@@ -1,6 +1,7 @@
 PYTHON ?= python3
+LANGUAGES ?= hi-IN,mr-IN,ta-IN,te-IN,bn-IN
 
-.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live workflow-live workflow-agent-test workflow-human-gate-test workflow-e2e-test dashboard-live classify envelope review compliance notify warroom verify tamper-verify test clean
+.PHONY: demo benchmark seed validate verify-ingest create-rule validate-detection-queries validate-rules validate-alerts run-attack-discovery capture-attack-discovery review-discovery case-preview case-live workflow-live workflow-agent-test workflow-human-gate-test workflow-e2e-test dashboard-live classify envelope exposure-query review compliance notify warroom verify tamper-verify timeline mitre topology dispatch brief-live brief-adversarial brief-verify localise bedrock-probe serve site deploy-vercel test test-adversarial eval-compare field-provenance scan-injection clean
 
 demo:
 	$(PYTHON) scripts/golden_path.py
@@ -66,6 +67,9 @@ classify:
 envelope:
 	$(PYTHON) workflow/gather_evidence.py
 
+exposure-query:
+	$(PYTHON) elastic/esql/render_exposure_query.py
+
 review:
 	$(PYTHON) approvals/review.py --decision hold
 
@@ -88,5 +92,70 @@ tamper-verify:
 test:
 	$(PYTHON) -m unittest discover -s tests -v
 
+test-adversarial:
+	$(PYTHON) -m unittest tests.test_adversarial -v
+
+eval-compare:
+	$(PYTHON) eval/run_comparison.py
+
+field-provenance:
+	$(PYTHON) compliance/field_provenance.py
+
+scan-injection:
+	$(PYTHON) workflow/scan_for_injection.py
+
+timeline:
+	$(PYTHON) workflow/timeline.py
+
+mitre:
+	$(PYTHON) workflow/mitre_map.py
+
+topology:
+	$(PYTHON) workflow/topology.py
+
+dispatch:
+	$(PYTHON) notifications/dispatch.py
+
+# --- AWS Bedrock -------------------------------------------------------------
+# bedrock-probe lists what this account can actually call and proves one invocation.
+bedrock-probe:
+	$(PYTHON) llm/bedrock.py
+
+# The constrained brief used in the demo, then re-verified into the War Room.
+brief-live:
+	$(PYTHON) llm/grounded_brief.py --mode grounded
+	$(PYTHON) warroom/prepare.py
+
+# Deliberate adversarial probe: proves the grounding verifier fires on a loose prompt.
+brief-adversarial:
+	$(PYTHON) llm/grounded_brief.py --mode adversarial
+	$(PYTHON) warroom/prepare.py
+
+# Re-verify a captured brief with no network call.
+brief-verify:
+	$(PYTHON) llm/grounded_brief.py --offline
+
+# --- Sarvam AI ---------------------------------------------------------------
+localise:
+	$(PYTHON) sarvam/translate.py --languages $(LANGUAGES)
+	$(PYTHON) warroom/prepare.py
+
+# --- local cockpit -----------------------------------------------------------
+# The War Room fetches JSON, so it must be served over HTTP, not opened as a file.
+serve:
+	@echo "War Room: http://localhost:$(or $(PORT),8000)/warroom/"
+	$(PYTHON) -m http.server $(or $(PORT),8000)
+
+# --- static deploy (free tier) ----------------------------------------------
+# The War Room needs no server, so it deploys as static files: no cold start to stall
+# a demo, and nothing to keep running between rehearsals.
+site:
+	$(PYTHON) scripts/build_site.py
+	@cp deploy/vercel.json site/vercel.json
+	@echo "Staged site/ — preview locally with: $(PYTHON) -m http.server 8001 --directory site"
+
+deploy-vercel: site
+	npx vercel deploy --prod site
+
 clean:
-	rm -rf artifacts
+	rm -rf artifacts site

@@ -1,0 +1,24 @@
+{
+  "type": "threshold",
+  "language": "kuery",
+  "name": "VIGIL — duplicate payment settlement transaction id",
+  "description": "Detects the same transaction id appearing at least twice in the duplicate-settlement evaluation profile. Transaction-id grouping is the signal; no host, user, account, address, or transaction literal is pinned. The rule is disabled until replayed and validated in an isolated live index.",
+  "rule_id": "vigil-duplicate-settlement-v1",
+  "index": ["logs-vigil-eval-*"],
+  "query": "labels.dataset: \"vigil-synthetic-eval\" and event.category: web and event.action: upi_transfer and vigil.transaction.profile: \"duplicate_settlement\"",
+  "threshold": {
+    "field": ["host.name", "transaction.id"],
+    "value": 2
+  },
+  "severity": "high",
+  "risk_score": 73,
+  "tags": ["VIGIL", "synthetic-eval", "behavioral", "payment-integrity", "duplicate-settlement"],
+  "references": ["https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"],
+  "investigation_fields": {
+    "field_names": ["host.name", "user.name", "transaction.id", "vigil.transaction.amount", "vigil.transaction.profile"]
+  },
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": false
+}

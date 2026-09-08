@@ -1,0 +1,173 @@
+{
+  "status": "DERIVED FROM SEALED EVIDENCE",
+  "boundary": "Every node and edge is backed by an evidence event id in the synthetic corpus. Direction shows the observed flow; it does not assert intent or attribution.",
+  "evidence_event_count": 12,
+  "nodes": [
+    {
+      "id": "host:pay-svc-prod-01",
+      "kind": "host",
+      "label": "pay-svc-prod-01",
+      "zone": "internal",
+      "event_count": 12
+    },
+    {
+      "id": "user:svc-payments-admin",
+      "kind": "identity",
+      "label": "svc-payments-admin",
+      "zone": "internal",
+      "event_count": 12
+    },
+    {
+      "id": "ip:10.42.0.11",
+      "kind": "ip",
+      "label": "10.42.0.11",
+      "zone": "internal",
+      "event_count": 6
+    },
+    {
+      "id": "ip:198.51.100.42",
+      "kind": "ip",
+      "label": "198.51.100.42",
+      "zone": "external",
+      "event_count": 6
+    },
+    {
+      "id": "ip:203.0.113.77",
+      "kind": "ip",
+      "label": "203.0.113.77",
+      "zone": "external",
+      "event_count": 1
+    }
+  ],
+  "edges": [
+    {
+      "from": "ip:198.51.100.42",
+      "to": "host:pay-svc-prod-01",
+      "action": "login",
+      "outcome": "failure",
+      "event_id": "hero-auth-0"
+    },
+    {
+      "from": "ip:198.51.100.42",
+      "to": "host:pay-svc-prod-01",
+      "action": "login",
+      "outcome": "failure",
+      "event_id": "hero-auth-1"
+    },
+    {
+      "from": "ip:198.51.100.42",
+      "to": "host:pay-svc-prod-01",
+      "action": "login",
+      "outcome": "failure",
+      "event_id": "hero-auth-2"
+    },
+    {
+      "from": "ip:198.51.100.42",
+      "to": "host:pay-svc-prod-01",
+      "action": "login",
+      "outcome": "failure",
+      "event_id": "hero-auth-3"
+    },
+    {
+      "from": "ip:198.51.100.42",
+      "to": "host:pay-svc-prod-01",
+      "action": "login",
+      "outcome": "failure",
+      "event_id": "hero-auth-4"
+    },
+    {
+      "from": "ip:198.51.100.42",
+      "to": "host:pay-svc-prod-01",
+      "action": "login",
+      "outcome": "success",
+      "event_id": "hero-login-success"
+    },
+    {
+      "from": "ip:10.42.0.11",
+      "to": "ip:203.0.113.77",
+      "action": "connection",
+      "outcome": "success",
+      "event_id": "hero-egress"
+    },
+    {
+      "from": "ip:10.42.0.11",
+      "to": "host:pay-svc-prod-01",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-1"
+    },
+    {
+      "from": "host:pay-svc-prod-01",
+      "to": "user:svc-payments-admin",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-1",
+      "amount_inr": 175000,
+      "transaction_id": "UPI-HERO-001"
+    },
+    {
+      "from": "ip:10.42.0.11",
+      "to": "host:pay-svc-prod-01",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-2"
+    },
+    {
+      "from": "host:pay-svc-prod-01",
+      "to": "user:svc-payments-admin",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-2",
+      "amount_inr": 225000,
+      "transaction_id": "UPI-HERO-002"
+    },
+    {
+      "from": "ip:10.42.0.11",
+      "to": "host:pay-svc-prod-01",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-3"
+    },
+    {
+      "from": "host:pay-svc-prod-01",
+      "to": "user:svc-payments-admin",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-3",
+      "amount_inr": 310000,
+      "transaction_id": "UPI-HERO-003"
+    },
+    {
+      "from": "ip:10.42.0.11",
+      "to": "host:pay-svc-prod-01",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-4"
+    },
+    {
+      "from": "host:pay-svc-prod-01",
+      "to": "user:svc-payments-admin",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-4",
+      "amount_inr": 190000,
+      "transaction_id": "UPI-HERO-004"
+    },
+    {
+      "from": "ip:10.42.0.11",
+      "to": "host:pay-svc-prod-01",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-5"
+    },
+    {
+      "from": "host:pay-svc-prod-01",
+      "to": "user:svc-payments-admin",
+      "action": "upi_transfer",
+      "outcome": "success",
+      "event_id": "hero-upi-5",
+      "amount_inr": 260000,
+      "transaction_id": "UPI-HERO-005"
+    }
+  ]
+}

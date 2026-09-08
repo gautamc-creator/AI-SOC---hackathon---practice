@@ -6,7 +6,7 @@
   "classification_method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model.",
   "occurrence_start_timestamp_utc": "2026-09-06T08:30:00Z",
   "first_observed_timestamp_utc": "2026-09-06T08:30:02Z",
-  "cert_in_notice_anchor_utc": "2026-09-07T01:30:57.026900Z",
+  "cert_in_notice_anchor_utc": "2026-09-08T18:02:37.533696Z",
   "regulatory_timing_note": "Prototype timing anchors only. Confirm the regulated entity's current RBI and CERT-In obligations before any real-world use.",
   "affected_asset": "pay-svc-prod-01",
   "affected_service": "UPI payment gateway",
@@ -28,7 +28,7 @@
   ],
   "evidence_envelope": {
     "artifact": "evidence-envelope.json",
-    "evidence_set_hash": "2d6449cbec469c6a3cbd6caa8064db285d913d4ddb6cbeba200dd09b6a6069fb"
+    "evidence_set_hash": "15bffc4154dbd7ee50e72aedcafe89ffd8e810bc0881c6dd2fef49561d74520d"
   },
   "attack_discovery": {
     "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration",

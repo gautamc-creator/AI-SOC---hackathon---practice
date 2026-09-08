@@ -1,0 +1,91 @@
+{
+  "generated_at_utc": "2026-09-08T15:48:15+00:00",
+  "note": "Real primary-source regulatory documents retrieved live. The bank telemetry in this repository is synthetic; these documents are not. Public government publications, fetched read-only and at low volume for a non-commercial prototype. Text is quoted for grounding and citation, never republished as our own, and never presented as legal advice.",
+  "user_agent": "VIGIL-hackathon-prototype/0.1 (research; contact via repository)",
+  "sources": [
+    {
+      "slug": "cert-in-directions-70b",
+      "url": "https://www.cert-in.org.in/Directions70B.jsp",
+      "publisher": "CERT-In, Ministry of Electronics and Information Technology, Government of India",
+      "why": "Establishes the six-hour reporting obligation and the Annexure I list of reportable incident types. This is the CERT-In clock in the product.",
+      "kind": "html",
+      "fetched_at_utc": "2026-09-08T15:48:00+00:00",
+      "ok": true,
+      "http_status": 200,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "bytes": 68206,
+      "sha256": "fc9ab53cbbc99b9992bf3957e6d0e2f7f189fbbc3c468e71a5b422cb7f532c2c",
+      "cached_as": "regulatory/cache/cert-in-directions-70b.html"
+    },
+    {
+      "slug": "rbi-2026-cyber-directions",
+      "url": "https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=13643&Mode=0",
+      "publisher": "Reserve Bank of India",
+      "why": "Commercial Banks Cybersecurity, Technology Risk, Resilience and Assurance Framework Directions, 2026. Paragraph 182 carries the six-hour RBI DAKSH reporting obligation from detection. This is the DAKSH clock in the product.",
+      "kind": "html",
+      "fetched_at_utc": "2026-09-08T15:48:02+00:00",
+      "ok": true,
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 206573,
+      "sha256": "68e8d96ff099ed31a683d6c5a242da4596929828f109cbbe1cc1b4aca9fcdd9e",
+      "cached_as": "regulatory/cache/rbi-2026-cyber-directions.html"
+    },
+    {
+      "slug": "cert-in-directions-70b-2022",
+      "url": "https://www.cert-in.org.in/PDF/CERT-In_Directions_70B_28.04.2022.pdf",
+      "publisher": "CERT-In",
+      "why": "The operative Directions themselves, dated 28.04.2022. Carries the six-hour reporting obligation from noticing and the Annexure I list of reportable incident types. Directions70B.jsp is only a link hub - this is the rule text.",
+      "kind": "pdf",
+      "fetched_at_utc": "2026-09-08T15:48:05+00:00",
+      "ok": true,
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 434961,
+      "sha256": "202c2f3953d792dcfb3ecb3634fc82ab75437ee596de89b8d59a211e8e42431f",
+      "cached_as": "regulatory/cache/cert-in-directions-70b-2022.pdf"
+    },
+    {
+      "slug": "cert-in-directions-extension-2022",
+      "url": "https://www.cert-in.org.in/PDF/CERT-In_directions_extension_MSMEs_and_validation_27.06.2022.pdf",
+      "publisher": "CERT-In",
+      "why": "Extension of enforcement timelines. Real regulation is amended in place by later notices; a grounding corpus that ignores amendments is wrong.",
+      "kind": "pdf",
+      "fetched_at_utc": "2026-09-08T15:48:08+00:00",
+      "ok": true,
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 761919,
+      "sha256": "f0a2805f2a3bd0745560d417ffb6d41bf2cfe9920a5fd8a45b806ff10d61979f",
+      "cached_as": "regulatory/cache/cert-in-directions-extension-2022.pdf"
+    },
+    {
+      "slug": "cert-in-faq-may-2022",
+      "url": "https://www.cert-in.org.in/PDF/FAQs_on_CyberSecurityDirections_May2022.pdf",
+      "publisher": "CERT-In",
+      "why": "Official interpretation of the Directions, including what 'noticing' means for the purpose of starting the clock.",
+      "kind": "pdf",
+      "fetched_at_utc": "2026-09-08T15:48:11+00:00",
+      "ok": true,
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 1611981,
+      "sha256": "7c4ae9eab453db32a5feece63987f7606373d689755b5b2869bb367b5682d6af",
+      "cached_as": "regulatory/cache/cert-in-faq-may-2022.pdf"
+    },
+    {
+      "slug": "cert-in-incident-reporting-form",
+      "url": "https://www.cert-in.org.in/PDF/certinirform.pdf",
+      "publisher": "CERT-In",
+      "why": "The field list our CERT-In-compatible draft mirrors. Guidance, not a mandatory form - VIGIL must not claim this form is required.",
+      "kind": "pdf",
+      "fetched_at_utc": "2026-09-08T15:48:14+00:00",
+      "ok": true,
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "bytes": 456204,
+      "sha256": "7d4a80f84656f9891a81b2c8c6c7203036a2e6b85157ea9600ed18775acb0d8b",
+      "cached_as": "regulatory/cache/cert-in-incident-reporting-form.pdf"
+    }
+  ]
+}

@@ -29,15 +29,16 @@
     "email": "REQUIRED BEFORE SUBMISSION",
     "address": "REQUIRED BEFORE SUBMISSION"
   },
-  "incident_type": "Attacks or incident affecting Digital Payment systems",
+  "incident_type": "Attacks or incidents affecting digital-payment systems",
+  "incident_type_provenance": "Deterministic mapping from bank context regulated channel: UPI.",
   "mission_critical_system": {
-    "value": "Yes \u2014 synthetic Tier 1 payment-service fixture",
-    "brief_details": "Synthetic UPI payment gateway service."
+    "value": "Yes",
+    "brief_details": "UPI payment gateway (mission_critical)."
   },
   "affected_system": {
     "host": "pay-svc-prod-01",
     "domain_or_url": "NOT OBSERVED IN FIXTURE",
-    "ip_address": "10.42.0.11 (synthetic)",
+    "ip_address": "NOT OBSERVED IN FIXTURE",
     "operating_system": "NOT OBSERVED IN FIXTURE",
     "cloud_or_make_model": "NOT OBSERVED IN FIXTURE",
     "location": "NOT APPLICABLE \u2014 synthetic",
@@ -45,14 +46,22 @@
   },
   "incident_description": "Potential credential compromise with anomalous UPI transfers",
   "symptoms_observed": [
-    "Repeated failed privileged authentication",
-    "Subsequent privileged login",
-    "Outbound connection to unapproved synthetic destination",
-    "Five anomalous synthetic UPI transfers"
+    "1 connection/success event(s)",
+    "5 login/failure event(s)",
+    "1 login/success event(s)",
+    "5 upi_transfer/success event(s)"
   ],
   "technical_information": {
-    "source_ip": "198.51.100.42 (documentation address)",
-    "destination_ip": "203.0.113.77 (documentation address)",
+    "source_ips": [
+      "10.42.0.11",
+      "198.51.100.42"
+    ],
+    "external_source_ips": [
+      "198.51.100.42"
+    ],
+    "destination_ips": [
+      "203.0.113.77"
+    ],
     "evidence_envelope": "evidence-envelope.json"
   },
   "actions_taken": "No containment was executed in this rehearsal. Human review requested.",

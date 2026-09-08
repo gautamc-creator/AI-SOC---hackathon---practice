@@ -1,17 +1,41 @@
 {
   "type": "threshold",
   "language": "kuery",
-  "name": "VIGIL — privileged authentication failure threshold",
-  "description": "Detects five or more failed authentication events for the same host, user and source address. Synthetic rehearsal rule; threshold must be tuned against a real bank baseline.",
+  "name": "VIGIL \u2014 privileged authentication failure threshold",
+  "description": "Detects five or more failed authentication events for the same host, user and source address. The threshold grouping already isolates the identity under attack, so the query names no user: pinning one would stop the rule generalising to an account it has not seen, and would mean the benign maintenance decoy was excluded by name rather than by falling below the threshold it exists to test. Synthetic rehearsal rule; the threshold must be tuned against a real bank baseline.",
   "rule_id": "vigil-privileged-auth-failure-threshold-v2",
-  "index": ["logs-vigil-security"],
-  "query": "labels.dataset: \"vigil-synthetic\" and event.category: authentication and event.action: login and event.outcome: failure and user.name: \"svc-payments-admin\"",
-  "threshold": {"field": ["host.name", "user.name", "source.ip"], "value": 5},
+  "index": [
+    "logs-vigil-security"
+  ],
+  "query": "labels.dataset: \"vigil-synthetic\" and event.category: authentication and event.action: login and event.outcome: failure",
+  "threshold": {
+    "field": [
+      "host.name",
+      "user.name",
+      "source.ip"
+    ],
+    "value": 5
+  },
   "severity": "medium",
   "risk_score": 47,
-  "tags": ["VIGIL", "synthetic", "behavioral", "credential-access"],
-  "references": ["https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"],
-  "investigation_fields": {"field_names": ["host.name", "user.name", "source.ip", "event.action", "event.outcome"]},
+  "tags": [
+    "VIGIL",
+    "synthetic",
+    "behavioral",
+    "credential-access"
+  ],
+  "references": [
+    "https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"
+  ],
+  "investigation_fields": {
+    "field_names": [
+      "host.name",
+      "user.name",
+      "source.ip",
+      "event.action",
+      "event.outcome"
+    ]
+  },
   "interval": "1m",
   "from": "now-30d",
   "max_signals": 100,

@@ -1,0 +1,24 @@
+{
+  "type": "threshold",
+  "language": "kuery",
+  "name": "VIGIL — repeated KYC record modification outside assigned segment",
+  "description": "Detects five or more successful KYC-record modifications by the same host and user when the affected records are outside that analyst's assigned customer segment. The rule operates on synthetic evaluation telemetry and is disabled until it is replayed and validated in an isolated live index.",
+  "rule_id": "vigil-insider-kyc-tampering-v1",
+  "index": ["logs-vigil-eval-*"],
+  "query": "labels.dataset: \"vigil-synthetic-eval\" and event.category: database and event.action: kyc_record_modified and event.outcome: success and vigil.record.customer_segment: \"unassigned\"",
+  "threshold": {
+    "field": ["host.name", "user.name"],
+    "value": 5
+  },
+  "severity": "high",
+  "risk_score": 73,
+  "tags": ["VIGIL", "synthetic-eval", "behavioral", "insider-risk", "kyc"],
+  "references": ["https://www.elastic.co/docs/solutions/security/detect-and-alert/about-detection-rules"],
+  "investigation_fields": {
+    "field_names": ["host.name", "user.name", "source.ip", "event.action", "vigil.record.customer_segment"]
+  },
+  "interval": "1m",
+  "from": "now-30d",
+  "max_signals": 100,
+  "enabled": false
+}
