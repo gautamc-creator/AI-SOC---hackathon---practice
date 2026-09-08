@@ -100,6 +100,19 @@ def main() -> None:
             "generation_uuid": discovery["generation_uuid"], "discovery_id": discovery["id"],
             "label": discovery_data["label"],
         }, generated_at)
+    elif (
+        claim_review
+        and claim_review.get("source") == "Elastic Security Attack Discovery captured rehearsal output"
+        and claim_review.get("discovery_count", 0) > 0
+    ):
+        # Static rebuilds retain the reviewed public proof but not the private raw
+        # Attack Discovery response or its identifiers. Seal that distinction.
+        append_block(chain, "attack_discovery_review_captured", {
+            "source": claim_review["source"],
+            "discovery_count": claim_review["discovery_count"],
+            "findings_count": len(claim_review.get("findings", [])),
+            "raw_discovery_published": False,
+        }, generated_at)
     append_block(chain, "exposure_calculated", {"method": "deterministic_lookup_context", "amount_inr": report["deterministic_exposure_inr"]}, generated_at)
     append_block(chain, "human_review_requested", {"status": report["status"], "action": report["recommended_human_action"]}, generated_at)
     append_block(chain, "report_drafted", {"artifact": "incident-report-draft.json", "submission": "not submitted"}, generated_at)

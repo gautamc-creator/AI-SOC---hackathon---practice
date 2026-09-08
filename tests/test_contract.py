@@ -81,6 +81,14 @@ class VIGILContractTests(unittest.TestCase):
         certin = json.loads((ROOT / "artifacts/cert-in-incident-form-draft.json").read_text())
         self.assertEqual(certin["affected_system"]["ip_address"], "NOT OBSERVED IN FIXTURE")
         self.assertIn("198.51.100.42", certin["technical_information"]["external_source_ips"])
+        ledger = json.loads((ROOT / "artifacts/evidence-ledger.json").read_text())
+        self.assertEqual(len(ledger), 7)
+        self.assertTrue(any(
+            block["event_type"] in {
+                "attack_discovery_generated", "attack_discovery_review_captured"
+            }
+            for block in ledger
+        ))
 
     def test_rendered_esql_uses_sealed_scope(self):
         artifact = ROOT / "artifacts/exposure-query.json"
