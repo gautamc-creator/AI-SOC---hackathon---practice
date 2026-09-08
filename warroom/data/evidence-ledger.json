@@ -25,29 +25,29 @@
   },
   {
     "sequence": 1,
-    "timestamp": "2026-09-08T18:10:24.542917Z",
+    "timestamp": "2026-09-08T18:12:43.787539Z",
     "event_type": "classification_completed",
     "payload": {
       "artifact": "classification.json",
       "method": "Deterministic rehearsal classifier: tagged evidence pattern, not an LLM or production detection model."
     },
     "previous_hash": "87a9daa33c93a49ceef759af77955c1b1406d89682e7efd5f538792a0d876247",
-    "hash": "0b41a2e37c21e0d18647b5dc994807744a9e5dfc813a540915ad5d3e7380209b"
+    "hash": "e6607d3b1f00d3491b5c66ea203b4b5cc74900aea1398163068da04cc0b97ab5"
   },
   {
     "sequence": 2,
-    "timestamp": "2026-09-08T18:10:24.542917Z",
+    "timestamp": "2026-09-08T18:12:43.787539Z",
     "event_type": "evidence_enveloped",
     "payload": {
       "artifact": "evidence-envelope.json",
       "evidence_set_hash": "15bffc4154dbd7ee50e72aedcafe89ffd8e810bc0881c6dd2fef49561d74520d"
     },
-    "previous_hash": "0b41a2e37c21e0d18647b5dc994807744a9e5dfc813a540915ad5d3e7380209b",
-    "hash": "17f2e8c9900738a29eda7ab00f0ddcfac93e0f4981801f0c55bf6fb580026a04"
+    "previous_hash": "e6607d3b1f00d3491b5c66ea203b4b5cc74900aea1398163068da04cc0b97ab5",
+    "hash": "e7e668e51a6c78804ef0e49d7c40aeb07f4c5f1151e821826ffdf10f2f23ba22"
   },
   {
     "sequence": 3,
-    "timestamp": "2026-09-08T18:10:24.542917Z",
+    "timestamp": "2026-09-08T18:12:43.787539Z",
     "event_type": "attack_discovery_generated",
     "payload": {
       "source": "Elastic Security Attack Discovery",
@@ -55,40 +55,40 @@
       "discovery_id": "234d4d9d408218069fbc3856cfb6c31b761802527934733482c5988d73a40498",
       "label": "Elastic preconfigured-LLM baseline \u2014 not an AWS Bedrock demonstration"
     },
-    "previous_hash": "17f2e8c9900738a29eda7ab00f0ddcfac93e0f4981801f0c55bf6fb580026a04",
-    "hash": "1bd7d9eafc3b795a78f1d41598ef65bf304bd0272e3ca910118ca0c306c3c760"
+    "previous_hash": "e7e668e51a6c78804ef0e49d7c40aeb07f4c5f1151e821826ffdf10f2f23ba22",
+    "hash": "e38ec9b7d38fc6556e97f6f145dbd7241ffc03e7bee93bac1570ae110e7fe9c4"
   },
   {
     "sequence": 4,
-    "timestamp": "2026-09-08T18:10:24.542917Z",
+    "timestamp": "2026-09-08T18:12:43.787539Z",
     "event_type": "exposure_calculated",
     "payload": {
       "method": "deterministic_lookup_context",
       "amount_inr": 1160000
     },
-    "previous_hash": "1bd7d9eafc3b795a78f1d41598ef65bf304bd0272e3ca910118ca0c306c3c760",
-    "hash": "15a9e01820987a67ab293387879149150f7d820c579056a28e7f148f95fa203e"
+    "previous_hash": "e38ec9b7d38fc6556e97f6f145dbd7241ffc03e7bee93bac1570ae110e7fe9c4",
+    "hash": "e876350fb8632ee72f71b1269b056547459f221daaa1e6c30e9a99dff87eb5e2"
   },
   {
     "sequence": 5,
-    "timestamp": "2026-09-08T18:10:24.542917Z",
+    "timestamp": "2026-09-08T18:12:43.787539Z",
     "event_type": "human_review_requested",
     "payload": {
       "status": "DRAFT \u2014 HUMAN REVIEW REQUIRED",
       "action": "Review the evidence, contain the affected service if authorised, and submit the applicable regulatory reports through approved channels."
     },
-    "previous_hash": "15a9e01820987a67ab293387879149150f7d820c579056a28e7f148f95fa203e",
-    "hash": "0d3fbd924815d7426d54c29e31a8cdd49834a3420c0a710c24b163e3ebbd0f42"
+    "previous_hash": "e876350fb8632ee72f71b1269b056547459f221daaa1e6c30e9a99dff87eb5e2",
+    "hash": "db94a6f143fbe2f5584fcdc599720cb121e2a7588715ac89ae34f8aa5b592582"
   },
   {
     "sequence": 6,
-    "timestamp": "2026-09-08T18:10:24.542917Z",
+    "timestamp": "2026-09-08T18:12:43.787539Z",
     "event_type": "report_drafted",
     "payload": {
       "artifact": "incident-report-draft.json",
       "submission": "not submitted"
     },
-    "previous_hash": "0d3fbd924815d7426d54c29e31a8cdd49834a3420c0a710c24b163e3ebbd0f42",
-    "hash": "98dab569a7e17d8b7f864c15ad6da8e0975c23b0230917f7367d8e1340fc1bea"
+    "previous_hash": "db94a6f143fbe2f5584fcdc599720cb121e2a7588715ac89ae34f8aa5b592582",
+    "hash": "9b7633adf3c3f485292158e19e105ef51610ab8bd757527c7c6972f021d6a7e1"
   }
 ]

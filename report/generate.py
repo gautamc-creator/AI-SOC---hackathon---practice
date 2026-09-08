@@ -77,7 +77,22 @@ def main() -> None:
             "summary": discovery["summary_markdown"],
             "mitre_attack_tactics": discovery.get("mitre_attack_tactics", []),
             "interpretation": "AI-generated potential attack narrative. It is an investigation lead, not confirmation of compromise, fraud, or regulatory reportability.",
-        } if discovery else {"status": "Not yet captured; local fixture mode only."}),
+        } if discovery else ({
+            "title": "Attack Discovery review captured; raw narrative withheld",
+            "summary": (
+                "One rehearsal review covering three alert contexts is retained. The raw model "
+                "narrative and private execution identifiers are not in the public bundle; only "
+                "the deterministic claim-safety findings are published."
+            ),
+            "interpretation": (
+                "Captured review evidence, not a fresh CI model invocation and not confirmation "
+                "of compromise, fraud, or regulatory reportability."
+            ),
+        } if (
+            claim_review
+            and claim_review.get("source") == "Elastic Security Attack Discovery captured rehearsal output"
+            and claim_review.get("discovery_count", 0) > 0
+        ) else {"status": "Not yet captured; local fixture mode only."})),
         "attack_discovery_claim_review": claim_review or {
             "status": "NOT_RUN",
             "safe_interpretation": "Human review is required before relying on generated claims.",
