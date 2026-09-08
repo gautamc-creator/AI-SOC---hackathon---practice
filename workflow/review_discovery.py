@@ -27,6 +27,29 @@ def main() -> None:
     source = ARTIFACTS / "attack-discovery-baseline.json"
     output = ARTIFACTS / "attack-discovery-claim-review.json"
     if not source.exists():
+        # GitHub Pages rebuilds without live Elastic credentials. Reuse only the
+        # checked-in, already-reviewed rehearsal capture; never invent a narrative
+        # or silently turn an absent live call into a fresh one.
+        captured_review = ROOT / "warroom/data/attack-discovery-claim-review.json"
+        if captured_review.exists():
+            try:
+                captured = json.loads(captured_review.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                captured = {}
+            if (
+                captured.get("source") == "Elastic Security Attack Discovery captured rehearsal output"
+                and captured.get("discovery_count", 0) > 0
+                and captured.get("findings")
+            ):
+                output.write_text(
+                    json.dumps(captured, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
+                print(
+                    "Reused checked-in Attack Discovery rehearsal review "
+                    f"({len(captured['findings'])} phrase(s) flagged); no live call was made."
+                )
+                return
         review = {
             "status": "NOT_RUN",
             "method": "Deterministic phrase-level claim-safety check; not an incident verdict.",
